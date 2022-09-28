@@ -175,6 +175,12 @@ return [
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
 
+        // custom
+        App\Providers\JenisPembayaranProvider::class,
+        App\Providers\AkunProvider::class,
+
+
+
     ],
 
     /*
