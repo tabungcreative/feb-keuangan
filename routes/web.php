@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\JenisPembayaranController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Route;
@@ -29,9 +30,13 @@ Route::controller(AuthController::class)
         Route::get('/callback', 'callback')->name('callback');
     });
 
-Route::get('test', function () {
-    return 'test page';
-});
+Route::controller(JenisPembayaranController::class)
+    ->prefix('jenis-pembayaran')
+    ->as('jenis-pembayaran.')
+    ->group(function () {
+        Route::get('/', 'index')->name('index');
+        Route::post('/', 'store')->name('store');
+    });
 
 Route::get('/authuser', function (Request $request) {
 
@@ -43,10 +48,4 @@ Route::get('/authuser', function (Request $request) {
     ])->get('https://accounts.feb-unsiq.ac.id/api/user');
 
     return $response->json();
-});
-
-Route::get('/logout', function (Request $request) {
-    $access_token = $request->session()->get('access_token');
-    $response = Http::post('https://accounts.feb-unsiq.ac.id/logout');
-    dd($response);
 });

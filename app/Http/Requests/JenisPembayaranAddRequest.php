@@ -25,7 +25,7 @@ class JenisPembayaranAddRequest extends FormRequest
     {
         return [
             'nama' => 'required',
-            'kode' => 'required|unique:jeni_pembayaran,kode',
+            'kode' => 'required',
             'jumlah_bayar' => 'required|min:0',
         ];
     }
