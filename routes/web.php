@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\JenisPembayaranController;
+use App\Http\Controllers\PembayaranController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Route;
@@ -38,14 +39,25 @@ Route::controller(JenisPembayaranController::class)
         Route::post('/', 'store')->name('store');
     });
 
-Route::get('/authuser', function (Request $request) {
 
-    $access_token = $request->session()->get('access_token');
+Route::controller(PembayaranController::class)
+    ->prefix('pembayaran')
+    ->as('pembayaran.')
+    ->group(function () {
+        Route::get('/', 'index')->name('index');
+        Route::post('/', 'store')->name('store');
+    });
 
-    $response = Http::withHeaders([
-        'Accept' => 'application/json',
-        'Authorization' => 'Bearer ' . $access_token
-    ])->get('https://accounts.feb-unsiq.ac.id/api/user');
 
-    return $response->json();
-});
+
+// Route::get('/authuser', function (Request $request) {
+
+//     $access_token = $request->session()->get('access_token');
+
+//     $response = Http::withHeaders([
+//         'Accept' => 'application/json',
+//         'Authorization' => 'Bearer ' . $access_token
+//     ])->get('https://accounts.feb-unsiq.ac.id/api/user');
+
+//     return $response->json();
+// });

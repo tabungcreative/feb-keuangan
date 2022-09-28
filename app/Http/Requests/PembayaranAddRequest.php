@@ -13,7 +13,7 @@ class PembayaranAddRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -24,7 +24,9 @@ class PembayaranAddRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'nim' => 'required',
+            'jenis_pembayaran_id' => 'required',
+            'akun_kredit_id' => 'required',
         ];
     }
 }
