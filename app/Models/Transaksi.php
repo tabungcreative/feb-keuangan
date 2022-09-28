@@ -5,14 +5,14 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class JenisPembayaran extends Model
+class Transaksi extends Model
 {
     use HasFactory;
-    protected $table = 'jenis_pembayaran';
+    protected $table = 'transaksi';
     protected $guarded = [];
 
-    public function pembayaran()
+    public function akun()
     {
-        return $this->hasMany(Pembayaran::class);
+        return $this->belongsTo(Akun::class);
     }
 }

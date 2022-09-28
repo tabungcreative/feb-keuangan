@@ -1,0 +1,39 @@
+<?php
+
+namespace App\Repositories\Impl;
+
+use App\Models\JenisPembayaran;
+use App\Models\Pembayaran;
+use App\Repositories\PembayaranRepository;
+
+class PembayaranRepositoryImpl implements PembayaranRepository
+{
+
+    function getAll()
+    {
+        return Pembayaran::orderBy('created_at', 'DESC');
+    }
+
+    function create(array $detailPembayaran, int $jenisPembayaranId): Pembayaran
+    {
+        $jenisPembayaran = JenisPembayaran::findOrFail($jenisPembayaranId);
+        $pembayaran = new Pembayaran($detailPembayaran);
+        $jenisPembayaran->pembayaran()->save($pembayaran);
+        return $pembayaran;
+    }
+
+    function update(int $id, array $detailPembayaran): Pembayaran
+    {
+        throw new \Exception("Method not implemented");
+    }
+
+    function delete(int $id)
+    {
+        throw new \Exception("Method not implemented");
+    }
+
+    function getById(int $id)
+    {
+        throw new \Exception("Method not implemented");
+    }
+}
