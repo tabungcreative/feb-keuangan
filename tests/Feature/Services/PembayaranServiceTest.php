@@ -24,17 +24,19 @@ class PembayaranServiceTest extends TestCase
     public function test_add_pembayaran()
     {
         $jenisPembayaran = JenisPembayaran::factory()->create(['nama' => 'test']);
+        $akunKredit = Akun::factory()->create(['jenis_akun' => 'kredit']);
         Akun::factory()->create(['nama' => 'test']);
 
 
         $request = new PembayaranAddRequest([
             'nim' => 'd83c00b8-52b8-3cf7-a781-3fad832f7f39',
-            'jenis_pembayaran_id' => $jenisPembayaran->id
+            'jenis_pembayaran_id' => $jenisPembayaran->id,
+            'akun_kredit_id' => $akunKredit->id,
         ]);
 
         $this->pembayaranService->add($request);
 
         $this->assertDatabaseCount('pembayaran', 1);
-        $this->assertDatabaseCount('transaksi', 1);
+        $this->assertDatabaseCount('transaksi', 2);
     }
 }

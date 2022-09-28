@@ -41,11 +41,11 @@ class PembayaranServiceImpl implements PembayaranService
         try {
             DB::beginTransaction();
 
-            // find jenis pembayaran by id
+            // --find jenis pembayaran by id--
             $jenisPembayaranId = $request->input('jenis_pembayaran_id');
             $jenisPembayaran = $this->jenisPembayaranRepository->findById($jenisPembayaranId);
 
-            // create pembayaran
+            // --create pembayaran--
             $nim = $request->input('nim');
             $noPembayaran = $this->nomerPembayaran($jenisPembayaran->kode);
             $tanggalBayar = now();
@@ -56,23 +56,36 @@ class PembayaranServiceImpl implements PembayaranService
             ];
             $pembayaran = $this->pembayaranRepository->create($detailPembayaran, $jenisPembayaranId);
 
+            // --create transaksi debit--
             // find akun by id
             $akun = $this->akunRepository->findByNama($jenisPembayaran->nama);
 
             if ($akun == null) {
                 throw new AkunNotFound('akun tidak ditemukan');
             }
-            // create transaksi
             $kodeTransaksi = $this->kodeTransaksi();
             $detailTransaksi = [
                 'tanggal' => $tanggalBayar,
                 'kode_transaksi' => $kodeTransaksi,
                 'debit' => $jenisPembayaran->jumlah_bayar,
+                'kredit' => null,
+            ];
+            $this->transaksiRepository->create($detailTransaksi, $akun->id);
+
+            // --create transaksi kredit--
+            $akunKreditId = $request->input('akun_kredit_id');
+            $akunKredit = $this->akunRepository->findById($akunKreditId);
+            if ($akun == null) {
+                throw new AkunNotFound('akun tidak ditemukan');
+            }
+            $detailTransaksi = [
+                'tanggal' => $tanggalBayar,
+                'kode_transaksi' => $kodeTransaksi,
+                'debit' => null,
                 'kredit' => 0,
             ];
 
-
-            $this->transaksiRepository->create($detailTransaksi, $akun->id);
+            $this->transaksiRepository->create($detailTransaksi, $akunKredit->id);
 
             DB::commit();
         } catch (\Exception $e) {
