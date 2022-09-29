@@ -45,7 +45,10 @@ Route::controller(PembayaranController::class)
     ->as('pembayaran.')
     ->group(function () {
         Route::get('/', 'index')->name('index');
+        Route::post('/cek/nim', 'postCekNim')->name('post-cek-nim');
+        Route::get('/create', 'create')->name('create');
         Route::post('/', 'store')->name('store');
+        Route::get('/{id}/detail')->name('detail');
     });
 
 

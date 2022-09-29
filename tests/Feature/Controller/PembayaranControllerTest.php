@@ -4,6 +4,7 @@ namespace Tests\Feature\Controller;
 
 use App\Models\Akun;
 use App\Models\JenisPembayaran;
+use App\Models\Pembayaran;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
@@ -11,6 +12,15 @@ use Tests\TestCase;
 class PembayaranControllerTest extends TestCase
 {
     use WithFaker, RefreshDatabase;
+
+    public function test_store_cek_nim()
+    {
+        $response = $this->post(route('pembayaran.post-cek-nim'), [
+            'nim' => 'd83c00b8-52b8-3cf7-a781-3fad832f7f39'
+        ]);
+
+        $response->assertStatus(302);
+    }
     public function test_store_nim_found()
     {
         $jenisPembayaran = JenisPembayaran::factory()->create(['nama' => 'test']);
@@ -25,7 +35,8 @@ class PembayaranControllerTest extends TestCase
 
         $response->assertStatus(302);
 
-        $response->assertRedirect(route('pembayaran.index'));
+        $idPembayaran = Pembayaran::orderBy('created_at', 'DESC')->first()->id;
+        $response->assertRedirect(route('pembayaran.detail', $idPembayaran));
 
         $this->assertDatabaseCount('pembayaran', 1);
         $this->assertDatabaseCount('transaksi', 2);
