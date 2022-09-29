@@ -38,17 +38,18 @@
     </div>
 </li> --}}
 
-{{-- <!-- Heading -->
+
 <div class="sidebar-heading">
     Akuntansi
 </div>
-
-<li class="nav-item">
-    <a class="nav-link" href="{{ route('admin.akun.index') }}">
+<!-- Nav Item - Tables -->
+<li class="nav-item {{ Route::is('akun.*') ? 'active' : '' }}">
+    <a class="nav-link" href="{{ route('akun.index') }}">
         <i class="fas fa-fw fa-table"></i>
         <span>Akun</span></a>
 </li>
 
+{{-- <!-- Heading -->
 <li class="nav-item">
     <a class="nav-link" href="{{ route('admin.akun.index') }}">
         <i class="fas fa-fw fa-table"></i>

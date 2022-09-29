@@ -26,4 +26,16 @@ class AkunRepositoryTest extends TestCase
 
         $this->assertSame(1, $result->count());
     }
+
+    public function test_add_saldo_by_nama()
+    {
+        $akun = Akun::factory()->create(['saldo' => 1000]);
+
+        $result = $this->repository->updateSaldoById($akun->id, 2000);
+        $this->assertSame(2000, $result->saldo);
+        $this->assertDatabaseCount('akun', 1);
+        $this->assertDatabaseHas('akun', [
+            'saldo' => 2000
+        ]);
+    }
 }

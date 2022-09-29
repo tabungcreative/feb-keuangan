@@ -1,8 +1,10 @@
 <?php
 
+use App\Http\Controllers\AkunController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\JenisPembayaranController;
 use App\Http\Controllers\PembayaranController;
+use App\Models\Akun;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Route;
@@ -41,6 +43,17 @@ Route::controller(JenisPembayaranController::class)
         Route::put('/{id}', 'update')->name('update');
     });
 
+
+Route::controller(AkunController::class)
+    ->prefix('akun')
+    ->as('akun.')
+    ->group(function () {
+        Route::get('/', 'index')->name('index');
+        Route::post('/', 'store')->name('store');
+        Route::post('/update-saldo', 'updateSaldo')->name('update-saldo');
+        Route::get('/{id}/edit', 'edit')->name('edit');
+        Route::put('/{id}', 'update')->name('update');
+    });
 
 Route::controller(PembayaranController::class)
     ->prefix('pembayaran')
