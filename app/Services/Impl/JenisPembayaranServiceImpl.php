@@ -4,6 +4,7 @@ namespace App\Services\Impl;
 
 use App\Exceptions\InvariantExceotion;
 use App\Http\Requests\JenisPembayaranAddRequest;
+use App\Http\Requests\JenisPembayaranUpdateRequest;
 use App\Models\JenisPembayaran;
 use App\Repositories\AkunRepository;
 use App\Repositories\JenisPembayaranRepository;
@@ -39,12 +40,40 @@ class JenisPembayaranServiceImpl implements JenisPembayaranService
             ];
 
             $this->akunRepository->create($detailAkun);
-
-            return $jenisPembayaran;
             DB::commit();
-        } catch (\Exception $th) {
+        } catch (\Exception $e) {
             DB::rollBack();
-            throw new InvariantExceotion('terjadi kesalahan pada server kami');
+            throw new InvariantExceotion('terjadi kesalahan pada server kami :' . $e->getMessage());
         }
+        return $jenisPembayaran;
+    }
+
+
+
+    function update(int $id, JenisPembayaranUpdateRequest $request): JenisPembayaran
+    {
+        try {
+
+            DB::beginTransaction();
+            $detail = $request->only([
+                'nama', 'kode', 'jumlah_bayar'
+            ]);
+
+            $jenisPembayaran = $this->jenisPembayaranRepository->update($id, $detail);
+            $detailAkun = [
+                'nama' => $detail['nama'],
+                'jenis_akun' => 'debit',
+            ];
+
+            $namaAkun = $request->input('nama_akun');
+            $akun = $this->akunRepository->findByNama($namaAkun);
+            $this->akunRepository->update($akun->id, $detailAkun);
+            DB::commit();
+        } catch (\Exception $e) {
+            DB::rollBack();
+            throw new InvariantExceotion('terjadi kesalahan pada server kami :' . $e->getMessage());
+        }
+
+        return $jenisPembayaran;
     }
 }

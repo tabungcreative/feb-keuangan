@@ -22,7 +22,10 @@ class AkunRepositoryImpl implements AkunRepository
 
     function update(int $id, array $detailAkun): Akun
     {
-        throw new \Exception("Method not implemented");
+        $akun = Akun::find($id);
+        $akun->update($detailAkun);
+        $akun->save();
+        return $akun;
     }
 
     function delete(int $id)

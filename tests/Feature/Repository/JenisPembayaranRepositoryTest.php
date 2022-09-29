@@ -2,6 +2,7 @@
 
 namespace Tests\Feature\Repository;
 
+use App\Models\Akun;
 use App\Models\JenisPembayaran;
 use App\Repositories\JenisPembayaranRepository;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -30,6 +31,24 @@ class JenisPembayaranRepositoryTest extends TestCase
             'jumlah_bayar' => 2000
         ]);
 
+        $this->assertDatabaseHas('jenis_pembayaran', [
+            'nama' =>  'test',
+            'kode' => 'test',
+            'jumlah_bayar' => 2000
+        ]);
+    }
+
+    public function test_update()
+    {
+        $jenisPembayaran = JenisPembayaran::factory()->create();
+
+        $this->repository->update($jenisPembayaran->id, [
+            'nama' =>  'test',
+            'kode' => 'test',
+            'jumlah_bayar' => 2000
+        ]);
+
+        $this->assertDatabaseCount('jenis_pembayaran', 1);
         $this->assertDatabaseHas('jenis_pembayaran', [
             'nama' =>  'test',
             'kode' => 'test',

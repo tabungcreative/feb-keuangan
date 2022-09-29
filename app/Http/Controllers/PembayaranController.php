@@ -62,7 +62,7 @@ class PembayaranController extends Controller
         } catch (AkunNotFound $e) {
             return redirect()->route('pembayaran.index')->with('error', $e->getMessage());
         } catch (InvariantExceotion $e) {
-            return redirect()->route('pembayaran.index')->with('error', $e->getMessage());
+            return response()->view('errors.500', ['message' => $e->getMessage()], 500);
         }
     }
 }

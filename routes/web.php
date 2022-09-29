@@ -37,6 +37,8 @@ Route::controller(JenisPembayaranController::class)
     ->group(function () {
         Route::get('/', 'index')->name('index');
         Route::post('/', 'store')->name('store');
+        Route::get('/{id}/edit', 'edit')->name('edit');
+        Route::put('/{id}', 'update')->name('update');
     });
 
 
@@ -50,6 +52,8 @@ Route::controller(PembayaranController::class)
         Route::post('/', 'store')->name('store');
         Route::get('/{id}/detail')->name('detail');
     });
+
+Route::resource('/akun', JenisPembayaranController::class)->only('update');
 
 
 

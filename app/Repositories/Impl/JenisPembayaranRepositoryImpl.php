@@ -21,9 +21,10 @@ class JenisPembayaranRepositoryImpl implements JenisPembayaranRepository
         return $jenisPembayaran;
     }
 
-    function update(int $id, array $detail)
+    function update(int $id, array $detail): JenisPembayaran
     {
-        return JenisPembayaran::whereId($id)->update($detail);
+        JenisPembayaran::whereId($id)->update($detail);
+        return JenisPembayaran::find($id);
     }
 
     function delete(int $id)
