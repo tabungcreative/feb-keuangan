@@ -26,6 +26,7 @@ class PembayaranAddRequest extends FormRequest
         return [
             'nim' => 'required',
             'jenis_pembayaran_id' => 'required',
+            'akun_debit_id' => 'required',
             'akun_kredit_id' => 'required',
         ];
     }

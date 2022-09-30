@@ -23,14 +23,18 @@ class PembayaranServiceTest extends TestCase
     }
     public function test_add_pembayaran()
     {
-        $jenisPembayaran = JenisPembayaran::factory()->create(['nama' => 'test']);
-        $akunKredit = Akun::factory()->create(['jenis_akun' => 'kredit']);
-        Akun::factory()->create(['nama' => 'test']);
 
+        // $this->markTestIncomplete(
+        //     'Harus diperbaiki !!'
+        // );
+        $jenisPembayaran = JenisPembayaran::factory()->create(['nama' => 'test', 'jumlah_bayar' => 1000]);
+        $akunDebit = Akun::factory()->create();
+        $akunKredit = Akun::factory()->create();
 
         $request = new PembayaranAddRequest([
             'nim' => 'd83c00b8-52b8-3cf7-a781-3fad832f7f39',
             'jenis_pembayaran_id' => $jenisPembayaran->id,
+            'akun_debit_id' => $akunDebit->id,
             'akun_kredit_id' => $akunKredit->id,
         ]);
 
@@ -38,5 +42,16 @@ class PembayaranServiceTest extends TestCase
 
         $this->assertDatabaseCount('pembayaran', 1);
         $this->assertDatabaseCount('transaksi', 2);
+        $this->assertDatabaseCount('akun', 2);
+
+        $this->assertDatabaseHas('transaksi', [
+            'debit' => 1000,
+            'kredit' => null,
+        ]);
+
+        $this->assertDatabaseHas('transaksi', [
+            'debit' => null,
+            'kredit' => 1000,
+        ]);
     }
 }

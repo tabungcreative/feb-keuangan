@@ -27,15 +27,15 @@ class AkunRepositoryTest extends TestCase
         $this->assertSame(1, $result->count());
     }
 
-    public function test_add_saldo_by_nama()
+    public function test_add_saldo_by_id()
     {
-        $akun = Akun::factory()->create(['saldo' => 1000]);
+        $akun = Akun::factory()->create(['saldo_awal' => 0]);
 
-        $result = $this->repository->updateSaldoById($akun->id, 2000);
-        $this->assertSame(2000, $result->saldo);
+        $result = $this->repository->updateSaldoAwalById($akun->id, 2000);
+        $this->assertSame(2000, $result->saldo_awal);
         $this->assertDatabaseCount('akun', 1);
         $this->assertDatabaseHas('akun', [
-            'saldo' => 2000
+            'saldo_awal' => 2000
         ]);
     }
 }

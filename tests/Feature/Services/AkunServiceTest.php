@@ -28,8 +28,7 @@ class AkunServiceTest extends TestCase
     {
         $request = new AkunAddRequest([
             'nama' => 'test',
-            'jenis_akun' => 'debit',
-            'saldo' => 0,
+            'saldo_awal' => 0,
         ]);
 
         $this->service->add($request);
@@ -37,32 +36,30 @@ class AkunServiceTest extends TestCase
         $this->assertDatabaseCount('akun', 1);
         $this->assertDatabaseHas('akun', [
             'nama' => 'test',
-            'jenis_akun' => 'debit',
-            'saldo' => 0
+            'saldo_awal' => 0
         ]);
     }
 
-    public function test_add_saldo()
+    public function test_add_saldo_awal()
     {
-        $akun = Akun::factory()->create(['saldo' => 1000]);
+        $akun = Akun::factory()->create(['saldo_awal' => 1000]);
         $request = new AkunUpdateSaldoRequest([
-            'saldo' => 1000,
+            'saldo_awal' => 1000,
         ]);
 
-        $result = $this->service->addSaldo($akun->id, $request);
-        $this->assertSame(2000, $result->saldo);
+        $result = $this->service->addSaldoAwal($akun->id, $request);
+        $this->assertSame(2000, $result->saldo_awal);
 
-        $result = $this->service->addSaldo($result->id, $request);
-        $this->assertSame(3000, $result->saldo);
+        $result = $this->service->addSaldoAwal($result->id, $request);
+        $this->assertSame(3000, $result->saldo_awal);
     }
 
     public function test_update_success()
     {
-        $akun = Akun::factory()->create(['jenis_akun' => 'kredit', 'saldo' => 1000]);
+        $akun = Akun::factory()->create(['saldo_awal' => 1000]);
 
         $request = new AkunUpdateRequest([
             'nama' => 'test',
-            'jenis_akun' => 'debit',
         ]);
 
         $this->service->update($akun->id, $request);
@@ -70,8 +67,7 @@ class AkunServiceTest extends TestCase
         $this->assertDatabaseCount('akun', 1);
         $this->assertDatabaseHas('akun', [
             'nama' => 'test',
-            'jenis_akun' => 'debit',
-            'saldo' => 1000
+            'saldo_awal' => 1000
         ]);
     }
 }

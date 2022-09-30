@@ -27,7 +27,6 @@ class JenisPembayaranUpdateRequest extends FormRequest
             'nama' => 'required',
             'kode' => 'required',
             'jumlah_bayar' => 'required|min:0',
-            'nama_akun' => 'required',
         ];
     }
 }

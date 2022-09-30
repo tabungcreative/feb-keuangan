@@ -10,7 +10,7 @@ use App\Models\Akun;
 interface AkunService
 {
     function add(AkunAddRequest $request): Akun;
-    function addSaldo(int $id, AkunUpdateSaldoRequest $request): Akun;
-    function subtractSaldo(int $id, AkunUpdateSaldoRequest $request): Akun;
+    function addSaldoAwal(int $id, AkunUpdateSaldoRequest $request): Akun;
+    function subtractSaldoAwal(int $id, AkunUpdateSaldoRequest $request): Akun;
     function update(int $id, AkunUpdateRequest $request): Akun;
 }

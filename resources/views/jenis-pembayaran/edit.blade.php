@@ -11,7 +11,6 @@
                 <form method="POST" action="{{ route('jenis-pembayaran.update', $data->id) }}">
                     @method('PUT')
                     @csrf
-                    <input type="hidden" name="nama_akun" value="{{ $data->nama }}">
                     <div class="mb-3">
                         <label class="form-label">Jenis Pembayaran</label>
                         <input type="text" name="nama" class="form-control" value="{{ $data->nama }}">

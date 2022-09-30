@@ -15,8 +15,7 @@ class AkunControllerTest extends TestCase
     {
         $response = $this->post(route('akun.store'), [
             'nama' => $this->faker()->word(3, true),
-            'jenis_akun' => Arr::random(['debit', 'kredit']),
-            'saldo' => 0,
+            'saldo_awal' => 0,
         ]);
 
         $response->assertStatus(302);
@@ -28,11 +27,11 @@ class AkunControllerTest extends TestCase
 
     public function test_update_saldo_add()
     {
-        $akun = Akun::factory()->create(['saldo' => 0]);
+        $akun = Akun::factory()->create(['saldo_awal' => 0]);
         $response = $this->post(route('akun.update-saldo'), [
             'akun_id' => $akun->id,
             'update_type' => 'add',
-            'saldo' => 1000,
+            'saldo_awal' => 1000,
         ]);
 
         $response->assertStatus(302);
@@ -42,17 +41,17 @@ class AkunControllerTest extends TestCase
         $this->assertDatabaseCount('akun', 1);
 
         $this->assertDatabaseHas('akun', [
-            'saldo' => 1000
+            'saldo_awal' => 1000
         ]);
     }
 
     public function test_update_saldo_subtract()
     {
-        $akun = Akun::factory()->create(['saldo' => 2000]);
+        $akun = Akun::factory()->create(['saldo_awal' => 2000]);
         $response = $this->post(route('akun.update-saldo'), [
             'akun_id' => $akun->id,
             'update_type' => 'subtract',
-            'saldo' => 1000,
+            'saldo_awal' => 1000,
         ]);
 
         $response->assertStatus(302);
@@ -62,17 +61,16 @@ class AkunControllerTest extends TestCase
         $this->assertDatabaseCount('akun', 1);
 
         $this->assertDatabaseHas('akun', [
-            'saldo' => 1000
+            'saldo_awal' => 1000
         ]);
     }
 
     public function test_update()
     {
-        $akun = Akun::factory()->create(['jenis_akun' => 'kredit', 'saldo' => 1000]);
+        $akun = Akun::factory()->create(['saldo_awal' => 1000]);
 
         $response = $this->put(route('akun.update', $akun->id), [
             'nama' => $this->faker()->word(3, true),
-            'jenis_akun' => 'debit',
         ]);
 
         $response->assertStatus(302);

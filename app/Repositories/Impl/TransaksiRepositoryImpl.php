@@ -11,7 +11,7 @@ class TransaksiRepositoryImpl implements TransaksiRepository
 
     function getAll()
     {
-        throw new \Exception("Method not implemented");
+        return Transaksi::orderBy('tanggal', 'DESC')->get();
     }
 
     function create(array $detailTransaksi, int $akunId): Transaksi

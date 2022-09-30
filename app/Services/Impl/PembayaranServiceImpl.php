@@ -2,16 +2,15 @@
 
 namespace App\Services\Impl;
 
-use App\Exceptions\AkunNotFound;
 use App\Exceptions\InvariantExceotion;
+use App\Exceptions\SameAkunException;
 use App\Http\Requests\PembayaranAddRequest;
+use App\Http\Requests\TransaksiAddRequest;
 use App\Models\Pembayaran;
-use App\Repositories\AkunRepository;
 use App\Repositories\JenisPembayaranRepository;
-use App\Repositories\MahasiswaRepository;
 use App\Repositories\PembayaranRepository;
-use App\Repositories\TransaksiRepository;
 use App\Services\PembayaranService;
+use App\Services\TransaksiService;
 use App\Traits\Numbering;
 use Illuminate\Support\Facades\DB;
 
@@ -20,20 +19,17 @@ class PembayaranServiceImpl implements PembayaranService
     use Numbering;
 
     private PembayaranRepository $pembayaranRepository;
-    private AkunRepository $akunRepository;
-    private TransaksiRepository $transaksiRepository;
     private JenisPembayaranRepository $jenisPembayaranRepository;
+    private TransaksiService $transaksiService;
 
     public function __construct(
         PembayaranRepository $pembayaranRepository,
-        AkunRepository $akunRepository,
-        TransaksiRepository $transaksiRepository,
-        JenisPembayaranRepository $jenisPembayaranRepository
+        JenisPembayaranRepository $jenisPembayaranRepository,
+        TransaksiService $transaksiService
     ) {
         $this->pembayaranRepository = $pembayaranRepository;
-        $this->akunRepository = $akunRepository;
-        $this->transaksiRepository = $transaksiRepository;
         $this->jenisPembayaranRepository = $jenisPembayaranRepository;
+        $this->transaksiService = $transaksiService;
     }
 
     function add(PembayaranAddRequest $request): Pembayaran
@@ -43,10 +39,16 @@ class PembayaranServiceImpl implements PembayaranService
 
             // --find jenis pembayaran by id--
             $jenisPembayaranId = $request->input('jenis_pembayaran_id');
-            $jenisPembayaran = $this->jenisPembayaranRepository->findById($jenisPembayaranId);
-
-            // --create pembayaran--
+            $akunDebitId = $request->input('akun_debit_id');
+            $akunKreditId = $request->input('akun_kredit_id');
             $nim = $request->input('nim');
+
+
+
+            /**
+             * Tambah Pembayaran
+             */
+            $jenisPembayaran = $this->jenisPembayaranRepository->findById($jenisPembayaranId);
             $noPembayaran = $this->nomerPembayaran($jenisPembayaran->kode);
             $tanggalBayar = now();
             $detailPembayaran = [
@@ -56,41 +58,22 @@ class PembayaranServiceImpl implements PembayaranService
             ];
             $pembayaran = $this->pembayaranRepository->create($detailPembayaran, $jenisPembayaranId);
 
-            // --create transaksi debit--
-            // find akun by id
-            $akun = $this->akunRepository->findByNama($jenisPembayaran->nama);
+            /**
+             * Membuat transaksi
+             */
+            $request = new TransaksiAddRequest([
+                'tanggal_transaksi' => now(),
+                'kode_transaksi' => $noPembayaran,
+                'akun_kredit_id' => $akunKreditId,
+                'akun_debit_id' => $akunDebitId,
+                'jumlah_transaksi' => $jenisPembayaran->jumlah_bayar
+            ]);
 
-            if ($akun == null) {
-                throw new AkunNotFound('akun tidak ditemukan');
-            }
-            $kodeTransaksi = $this->kodeTransaksi();
-            $detailTransaksi = [
-                'tanggal' => $tanggalBayar,
-                'kode_transaksi' => $kodeTransaksi,
-                'debit' => $jenisPembayaran->jumlah_bayar,
-                'kredit' => null,
-            ];
-            $this->transaksiRepository->create($detailTransaksi, $akun->id);
-
-            // --create transaksi kredit--
-            $akunKreditId = $request->input('akun_kredit_id');
-            $akunKredit = $this->akunRepository->findById($akunKreditId);
-            if ($akun == null) {
-                throw new AkunNotFound('akun tidak ditemukan');
-            }
-            $detailTransaksi = [
-                'tanggal' => $tanggalBayar,
-                'kode_transaksi' => $kodeTransaksi,
-                'debit' => null,
-                'kredit' => 0,
-            ];
-
-            $this->transaksiRepository->create($detailTransaksi, $akunKredit->id);
+            $this->transaksiService->add($request);
 
             DB::commit();
-        } catch (\Exception $e) {
-            DB::rollBack();
-            throw new InvariantExceotion('Terjadi kesalahan pada server kami : ' . $e->getMessage());
+        } catch (SameAkunException $e) {
+            throw new InvariantExceotion($e->getMessage());
         }
 
         return $pembayaran;

@@ -2,7 +2,7 @@
 
 @section('content')
 <div class="row d-flex justify-content-left my-4">
-    <div class="col-md-8 mt-2">
+    <div class="col-md-7 mt-2">
         <div class="card shadow">
             <div class="card-header py-3">
                 <h6 class="m-0 font-weight-bold text-primary">Daftar Akun</h6>
@@ -11,27 +11,22 @@
                 <table class="table table-striped table-hover">
                     <tr>
                         <th>Nama</th>
-                        <th>Jenis Akun</th>
-                        <th>Saldo</th>
+                        <th>Saldo Awal</th>
                         <th>Aksi</th>
                     </tr>
                     @foreach ($data as $item)    
                         <tr>
                             <td>{{ $item->nama }}</td>
-                            <td>
-                                <span class="badge {{ ($item->jenis_akun == 'debit') ? 'badge-warning' : 'badge-danger'}}">
-                                    {{ $item->jenis_akun }}
-                                </span>
-                            </td>
-                            <td class="font-weight-bold">Rp. {{ number_format($item->saldo) }}</td>
-                            <td>
-                                @if (!in_array($item->nama, $jenisPembayaran))
-                                    <a href="{{ route('akun.edit', $item->id) }}" class="btn btn-info btn-sm"><i class="fas fa-edit"></i></a>
-                                @endif
-                                <button type="button" class="btn btn-sm btn-primary" data-toggle="modal" data-target="#modalUpdateSaldo-{{ $item->id }}">
-                                    Update Saldo
+                            <td class="font-weight-bold">Rp. {{ number_format($item->saldo_awal) }}</td>
+                            <td class="d-flex">
+                                <button type="button" class="btn btn-sm btn-info mr-1" data-toggle="modal" data-target="#modalUpdate-{{ $item->id }}">
+                                    <i class="fas fa-edit"></i>
                                 </button>
-                                @include('akun.modal-update-saldo')
+                                @include('akun.edit-modal')
+                                <button type="button" class="btn btn-sm btn-primary" data-toggle="modal" data-target="#modalUpdateSaldo-{{ $item->id }}">
+                                    update saldo
+                                </button>
+                                @include('akun.update-saldo-modal')
                             </td>
                         </tr>
                     @endforeach
@@ -40,7 +35,7 @@
         </div>
     </div>
     
-    <div class="col-md-4 mt-2">
+    <div class="col-md-5 mt-2">
         <div class="card shadow">
             <div class="card-header py-3">
                 <h6 class="m-0 font-weight-bold text-primary">Tambah Akun</h6>
@@ -53,16 +48,8 @@
                         <input type="text" name="nama" class="form-control">
                     </div>
                     <div class="mb-3">
-                        <label class="form-label">Jenis Akun</label>
-                        <select class="form-control" name="jenis_akun" aria-label="Default select example">
-                            <option selected value=""> --- Jenis Akun -- </option>
-                            <option value="debit">Debit</option>
-                            <option value="kredit">Kredit</option>
-                        </select>
-                    </div>
-                    <div class="mb-3">
-                        <label class="form-label">Saldo</label>
-                        <input type="number" name="saldo" class="form-control">
+                        <label class="form-label">Saldo Awal</label>
+                        <input type="number" name="saldo_awal" class="form-control">
                     </div>
                 
                     <button type="submit" class="btn btn-primary">Tambah</button>

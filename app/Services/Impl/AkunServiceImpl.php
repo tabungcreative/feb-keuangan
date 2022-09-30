@@ -22,37 +22,36 @@ class AkunServiceImpl implements AkunService
     function add(AkunAddRequest $request): Akun
     {
         $detailAkun = $request->only([
-            'nama', 'jenis_akun', 'saldo'
+            'nama', 'saldo_awal'
         ]);
 
         return $this->akunRepository->create($detailAkun);
     }
 
 
-    function addSaldo(int $id, AkunUpdateSaldoRequest $request): Akun
+    function addSaldoAwal(int $id, AkunUpdateSaldoRequest $request): Akun
     {
-        $saldo = $request->input('saldo');
+        $saldoAwal = $request->input('saldo_awal');
 
         // get last saldo
-        $lastSaldo = $this->akunRepository->getSaldoById($id)->saldo;
-
+        $lastSaldoAwal = $this->akunRepository->getSaldoAwalById($id)->saldo_awal;
         // adding saldo
-        $newSaldo = $lastSaldo + $saldo;
+        $newSaldoAwal = $lastSaldoAwal + $saldoAwal;
 
-        return $this->akunRepository->updateSaldoById($id, $newSaldo);
+        return $this->akunRepository->updateSaldoAwalById($id, $newSaldoAwal);
     }
 
-    function subtractSaldo(int $id, AkunUpdateSaldoRequest $request): Akun
+    function subtractSaldoAwal(int $id, AkunUpdateSaldoRequest $request): Akun
     {
-        $saldo = $request->input('saldo');
+        $saldoAwal = $request->input('saldo_awal');
 
         // get last saldo
-        $lastSaldo = $this->akunRepository->getSaldoById($id)->saldo;
+        $lastSaldoAwal = $this->akunRepository->getSaldoAwalById($id)->saldo_awal;
 
         // adding saldo
-        $newSaldo = $lastSaldo - $saldo;
+        $newSaldo = $lastSaldoAwal - $saldoAwal;
 
-        return $this->akunRepository->updateSaldoById($id, $newSaldo);
+        return $this->akunRepository->updateSaldoAwalById($id, $newSaldo);
     }
 
 

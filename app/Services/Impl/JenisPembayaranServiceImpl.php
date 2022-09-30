@@ -35,8 +35,7 @@ class JenisPembayaranServiceImpl implements JenisPembayaranService
 
             $jenisPembayaran = $this->jenisPembayaranRepository->create($detail);
             $detailAkun = [
-                'nama' => $detail['nama'],
-                'jenis_akun' => 'debit',
+                'nama' => 'Pendapatan ' . $detail['nama'],
             ];
 
             $this->akunRepository->create($detailAkun);
@@ -60,16 +59,10 @@ class JenisPembayaranServiceImpl implements JenisPembayaranService
             ]);
 
             $jenisPembayaran = $this->jenisPembayaranRepository->update($id, $detail);
-            $detailAkun = [
-                'nama' => $detail['nama'],
-                'jenis_akun' => 'debit',
-            ];
 
-            $namaAkun = $request->input('nama_akun');
-            $akun = $this->akunRepository->findByNama($namaAkun);
-            $this->akunRepository->update($akun->id, $detailAkun);
             DB::commit();
         } catch (\Exception $e) {
+            dd($e);
             DB::rollBack();
             throw new InvariantExceotion('terjadi kesalahan pada server kami :' . $e->getMessage());
         }

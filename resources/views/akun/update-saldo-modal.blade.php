@@ -23,7 +23,7 @@
                 
                 <div class="mb-3">
                     <label class="form-label">Saldo</label>
-                    <input type="number" name="saldo" class="form-control">
+                    <input type="number" name="saldo_awal" class="form-control">
                 </div>
             </div>
             <div class="modal-footer">

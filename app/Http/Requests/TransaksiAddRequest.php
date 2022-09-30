@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class AkunAddRequest extends FormRequest
+class TransaksiAddRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,8 +24,7 @@ class AkunAddRequest extends FormRequest
     public function rules()
     {
         return [
-            'nama' => 'required',
-            'saldo_awal' => 'required',
+            //
         ];
     }
 }

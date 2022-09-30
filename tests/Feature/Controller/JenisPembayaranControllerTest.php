@@ -35,7 +35,6 @@ class JenisPembayaranControllerTest extends TestCase
             'nama' => $this->faker()->word(3, true),
             'kode' => $this->faker()->word(3, true),
             'jumlah_bayar' => $this->faker()->randomNumber(),
-            'nama_akun' => $jenisPembayaran->nama
         ]);
 
         $response->assertStatus(302);
@@ -43,6 +42,5 @@ class JenisPembayaranControllerTest extends TestCase
         $response->assertRedirect(route('jenis-pembayaran.index'));
 
         $this->assertDatabaseCount('jenis_pembayaran', 1);
-        $this->assertDatabaseCount('akun', 1);
     }
 }

@@ -44,37 +44,27 @@ class JenisPembayaranServiceTest extends TestCase
 
         $this->assertDatabaseCount('akun', 1);
         $this->assertDatabaseHas('akun', [
-            'nama' => 'test',
-            'jenis_akun' => 'debit',
-            'saldo' => 0
+            'nama' => 'Pendapatan test',
+            'saldo_awal' => 0
         ]);
     }
     public function test_update_success()
     {
-        $jenisAkun = JenisPembayaran::factory()->create(['nama' => 'testdumy']);
-        Akun::factory()->create(['nama' => 'testdumy']);
+        $jenisPembayaran = JenisPembayaran::factory()->create(['nama' => 'testdumy']);
 
         $request = new JenisPembayaranUpdateRequest([
             'nama' => 'test',
             'kode' => 'test',
             'jumlah_bayar' => 20000,
-            'nama_akun' => $jenisAkun->nama
         ]);
 
-        $this->jenisPembayaranService->update($jenisAkun->id, $request);
+        $this->jenisPembayaranService->update($jenisPembayaran->id, $request);
 
         $this->assertDatabaseCount('jenis_pembayaran', 1);
         $this->assertDatabaseHas('jenis_pembayaran', [
             'nama' => 'test',
             'kode' => 'test',
             'jumlah_bayar' => 20000
-        ]);
-
-        $this->assertDatabaseCount('akun', 1);
-        $this->assertDatabaseHas('akun', [
-            'nama' => 'test',
-            'jenis_akun' => 'debit',
-            'saldo' => 0
         ]);
     }
 }

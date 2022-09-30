@@ -43,15 +43,15 @@ class AkunRepositoryImpl implements AkunRepository
         return Akun::where('nama', $nama)->first();
     }
 
-    function getSaldoById($id): Akun
+    function getSaldoAwalById($id): Akun
     {
-        return Akun::select('id', 'saldo')->whereId($id)->first();
+        return Akun::select('id', 'saldo_awal')->whereId($id)->first();
     }
 
-    function updateSaldoById(int $id, int $saldo): Akun
+    function updateSaldoAwalById(int $id, int $saldoAwal): Akun
     {
-        $akun = Akun::select('id', 'saldo')->whereId($id)->first();
-        $akun->saldo = $saldo;
+        $akun = Akun::select('id', 'saldo_awal')->whereId($id)->first();
+        $akun->saldo_awal = $saldoAwal;
         $akun->save();
 
         return $akun;

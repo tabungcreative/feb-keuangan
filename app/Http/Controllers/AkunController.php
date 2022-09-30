@@ -54,9 +54,9 @@ class AkunController extends Controller
             $akunId = $request->input('akun_id');
             $typeUpdate = $request->input('update_type');
             if ($typeUpdate == 'add') {
-                $this->akunService->addSaldo($akunId, $request);
+                $result = $this->akunService->addSaldoAwal($akunId, $request);
             } else {
-                $this->akunService->subtractSaldo($akunId, $request);
+                $this->akunService->subtractSaldoAwal($akunId, $request);
             }
             return redirect()->route('akun.index')->with('success', 'Saldo berhasil terupdate');
         } catch (\Exception $e) {

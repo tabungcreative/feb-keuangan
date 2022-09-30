@@ -32,8 +32,8 @@ class PembayaranRepositoryImpl implements PembayaranRepository
         throw new \Exception("Method not implemented");
     }
 
-    function getById(int $id)
+    function findById(int $id): Pembayaran
     {
-        throw new \Exception("Method not implemented");
+        return Pembayaran::findOrFail($id)->first();
     }
 }

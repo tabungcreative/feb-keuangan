@@ -25,7 +25,6 @@ class AkunUpdateRequest extends FormRequest
     {
         return [
             'nama' => 'required',
-            'jenis_akun' => 'required'
         ];
     }
 }

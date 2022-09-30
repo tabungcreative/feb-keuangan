@@ -12,6 +12,6 @@ interface AkunRepository
     function delete(int $id);
     function findById(int $id);
     function findByNama(string $name);
-    function getSaldoById($id): Akun;
-    function updateSaldoById(int $id, int $saldo): Akun;
+    function getSaldoAwalById($id): Akun;
+    function updateSaldoAwalById(int $id, int $saldoAwal): Akun;
 }

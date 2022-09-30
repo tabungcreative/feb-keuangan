@@ -9,6 +9,7 @@ use App\Repositories\JenisPembayaranRepository;
 use App\Repositories\TransaksiRepository;
 use App\Services\Impl\PembayaranServiceImpl;
 use App\Services\PembayaranService;
+use App\Services\TransaksiService;
 use Illuminate\Support\ServiceProvider;
 
 class PembayaranProvider extends ServiceProvider
@@ -23,15 +24,14 @@ class PembayaranProvider extends ServiceProvider
         $this->app->singleton(PembayaranRepository::class, PembayaranRepositoryImpl::class);
         $this->app->singleton(PembayaranService::class, function ($app) {
             $pembayaranRepository = $app->make(PembayaranRepository::class);
-            $akunRepository = $app->make(AkunRepository::class);
-            $transaksiRepository = $app->make(TransaksiRepository::class);
             $jenisPembayaranRepository = $app->make(JenisPembayaranRepository::class);
+            $transaksiService = $app->make(TransaksiService::class);
+
 
             return new PembayaranServiceImpl(
                 $pembayaranRepository,
-                $akunRepository,
-                $transaksiRepository,
-                $jenisPembayaranRepository
+                $jenisPembayaranRepository,
+                $transaksiService
             );
         });
     }

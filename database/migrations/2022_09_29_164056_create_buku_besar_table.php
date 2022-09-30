@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateAkunTable extends Migration
+class CreateBukuBesarTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,11 +13,11 @@ class CreateAkunTable extends Migration
      */
     public function up()
     {
-        Schema::create('akun', function (Blueprint $table) {
+        Schema::create('buku_besar', function (Blueprint $table) {
             $table->id();
-            $table->string('nama');
-            $table->bigInteger('saldo_awal')->default(0);
-            $table->boolean('isPendapatan')->default(0);
+            $table->foreignId('transaksi_id');
+            $table->string('keterangan');
+            $table->date('tanggal');
             $table->timestamps();
         });
     }
@@ -29,6 +29,6 @@ class CreateAkunTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('akun');
+        Schema::dropIfExists('buku_besar');
     }
 }

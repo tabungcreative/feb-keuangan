@@ -26,7 +26,7 @@ class AkunUpdateSaldoRequest extends FormRequest
         return [
             'akun_id' => 'required',
             'update_type' => 'required',
-            'saldo' => 'required|min:0'
+            'saldo_awal' => 'required|min:0'
         ];
     }
 }
