@@ -10,4 +10,9 @@ class Akun extends Model
     use HasFactory;
     protected $table = 'akun';
     protected $guarded = [];
+
+    public function transaksi()
+    {
+        return $this->hasMany(Transaksi::class);
+    }
 }

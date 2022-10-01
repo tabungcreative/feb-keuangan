@@ -16,8 +16,8 @@ class CreateAkunTable extends Migration
         Schema::create('akun', function (Blueprint $table) {
             $table->id();
             $table->string('nama');
-            $table->enum('jenis_akun', ['debit', 'kredit']);
-            $table->bigInteger('saldo')->default(0);
+            $table->bigInteger('saldo_awal')->default(0);
+            $table->boolean('isPendapatan')->default(0);
             $table->timestamps();
         });
     }

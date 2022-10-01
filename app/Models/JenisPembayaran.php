@@ -10,4 +10,9 @@ class JenisPembayaran extends Model
     use HasFactory;
     protected $table = 'jenis_pembayaran';
     protected $guarded = [];
+
+    public function pembayaran()
+    {
+        return $this->hasMany(Pembayaran::class);
+    }
 }

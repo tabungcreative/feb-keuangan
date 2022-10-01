@@ -4,10 +4,16 @@ namespace App\Repositories;
 
 use App\Models\Akun;
 
-interface AkunRepository {
+interface AkunRepository
+{
     function getAll();
     function create(array $detailAkun): Akun;
-    function update(int $id,array $detailAkun): Akun;
+    function update(int $id, array $detailAkun): Akun;
     function delete(int $id);
-    function getById(int $id);
+    function findById(int $id);
+    function findByNama(string $name);
+    function getSaldoAwalById($id): Akun;
+    function updateSaldoAwalById(int $id, int $saldoAwal): Akun;
+    function getAkunByIsPendapatanTrue();
+    function getAkunByIsPendapatanFalse();
 }

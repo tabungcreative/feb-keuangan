@@ -17,9 +17,8 @@ class CreatePembayaranTable extends Migration
             $table->id();
             $table->string('no_pembayaran')->unique();
             $table->string('nim');
-            $table->date('tanggal_bayar');  
-            $table->unsignedBigInteger('jenis_pembayaran_id');
-            $table->foreign('jenis_pembayaran_id')->references('id')->on('pembayaran');
+            $table->date('tanggal_bayar');
+            $table->foreignId('jenis_pembayaran_id');
             $table->timestamps();
         });
     }

@@ -67,7 +67,7 @@ return [
     |
     */
 
-    'timezone' => 'UTC',
+    'timezone' => 'Asia/Jakarta',
 
     /*
     |--------------------------------------------------------------------------
@@ -80,7 +80,7 @@ return [
     |
     */
 
-    'locale' => 'en',
+    'locale' => 'id',
 
     /*
     |--------------------------------------------------------------------------
@@ -106,7 +106,7 @@ return [
     |
     */
 
-    'faker_locale' => 'en_US',
+    'faker_locale' => 'id_ID',
 
     /*
     |--------------------------------------------------------------------------
@@ -178,6 +178,11 @@ return [
         // custom
         App\Providers\JenisPembayaranProvider::class,
         App\Providers\AkunProvider::class,
+        App\Providers\PembayaranProvider::class,
+        App\Providers\TransaksiProvider::class,
+        App\Providers\MahasiswaProvider::class,
+
+
 
 
 
