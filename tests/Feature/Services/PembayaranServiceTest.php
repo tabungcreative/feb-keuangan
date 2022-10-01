@@ -47,11 +47,13 @@ class PembayaranServiceTest extends TestCase
         $this->assertDatabaseHas('transaksi', [
             'debit' => 1000,
             'kredit' => null,
+            'nama_transaksi' => 'test',
         ]);
 
         $this->assertDatabaseHas('transaksi', [
             'debit' => null,
             'kredit' => 1000,
+            'nama_transaksi' => 'test',
         ]);
     }
 }

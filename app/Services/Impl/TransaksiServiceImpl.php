@@ -30,6 +30,7 @@ class TransaksiServiceImpl implements TransaksiService
     {
         $tanggalTransaksi = $request->input('tanggal_transaksi');
         $kodeTransaksi = $request->input('kode_transaksi');
+        $namaTransaksi = $request->input('nama_transaksi');
         $akunDebitId = $request->input('akun_debit_id');
         $akunKreditId = $request->input('akun_kredit_id');
         $jumlahTransaksi = $request->input('jumlah_transaksi');
@@ -49,6 +50,7 @@ class TransaksiServiceImpl implements TransaksiService
             $detailTransaksiDebit = [
                 'tanggal' => $tanggalTransaksi,
                 'kode_transaksi' => $kodeTransaksi,
+                'nama_transaksi' => $namaTransaksi,
                 'debit' => $jumlahTransaksi,
                 'kredit' => null,
             ];
@@ -60,6 +62,7 @@ class TransaksiServiceImpl implements TransaksiService
             $detailTransaksiKredit = [
                 'tanggal' => $tanggalTransaksi,
                 'kode_transaksi' => $kodeTransaksi,
+                'nama_transaksi' => $namaTransaksi,
                 'debit' => null,
                 'kredit' => $jumlahTransaksi,
             ];

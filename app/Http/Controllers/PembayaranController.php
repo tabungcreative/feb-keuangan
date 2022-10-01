@@ -65,8 +65,8 @@ class PembayaranController extends Controller
     {
         $jenisPembayaran = $this->jenisPembayaranRepository->getAll();
         $mahasiswa = $this->mahasiswaRepository->findByNim($nim);
-        $akun = $this->akunRepository->getAkunByIsPendapatanFalse();
-        $akunPendapatan = $this->akunRepository->getAkunByIsPendapatanTrue();
+        $akun = $this->akunRepository->getAll();
+        $akunPendapatan = $this->akunRepository->getAll();
         return view('pembayaran.create', compact('mahasiswa', 'jenisPembayaran', 'akun', 'akunPendapatan'));
     }
 

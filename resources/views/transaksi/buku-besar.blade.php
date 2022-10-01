@@ -6,13 +6,14 @@
 <div class="row d-flex justify-content-left my-4">
     <div class="col-md-12" id="detail-mhs">
         @foreach ($akun as $akunItem)
-        <div class="card shadow mt-3">
+        <hr>
+        <div class="card shadow my-5">
             <div class="card-header py-3">
                 <h6 class="m-0 font-weight-bold text-primary">{{ $akunItem->nama }}</h6>
             </div>
             <div class="card-body">
                     @php
-                        $transaksi = App\Models\Transaksi::where('akun_id', $akunItem->id)->orderBy('tanggal', 'ASC')->get();                        
+                        $transaksi = App\Models\Transaksi::where('akun_id', $akunItem->id)->orderBy('tanggal', 'ASC')->get();
                     @endphp
                     <table class="table table-striped table-hover">
                     <tr>
@@ -26,19 +27,20 @@
                     @php($i = 1)
                     @php($totalDebit = 0)
                     @php($totalKredit = 0)
-                    @php($saldo = $akunItem->saldo)
+                    @php($saldo = $akunItem->saldo_awal)
 
                     <tr class="font-weight-bold">
                         <th colspan="3">Saldo Awal</th>
-                        <td>Rp {{ number_format($akunItem->saldo) }}</td>
+                        <td>Rp {{ number_format($akunItem->saldo_awal) }}</td>
                         <td>Rp 0 </td>
                         <td>Rp. {{ number_format($saldo) }}</td>
                     </tr>
-                    @foreach ($transaksi as $item) 
+                    @foreach ($transaksi as $item)                     
+                        @php($transaksi = App\Models\Transaksi::where('kode_transaksi' , $item->kode_transaksi)->where('akun_id', '!=', $akunItem->id)->first())
+                        @php($akun = App\Models\Akun::where('id' , $transaksi->akun_id)->first())
                         @php($saldo += $item->debit)
-                        @if ($akunItem->isPendapatan)
+                        @if ($akunItem->akun_kas == 'kas_masuk')
                             @php($saldo += $item->kredit)
-                            
                         @else
                             @php($saldo -= $item->kredit)
                         @endif
@@ -47,7 +49,7 @@
                             <td>
                                 {{ Carbon\Carbon::parse($item->tanggal)->format('d M Y') }}
                             </td>
-                            <td>{{ $item->akun->nama }}</td>
+                            <td>{{ $akun->nama }}</td>
                             <td>Rp. {{ number_format($item->debit) }}</td>
                             <td>Rp. {{ number_format($item->kredit) }}</td>
                             <td>Rp. {{ number_format($saldo) }}</td>

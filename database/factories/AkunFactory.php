@@ -17,7 +17,7 @@ class AkunFactory extends Factory
         return [
             'nama' => $this->faker->word(10),
             'saldo_awal' => 0,
-            'isPendapatan' => 0,
+            'akun_kas' => Arr::random(['kas_masuk', 'kas_keluar', 'kas_jalan']),
         ];
     }
 }

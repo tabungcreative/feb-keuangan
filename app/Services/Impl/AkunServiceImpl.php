@@ -22,7 +22,7 @@ class AkunServiceImpl implements AkunService
     function add(AkunAddRequest $request): Akun
     {
         $detailAkun = $request->only([
-            'nama', 'saldo_awal'
+            'nama', 'akun_kas'
         ]);
 
         return $this->akunRepository->create($detailAkun);

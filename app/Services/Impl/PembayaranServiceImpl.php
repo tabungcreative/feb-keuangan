@@ -63,6 +63,7 @@ class PembayaranServiceImpl implements PembayaranService
              */
             $request = new TransaksiAddRequest([
                 'tanggal_transaksi' => now(),
+                'nama_transaksi' => $jenisPembayaran->nama,
                 'kode_transaksi' => $noPembayaran,
                 'akun_kredit_id' => $akunKreditId,
                 'akun_debit_id' => $akunDebitId,

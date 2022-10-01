@@ -25,7 +25,8 @@ class TransaksiAddRequest extends FormRequest
     {
         return [
             'tanggal_transaksi' => 'required',
-            'kode_transaksi' => 'required',
+            'kode_transaksi' => 'required|unique:transaksi,kode_transaksi',
+            'nama_transaksi' => 'required',
             'akun_debit_id' => 'required',
             'akun_kredit_id' => 'required',
             'jumlah_transaksi' => 'required',

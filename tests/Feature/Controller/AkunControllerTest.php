@@ -15,7 +15,7 @@ class AkunControllerTest extends TestCase
     {
         $response = $this->post(route('akun.store'), [
             'nama' => $this->faker()->word(3, true),
-            'saldo_awal' => 0,
+            'akun_kas' => Arr::random(['kas_masuk', 'kas_keluar', 'kas_jalan']),
         ]);
 
         $response->assertStatus(302);

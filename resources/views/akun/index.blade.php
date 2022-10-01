@@ -11,22 +11,34 @@
                 <table class="table table-striped table-hover">
                     <tr>
                         <th>Nama</th>
+                        <th>Akun Kas</th>
                         <th>Saldo Awal</th>
                         <th>Aksi</th>
                     </tr>
                     @foreach ($data as $item)    
                         <tr>
                             <td>{{ $item->nama }}</td>
+                            <td>
+                                @if ($item->akun_kas == 'kas_masuk')
+                                    <i class="badge badge-success">Kas Masuk</i>
+                                @elseif($item->akun_kas == 'kas_keluar')
+                                    <i class="badge badge-warning">Kas Keluar</i>
+                                @elseif($item->akun_kas == 'kas_jalan')
+                                    <i class="badge badge-primary">Kas Jalan</i>
+                                @endif
+                            </td>
                             <td class="font-weight-bold">Rp. {{ number_format($item->saldo_awal) }}</td>
                             <td class="d-flex">
                                 <button type="button" class="btn btn-sm btn-info mr-1" data-toggle="modal" data-target="#modalUpdate-{{ $item->id }}">
                                     <i class="fas fa-edit"></i>
                                 </button>
                                 @include('akun.edit-modal')
-                                <button type="button" class="btn btn-sm btn-primary" data-toggle="modal" data-target="#modalUpdateSaldo-{{ $item->id }}">
-                                    update saldo
-                                </button>
-                                @include('akun.update-saldo-modal')
+                                @if ($item->akun_kas == 'kas_jalan')
+                                    <button type="button" class="btn btn-sm btn-primary" data-toggle="modal" data-target="#modalUpdateSaldo-{{ $item->id }}">
+                                        update saldo
+                                    </button>
+                                    @include('akun.update-saldo-modal')
+                                @endif
                             </td>
                         </tr>
                     @endforeach
@@ -47,14 +59,15 @@
                         <label class="form-label">Nama Akun</label>
                         <input type="text" name="nama" class="form-control">
                     </div>
+
                     <div class="mb-3">
-                        <label class="form-label">Saldo Awal</label>
-                        <div class="input-group mb-2 mr-sm-2">
-                            <div class="input-group-prepend">
-                                <div class="input-group-text">Rp.</div>
-                            </div>
-                            <input type="number" name="saldo_awal" class="form-control" min="0" value="0">
-                        </div>
+                        <label class="form-label">Akun Kas</label>
+                        <select class="form-control" name="akun_kas" aria-label="Default select example">
+                            <option selected value=""> --- Pilih Akun Kas -- </option>
+                            <option value="kas_masuk">Kas Masuk</option>
+                            <option value="kas_keluar">Kas Keluar</option>
+                            <option value="kas_jalan">Kas Jalan</option>
+                        </select>
                     </div>
                 
                     <button type="submit" class="btn btn-primary">Tambah</button>
