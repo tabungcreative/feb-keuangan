@@ -5,17 +5,14 @@
 @section('content')
 <div class="row d-flex justify-content-left my-4">
     <div class="col-md-12" id="detail-mhs">
-        <div class="card shadow">
+        @foreach ($akun as $akunItem)
+        <div class="card shadow mt-3">
             <div class="card-header py-3">
-                <h6 class="m-0 font-weight-bold text-primary">Jurnal Transaksi</h6>
+                <h6 class="m-0 font-weight-bold text-primary">{{ $akunItem->nama }}</h6>
             </div>
             <div class="card-body">
-
-                @foreach ($akun as $akunItem)
-                    <h6 class="m-0 font-weight-bold text-primary mt-5 mb-3">Buku Besar {{ $akunItem->nama }}</h6>
-
                     @php
-                        $transaksi = App\Models\Transaksi::where('akun_id', $akunItem->id)->orderBy('created_at', 'ASC')->get();                        
+                        $transaksi = App\Models\Transaksi::where('akun_id', $akunItem->id)->orderBy('tanggal', 'ASC')->get();                        
                     @endphp
                     <table class="table table-striped table-hover">
                     <tr>
@@ -31,7 +28,7 @@
                     @php($totalKredit = 0)
                     @php($saldo = $akunItem->saldo)
 
-                     <tr class="font-weight-bold">
+                    <tr class="font-weight-bold">
                         <th colspan="3">Saldo Awal</th>
                         <td>Rp {{ number_format($akunItem->saldo) }}</td>
                         <td>Rp 0 </td>
@@ -39,15 +36,16 @@
                     </tr>
                     @foreach ($transaksi as $item) 
                         @php($saldo += $item->debit)
-                        @php($saldo -= $item->kredit)
+                        @if ($akunItem->isPendapatan)
+                            @php($saldo += $item->kredit)
+                            
+                        @else
+                            @php($saldo -= $item->kredit)
+                        @endif
                         <tr>
                             <td>{{ $i }}</td>
                             <td>
-                                @if ($i % 2 == 0)
-                                    -
-                                @else
-                                    {{ Carbon\Carbon::parse($item->tanggal)->format('d M Y') }}
-                                @endif
+                                {{ Carbon\Carbon::parse($item->tanggal)->format('d M Y') }}
                             </td>
                             <td>{{ $item->akun->nama }}</td>
                             <td>Rp. {{ number_format($item->debit) }}</td>
@@ -59,16 +57,16 @@
                         @php($totalKredit += $item->kredit)
                         @php($i++)
                     @endforeach
-                    <tr>
-                        <th colspan="3">Total</th>
+                    <tr class="font-weight-bold"> 
+                        <td colspan="3">Total</td>
                         <td>Rp {{ number_format($totalDebit) }}</td>
                         <td>Rp {{ number_format($totalKredit) }}</td>
                         <td>-</td>
                     </tr>
                 </table>
-                @endforeach
             </div>
         </div>
+        @endforeach
     </div>
 </div>
 @endsection

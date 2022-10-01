@@ -26,7 +26,7 @@ class TransaksiController extends Controller
 
     public function index()
     {
-        $data = $this->transaksiRepository->getAll();
+        $data = $this->transaksiRepository->getAllByTanggal();
         return view('transaksi.index', compact('data'));
     }
 
@@ -50,7 +50,8 @@ class TransaksiController extends Controller
 
     public function bukuBesar()
     {
+        $title = 'Buku Besar';
         $akun = $this->akunRepository->getAll();
-        return view('transaksi.buku-besar', compact('akun'));
+        return view('transaksi.buku-besar', compact('title', 'akun'));
     }
 }

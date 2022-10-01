@@ -36,6 +36,7 @@ class JenisPembayaranServiceImpl implements JenisPembayaranService
             $jenisPembayaran = $this->jenisPembayaranRepository->create($detail);
             $detailAkun = [
                 'nama' => 'Pendapatan ' . $detail['nama'],
+                'isPendapatan' => 1
             ];
 
             $this->akunRepository->create($detailAkun);

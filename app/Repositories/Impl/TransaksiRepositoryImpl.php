@@ -11,8 +11,16 @@ class TransaksiRepositoryImpl implements TransaksiRepository
 
     function getAll()
     {
-        return Transaksi::orderBy('tanggal', 'DESC')->get();
+        return Transaksi::orderBy('created_at', 'DESC')->get();
     }
+
+
+
+    function getAllByTanggal()
+    {
+        return Transaksi::orderBy('tanggal', 'ASC')->get();
+    }
+
 
     function create(array $detailTransaksi, int $akunId): Transaksi
     {

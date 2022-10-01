@@ -44,9 +44,9 @@
 
                     <div class="mb-3">
                         <label class="form-label">Akun Debit</label>
-                        <select name="akun_debit_id" class="form-control">
-                            <option value="">-- Pilih Akun Debit--</option>
-                            @foreach ($akun as $value)  
+                        <select name="akun_debit_id" class="form-control select2" style="width: 100%">
+                            <option value="">Pilih Akun Debit</option>
+                            @foreach ($akunPendapatan as $value)  
                                 <option value="{{ $value->id }}"> {{$value->nama}}</option>
                             @endforeach
                         </select>
@@ -54,8 +54,8 @@
 
                     <div class="mb-3">
                         <label class="form-label">Akun Kredit</label>
-                        <select name="akun_kredit_id" class="form-control">
-                            <option value="">-- Pilih Akun Kredit--</option>
+                        <select name="akun_kredit_id" class="form-control select2" style="width: 100%">
+                            <option value="">Pilih Akun Kredit</option>
                             @foreach ($akun as $value)  
                                 <option value="{{ $value->id }}"> {{$value->nama}}</option>
                             @endforeach
@@ -67,4 +67,22 @@
         </div>
     </div>
 </div>
+@endsection
+
+@section('style')
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+@endsection
+
+@section('script')
+    <!-- jQuery --> <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+
+    <script>
+        // In your Javascript (external .js resource or <script> tag)
+        $(document).ready(function() {
+            $('.select2').select2({
+                width: 'resolve' // need to override the changed default
+            });
+        });
+    </script>
 @endsection

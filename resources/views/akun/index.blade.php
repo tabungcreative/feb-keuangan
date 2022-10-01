@@ -49,7 +49,12 @@
                     </div>
                     <div class="mb-3">
                         <label class="form-label">Saldo Awal</label>
-                        <input type="number" name="saldo_awal" class="form-control">
+                        <div class="input-group mb-2 mr-sm-2">
+                            <div class="input-group-prepend">
+                                <div class="input-group-text">Rp.</div>
+                            </div>
+                            <input type="number" name="saldo_awal" class="form-control" min="0" value="0">
+                        </div>
                     </div>
                 
                     <button type="submit" class="btn btn-primary">Tambah</button>

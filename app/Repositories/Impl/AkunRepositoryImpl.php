@@ -56,4 +56,14 @@ class AkunRepositoryImpl implements AkunRepository
 
         return $akun;
     }
+
+    function getAkunByIsPendapatanTrue()
+    {
+        return Akun::where('isPendapatan', 1)->get();
+    }
+
+    function getAkunByIsPendapatanFalse()
+    {
+        return Akun::where('isPendapatan', 0)->get();
+    }
 }

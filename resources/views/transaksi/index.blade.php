@@ -20,17 +20,22 @@
                         <th>Aksi</th>
                     </tr>
                     @php($i = 1)
+                    @php($no = 1)
                     @foreach ($data as $item)    
                         <tr>
-                            <td>{{ $i }}</td>
-                            <td>
-                                @if ($i % 2 == 0)
-                                    -
-                                @else
+                            @if ($i % 2 == 0)
+                            <td>-</td>
+                            <td>-</td>
+                            <td  style="padding-left: 60px">{{ $item->akun->nama }}</td>
+
+                            @else
+                                <td>{{ $no }}</td>
+                                <td>
                                     {{ Carbon\Carbon::parse($item->tanggal)->format('d M Y') }}
-                                @endif
-                            </td>
-                            <td>{{ $item->akun->nama }}</td>
+                                </td>
+                                <td>{{ $item->akun->nama }}</td>
+                                @php($no++)
+                            @endif
                             <td>Rp. {{ number_format($item->debit) }}</td>
                             <td>Rp. {{ number_format($item->kredit) }}</td>
 
@@ -38,6 +43,7 @@
                                 <a href="{{ route('jenis-pembayaran.edit', $item->id) }}" class="btn btn-info btn-sm"><i class="fas fa-edit"></i></a>
                             </td>
                         </tr>
+                        
                         @php($i++)
                     @endforeach
                 </table>

@@ -12,7 +12,7 @@
 <hr class="sidebar-divider">
 
 <!-- Heading -->
-<div class="sidebar-heading">
+<div class="sidebar-heading text-white">
     Pembayaran
 </div>
 
@@ -39,7 +39,7 @@
 </li>
 
 
-<div class="sidebar-heading">
+<div class="sidebar-heading text-white">
     Akuntansi
 </div>
 <!-- Nav Item - Tables -->
@@ -49,24 +49,21 @@
         <span>Akun</span></a>
 </li>
 
-<li class="nav-item  {{ Route::is('transaksi.*') ? 'active' : '' }}">
-    <a class="nav-link" href="#" data-toggle="collapse" data-target="#transaksi" aria-expanded="true"
-        aria-controls="transaksi">
+<li class="nav-item {{ Route::is('transaksi.create') ? 'active' : '' }}">
+    <a class="nav-link" href="{{ route('transaksi.create') }}">
         <i class="fas fa-credit-card"></i>
-        <span>Transaksi</span>
-    </a>
-    <div id="transaksi" class="collapse {{ Route::is('transaksi.*') ? 'show' : '' }}" aria-labelledby="headingTwo"
-        data-parent="#accordionSidebar">
-        <div class="bg-white py-2 collapse-inner rounded">
-            <a class="collapse-item {{ Route::is('transaksi.create') ? 'active' : '' }}" href="{{ route('transaksi.create') }}">Tambah Transaksi</a>
-            <a class="collapse-item {{ Route::is('transaksi.index') ? 'active' : '' }}" href="{{ route('transaksi.index') }}">Jurnal Transaksi</a>
-        </div>
-    </div>
+        <span>Tambah Transaksi</span></a>
 </li>
 
-<li class="nav-item">
+<li class="nav-item {{ Route::is('transaksi.index') ? 'active' : '' }}">
+    <a class="nav-link" href="{{ route('transaksi.index') }}">
+        <i class="fas fa-book"></i>
+        <span>Jurnal Transaksi</span></a>
+</li>
+
+<li class="nav-item {{ Route::is('transaksi.buku-besar') ? 'active' : '' }}">
     <a class="nav-link" href="{{ route('transaksi.buku-besar') }}">
-        <i class="fas fa-fw fa-table"></i>
+        <i class="fas fa-book-open"></i>
         <span>Buku Besar</span></a>
 </li>
 
@@ -77,7 +74,7 @@
         <span>Laporan</span></a>
 </li> --}}
 
-<div class="sidebar-heading">
+<div class="sidebar-heading text-white">
     Manajemen Aset
 </div>
 
