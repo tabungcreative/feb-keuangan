@@ -76,6 +76,7 @@ Route::controller(TransaksiController::class)
         Route::post('/', 'store')->name('store');
         Route::get('/create', 'create')->name('create');
         Route::get('/buku-besar', 'bukuBesar')->name('buku-besar');
+        Route::get('/buku-besar-rinci', 'bukuBesarRinci')->name('buku-besar-rinci');
     });
 
 

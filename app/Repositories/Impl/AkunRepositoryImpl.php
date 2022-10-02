@@ -71,4 +71,9 @@ class AkunRepositoryImpl implements AkunRepository
     {
         return Akun::where('akun_kas', 'kas_jalan')->get();
     }
+
+    public function getAkunByIsNotAkunKasJalan()
+    {
+        return Akun::where('akun_kas', '!=', 'kas_jalan')->get();
+    }
 }

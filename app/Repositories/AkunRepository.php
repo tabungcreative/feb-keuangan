@@ -17,4 +17,5 @@ interface AkunRepository
     function getAkunByAkunKasMasuk();
     function getAkunOrderByAkunKas();
     function getAkunByAkunKasJalan();
+    function getAkunByIsNotAkunKasJalan();
 }

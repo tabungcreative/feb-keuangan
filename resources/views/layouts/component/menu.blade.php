@@ -62,17 +62,21 @@
         <span>Jurnal Transaksi</span></a>
 </li>
 
-<li class="nav-item {{ Route::is('transaksi.buku-besar') ? 'active' : '' }}">
-    <a class="nav-link" href="{{ route('transaksi.buku-besar') }}">
+<li class="nav-item" {{ Route::is('pembayaran.*') ? 'active' : '' }}>
+    <a class="nav-link" href="#" data-toggle="collapse" data-target="#buku_besar" aria-expanded="true"
+        aria-controls="buku_besar">
         <i class="fas fa-book-open"></i>
-        <span>Buku Besar</span></a>
+        <span>Buku Besar</span>
+    </a>
+    <div id="buku_besar" class="collapse" aria-labelledby="headingTwo"
+        data-parent="#accordionSidebar">
+        <div class="bg-white py-2 collapse-inner rounded">
+            <a class="collapse-item" {{ Route::is('transaksi.buku-besar') ? 'active' : '' }} href="{{ route('transaksi.buku-besar') }}">Buku Besar</a>
+            <a class="collapse-item " {{ Route::is('transaksi.index') ? 'active' : '' }} href="{{ route('transaksi.buku-besar-rinci') }}">Perincian Buku Besar</a>
+        </div>
+    </div>
 </li>
 
-<li class="nav-item {{ Route::is('transaksi.buku-besar') ? 'active' : '' }}">
-    <a class="nav-link" href="{{ route('transaksi.buku-besar') }}">
-        <i class="fas fa-info-circle"></i>
-        <span>Perincian Buku Besar</span></a>
-</li>
 
 <li class="nav-item">
     <a class="nav-link" href="#" data-toggle="collapse" data-target="#laporan_keuangan" aria-expanded="true"
