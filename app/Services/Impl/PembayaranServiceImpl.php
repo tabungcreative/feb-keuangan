@@ -8,6 +8,7 @@ use App\Http\Requests\PembayaranAddRequest;
 use App\Http\Requests\TransaksiAddRequest;
 use App\Models\Pembayaran;
 use App\Repositories\JenisPembayaranRepository;
+use App\Repositories\MahasiswaRepository;
 use App\Repositories\PembayaranRepository;
 use App\Services\PembayaranService;
 use App\Services\TransaksiService;
@@ -21,15 +22,18 @@ class PembayaranServiceImpl implements PembayaranService
     private PembayaranRepository $pembayaranRepository;
     private JenisPembayaranRepository $jenisPembayaranRepository;
     private TransaksiService $transaksiService;
+    private MahasiswaRepository $mahasiswaRepository;
 
     public function __construct(
         PembayaranRepository $pembayaranRepository,
         JenisPembayaranRepository $jenisPembayaranRepository,
-        TransaksiService $transaksiService
+        TransaksiService $transaksiService,
+        MahasiswaRepository $mahasiswaRepository
     ) {
         $this->pembayaranRepository = $pembayaranRepository;
         $this->jenisPembayaranRepository = $jenisPembayaranRepository;
         $this->transaksiService = $transaksiService;
+        $this->mahasiswaRepository = $mahasiswaRepository;
     }
 
     function add(PembayaranAddRequest $request): Pembayaran
@@ -61,9 +65,11 @@ class PembayaranServiceImpl implements PembayaranService
             /**
              * Membuat transaksi
              */
+            $mahasiswa = $this->mahasiswaRepository->findByNim($nim);
+            $namaTransaksi = $mahasiswa['nama'] . '/' . $mahasiswa['nim'];
             $request = new TransaksiAddRequest([
                 'tanggal_transaksi' => now(),
-                'nama_transaksi' => $jenisPembayaran->nama,
+                'nama_transaksi' => $namaTransaksi,
                 'kode_transaksi' => $noPembayaran,
                 'akun_kredit_id' => $akunKreditId,
                 'akun_debit_id' => $akunDebitId,

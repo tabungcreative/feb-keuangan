@@ -19,8 +19,8 @@
                         <input type="text" name="kode_transaksi" class="form-control">
                     </div>
                     <div class="mb-3">
-                        <label class="form-label">Nama Transaksi / Keterangan</label>
-                        <input type="text" name="nama_transaksi" class="form-control">
+                        <label class="form-label">Keterangan</label>
+                        <textarea class="form-control" name="nama_transaksi" rows="3"></textarea>
                     </div>
                     <div class="mb-3">
                         <label class="form-label">Akun Debit</label>

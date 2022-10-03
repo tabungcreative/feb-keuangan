@@ -29,6 +29,7 @@
                         <th>Tanggal</th>
                         <th>No Bukti</th>
                         <th>Keterangan</th>
+                        <th>Transaksi</th>
                         <th>Debet</th>
                         <th>Kredit</th>
                         <th>Aksi</th>
@@ -38,10 +39,13 @@
                     @foreach ($data as $item)    
                         <tr>
                             @if ($i % 2 == 0)
-                            <td>-</td>
-                            <td>-</td>
-                            <td>-</td>
-                            <td  style="padding-left: 60px">{{ $item->akun->nama }}</td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td  style="padding-left: 60px">
+                                {{ $item->akun->nama }}
+                            </td>
 
                             @else
                                 <td>{{ $no }}</td>
@@ -49,6 +53,7 @@
                                     {{ Carbon\Carbon::parse($item->tanggal)->format('d M Y') }}
                                 </td>
                                 <td>{{ $item->kode_transaksi }}</td>
+                                <th><i>{{ $item->nama_transaksi }}</i></th>
                                 <td>{{ $item->akun->nama }}</td>
                                 @php($no++)
                             @endif
