@@ -15,10 +15,13 @@
                         <input type="date" name="tanggal_transaksi" class="form-control">
                     </div>
                     <div class="mb-3">
-                        <label class="form-label">Kode Transaksi</label>
+                        <label class="form-label">No Bukti Transaksi</label>
                         <input type="text" name="kode_transaksi" class="form-control">
                     </div>
-                
+                    <div class="mb-3">
+                        <label class="form-label">Keterangan</label>
+                        <textarea class="form-control" name="nama_transaksi" rows="3"></textarea>
+                    </div>
                     <div class="mb-3">
                         <label class="form-label">Akun Debit</label>
                         <select name="akun_debit_id" class="form-control select2" style="width: 100%">

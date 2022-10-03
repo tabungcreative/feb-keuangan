@@ -57,13 +57,23 @@ class AkunRepositoryImpl implements AkunRepository
         return $akun;
     }
 
-    function getAkunByIsPendapatanTrue()
+    function getAkunByAkunKasMasuk()
     {
-        return Akun::where('isPendapatan', 1)->get();
+        return Akun::where('akun_kas', 'kas_masuk')->get();
     }
 
-    function getAkunByIsPendapatanFalse()
+    function getAkunOrderByAkunKas()
     {
-        return Akun::where('isPendapatan', 0)->get();
+        return Akun::orderBy('akun_kas', 'DESC')->get();
+    }
+
+    function getAkunByAkunKasJalan()
+    {
+        return Akun::where('akun_kas', 'kas_jalan')->get();
+    }
+
+    public function getAkunByIsNotAkunKasJalan()
+    {
+        return Akun::where('akun_kas', '!=', 'kas_jalan')->get();
     }
 }

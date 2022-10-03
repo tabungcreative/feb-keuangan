@@ -49,7 +49,7 @@
                             <td>
                                 {{ Carbon\Carbon::parse($item->tanggal)->format('d M Y') }}
                             </td>
-                            <td>{{ $akun->nama }}</td>
+                            <td>{{ $transaksi->nama_transaksi }}</td>
                             <td>Rp. {{ number_format($item->debit) }}</td>
                             <td>Rp. {{ number_format($item->kredit) }}</td>
                             <td>Rp. {{ number_format($saldo) }}</td>

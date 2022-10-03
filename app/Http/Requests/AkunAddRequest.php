@@ -25,7 +25,7 @@ class AkunAddRequest extends FormRequest
     {
         return [
             'nama' => 'required',
-            'saldo_awal' => 'required',
+            'akun_kas' => 'required',
         ];
     }
 }

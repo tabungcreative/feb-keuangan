@@ -46,7 +46,7 @@ class JenisPembayaranServiceTest extends TestCase
         $this->assertDatabaseHas('akun', [
             'nama' => 'Pendapatan test',
             'saldo_awal' => 0,
-            'isPendapatan' => 1
+            'akun_kas' => 'kas_masuk'
         ]);
     }
     public function test_update_success()

@@ -34,7 +34,7 @@ class AkunController extends Controller
         foreach ($jenisPembayarans as $value) {
             $jenisPembayaran[] = $value->nama;
         }
-        $data = $this->akunRepository->getAll();
+        $data = $this->akunRepository->getAkunOrderByAkunKas();
         return view('akun.index', compact('data', 'jenisPembayaran'));
     }
 

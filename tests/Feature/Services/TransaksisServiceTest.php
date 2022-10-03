@@ -34,6 +34,7 @@ class TransaksisServiceTest extends TestCase
 
         $request = new TransaksiAddRequest([
             'kode_transaksi' => 'TEST',
+            'nama_transaksi' => 'Test Transaksi',
             'akun_debit_id' => $akun->id,
             'akun_kredit_id' => $akun->id,
             'jumlah_transaksi' => 1000
@@ -51,6 +52,7 @@ class TransaksisServiceTest extends TestCase
         $request = new TransaksiAddRequest([
             'tanggal_transaksi' => now(),
             'kode_transaksi' => 'TEST',
+            'nama_transaksi' => 'Test Transaksi',
             'akun_debit_id' => $akunDebit->id,
             'akun_kredit_id' => $akunKredit->id,
             'jumlah_transaksi' => 1000

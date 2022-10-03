@@ -17,6 +17,7 @@ class CreateTransaksiTable extends Migration
             $table->id();
             $table->date('tanggal');
             $table->string('kode_transaksi');
+            $table->string('nama_transaksi');
             $table->foreignId('akun_id');
             $table->integer('debit')->nullable();
             $table->integer('kredit')->nullable();

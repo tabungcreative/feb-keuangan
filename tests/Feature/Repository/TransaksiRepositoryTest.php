@@ -25,6 +25,7 @@ class TransaksiRepositoryTest extends TestCase
         $detailTransaksi = [
             'tanggal' => $this->faker()->date(),
             'kode_transaksi' => $this->faker()->word(10),
+            'nama_transaksi' => 'Test Transaksi',
             'akun_id' => $akunId,
             'debit' => 0,
             'kredit' => 0,

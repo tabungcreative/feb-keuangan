@@ -51,7 +51,14 @@ class TransaksiController extends Controller
     public function bukuBesar()
     {
         $title = 'Buku Besar';
-        $akun = $this->akunRepository->getAll();
+        $akun = $this->akunRepository->getAkunByAkunKasJalan();
         return view('transaksi.buku-besar', compact('title', 'akun'));
+    }
+
+    public function bukuBesarRinci()
+    {
+        $title = 'Perincian Buku Besar';
+        $akun = $this->akunRepository->getAkunByIsNotAkunKasJalan();
+        return view('transaksi.buku-besar-rinci', compact('title', 'akun'));
     }
 }

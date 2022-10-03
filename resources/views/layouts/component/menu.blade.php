@@ -38,6 +38,7 @@
     </div>
 </li>
 
+<hr class="sidebar-divider">
 
 <div class="sidebar-heading text-white">
     Akuntansi
@@ -61,10 +62,38 @@
         <span>Jurnal Transaksi</span></a>
 </li>
 
-<li class="nav-item {{ Route::is('transaksi.buku-besar') ? 'active' : '' }}">
-    <a class="nav-link" href="{{ route('transaksi.buku-besar') }}">
+<li class="nav-item" {{ Route::is('pembayaran.*') ? 'active' : '' }}>
+    <a class="nav-link" href="#" data-toggle="collapse" data-target="#buku_besar" aria-expanded="true"
+        aria-controls="buku_besar">
         <i class="fas fa-book-open"></i>
-        <span>Buku Besar</span></a>
+        <span>Buku Besar</span>
+    </a>
+    <div id="buku_besar" class="collapse" aria-labelledby="headingTwo"
+        data-parent="#accordionSidebar">
+        <div class="bg-white py-2 collapse-inner rounded">
+            <a class="collapse-item" {{ Route::is('transaksi.buku-besar') ? 'active' : '' }} href="{{ route('transaksi.buku-besar') }}">Buku Besar</a>
+            <a class="collapse-item " {{ Route::is('transaksi.index') ? 'active' : '' }} href="{{ route('transaksi.buku-besar-rinci') }}">Perincian Buku Besar</a>
+        </div>
+    </div>
+</li>
+
+
+<li class="nav-item">
+    <a class="nav-link" href="#" data-toggle="collapse" data-target="#laporan_keuangan" aria-expanded="true"
+        aria-controls="laporan_keuangan">
+        <i class="fas fa-file-invoice-dollar"></i>
+        <span>Laporan Keuangan</span>
+    </a>
+    <div id="laporan_keuangan" class="collapse" aria-labelledby="headingTwo"
+        data-parent="#accordionSidebar">
+        <div class="bg-white py-2 collapse-inner rounded">
+            <a class="collapse-item" href="#">Perubahan Modal</a>
+            <a class="collapse-item " href="#">Catatan Atas Keuangan</a>
+            <a class="collapse-item " href="#">Keuangan</a>
+            <a class="collapse-item " href="#">Keuangan Neraca</a>
+            <a class="collapse-item " href="#">Laba Rugi</a>
+        </div>
+    </div>
 </li>
 
 {{-- <!-- Heading -->
@@ -73,6 +102,8 @@
         <i class="fas fa-fw fa-table"></i>
         <span>Laporan</span></a>
 </li> --}}
+
+<hr class="sidebar-divider">
 
 <div class="sidebar-heading text-white">
     Manajemen Aset

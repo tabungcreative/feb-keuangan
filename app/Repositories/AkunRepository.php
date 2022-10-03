@@ -14,6 +14,8 @@ interface AkunRepository
     function findByNama(string $name);
     function getSaldoAwalById($id): Akun;
     function updateSaldoAwalById(int $id, int $saldoAwal): Akun;
-    function getAkunByIsPendapatanTrue();
-    function getAkunByIsPendapatanFalse();
+    function getAkunByAkunKasMasuk();
+    function getAkunOrderByAkunKas();
+    function getAkunByAkunKasJalan();
+    function getAkunByIsNotAkunKasJalan();
 }
