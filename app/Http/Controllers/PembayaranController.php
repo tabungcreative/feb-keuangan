@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Exceptions\AkunNotFound;
 use App\Exceptions\InvariantExceotion;
+use App\Exceptions\ResponseHttpNotOk;
 use App\Exceptions\SameAkunException;
 use App\Http\Requests\PembayaranAddRequest;
 use App\Http\Requests\PembayaranCekNimRequest;
@@ -89,8 +90,12 @@ class PembayaranController extends Controller
 
     public function detail($id)
     {
-        $pembayaran = $this->pembayaranRepository->findById($id);
-        $mahasiswa = $this->mahasiswaRepository->findByNim($pembayaran->nim);
-        return view('pembayaran.show', compact('mahasiswa', 'pembayaran'));
+        try {
+            $pembayaran = $this->pembayaranRepository->findById($id);
+            $mahasiswa = $this->mahasiswaRepository->findByNim($pembayaran->nim);
+            return view('pembayaran.show', compact('mahasiswa', 'pembayaran'));
+        } catch (ResponseHttpNotOk $e) {
+            return response()->view('errors.500', ['message' => 'Terjadi kesalahan pada server .' . $e->getMessage()], 500);
+        }
     }
 }

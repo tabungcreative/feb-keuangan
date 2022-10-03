@@ -8,7 +8,12 @@ use Illuminate\Support\Facades\Http;
 
 class MahasiswaRepositoryApi implements MahasiswaRepository
 {
-    private $url = 'https://feb-unsiq.ac.id/api';
+    private string $url;
+
+    public function __construct()
+    {
+        $this->url = env('URL_API');
+    }
 
     function getAll()
     {
@@ -25,13 +30,14 @@ class MahasiswaRepositoryApi implements MahasiswaRepository
 
     function findByNim(string $nim)
     {
-        $response = Http::get($this->url . '/mahasiswa/' . $nim);
+        $endpoint = $this->url . '/mahasiswa/' . $nim;
+        $response = Http::get($endpoint);
 
         if ($response->status() == 200) {
             $mahasiswa = json_decode($response->body(), true)['data'];
             return $mahasiswa;
+        } else {
+            throw new ResponseHttpNotOk('tidak dapat mendapatkan data dari api');
         }
-
-        throw new ResponseHttpNotOk('tidak dapat mendapatkan data dari api');
     }
 }
