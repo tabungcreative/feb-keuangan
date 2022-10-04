@@ -14,6 +14,8 @@ use App\Repositories\MahasiswaRepository;
 use App\Repositories\PembayaranRepository;
 use App\Services\MahasiswaService;
 use App\Services\PembayaranService;
+use Barryvdh\DomPDF\Facade\Pdf;
+use Carbon\Carbon;
 
 class PembayaranController extends Controller
 {
@@ -94,6 +96,25 @@ class PembayaranController extends Controller
             $pembayaran = $this->pembayaranRepository->findById($id);
             $mahasiswa = $this->mahasiswaRepository->findByNim($pembayaran->nim);
             return view('pembayaran.show', compact('mahasiswa', 'pembayaran'));
+        } catch (ResponseHttpNotOk $e) {
+            return response()->view('errors.500', ['message' => 'Terjadi kesalahan pada server .' . $e->getMessage()], 500);
+        }
+    }
+
+    public function cetakKwitansi($id)
+    {
+
+        try {
+            $pembayaran = $this->pembayaranRepository->findById($id);
+            $mahasiswa = $this->mahasiswaRepository->findByNim($pembayaran->nim);
+            $tanggal = Carbon::parse(now())->translatedFormat('d F Y');
+
+            $kop = base64_encode(file_get_contents(public_path('kop-feb.png')));
+            $footerKop = base64_encode(file_get_contents(public_path('footer-kop.png')));
+
+            $pdf = Pdf::loadView('pembayaran.kwitansi', compact('pembayaran', 'mahasiswa', 'kop', 'footerKop', 'tanggal'));
+            $pdf->setPaper('a5', 'landscape');
+            return $pdf->stream();
         } catch (ResponseHttpNotOk $e) {
             return response()->view('errors.500', ['message' => 'Terjadi kesalahan pada server .' . $e->getMessage()], 500);
         }

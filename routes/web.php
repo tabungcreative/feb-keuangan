@@ -23,7 +23,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return redirect('auth/login');
+    return redirect('akun/');
 });
 
 Route::controller(AuthController::class)
@@ -66,6 +66,7 @@ Route::controller(PembayaranController::class)
         Route::get('/{nim}/create', 'create')->name('create');
         Route::post('/', 'store')->name('store');
         Route::get('/{id}/detail', 'detail')->name('detail');
+        Route::get('/{id}/cetak-kwitansi', 'cetakKwitansi')->name('cetak-kwitansi');
     });
 
 Route::controller(TransaksiController::class)

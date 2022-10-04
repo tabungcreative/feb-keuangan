@@ -182,8 +182,10 @@ return [
         App\Providers\TransaksiProvider::class,
         App\Providers\MahasiswaProvider::class,
 
-
-
+        // dompdf
+        Barryvdh\DomPDF\ServiceProvider::class,
+        // terbilang
+        Riskihajar\Terbilang\TerbilangServiceProvider::class,
 
 
     ],
@@ -240,7 +242,8 @@ return [
         'URL' => Illuminate\Support\Facades\URL::class,
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
-
+        'PDF' => Barryvdh\DomPDF\Facade::class,
+        'Terbilang' => Riskihajar\Terbilang\Facades\Terbilang::class,
     ],
 
 ];

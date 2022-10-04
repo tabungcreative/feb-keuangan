@@ -9,15 +9,19 @@ trait Numbering
 {
     public function nomerPembayaran($kodePembayaran)
     {
-        $year = Carbon::parse(now())->translatedFormat('Y');
+        $year = Carbon::parse(now())->translatedFormat('y');
+        $month = Carbon::parse(now())->translatedFormat('m');
+
 
         $pembayaran = Pembayaran::orderBy('id', 'DESC')->first();
 
         if ($pembayaran != null) {
             $noPembayaranTerakhir = $pembayaran->no_pembayaran;
             $explode = explode('-', $noPembayaranTerakhir);
-            $tahunAkhir = $explode[1];
-            $nomerTerahir = end($explode);
+            $dateAkhir = $explode[1];
+            $explodeDate = explode('.', $dateAkhir);
+            $tahunAkhir = end($explodeDate);
+            $nomerTerahir = $explode[0];
             $newNumber = 0;
             if ($year == $tahunAkhir) {
                 $newNumber = $nomerTerahir + 1;
@@ -27,11 +31,11 @@ trait Numbering
 
             $nomer = str_pad($newNumber, 4, '0', STR_PAD_LEFT);
 
-            $no_pembayaran = $kodePembayaran . '-' . $year . '-' . $nomer;
+            $no_pembayaran = $nomer . '-' . $month . '.' . $year . '-' . $kodePembayaran;
 
             return $no_pembayaran;
         } else {
-            $no_pembayaran = $kodePembayaran . '-' . $year . '-' . '0001';
+            $no_pembayaran = '0001' . '-' . $month . '.' . $year . '-' . $kodePembayaran;
             return $no_pembayaran;
         }
     }
