@@ -12,8 +12,7 @@ trait Numbering
         $year = Carbon::parse(now())->translatedFormat('y');
         $month = Carbon::parse(now())->translatedFormat('m');
 
-
-        $pembayaran = Pembayaran::orderBy('id', 'DESC')->first();
+        $pembayaran = Pembayaran::latest()->first();
 
         if ($pembayaran != null) {
             $noPembayaranTerakhir = $pembayaran->no_pembayaran;
