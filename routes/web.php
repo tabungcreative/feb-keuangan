@@ -66,6 +66,7 @@ Route::controller(PembayaranController::class)
         Route::get('/{nim}/create', 'create')->name('create');
         Route::post('/', 'store')->name('store');
         Route::get('/{id}/detail', 'detail')->name('detail');
+        Route::get('/{id}/cetak-kwitansi', 'cetakKwitansi')->name('cetak-kwitansi');
     });
 
 Route::controller(TransaksiController::class)
@@ -81,14 +82,16 @@ Route::controller(TransaksiController::class)
 
 
 
-// Route::get('/authuser', function (Request $request) {
+Route::get('/test', function (Request $request) {
 
-//     $access_token = $request->session()->get('access_token');
+    $access_token = $request->session()->get('access_token');
 
-//     $response = Http::withHeaders([
-//         'Accept' => 'application/json',
-//         'Authorization' => 'Bearer ' . $access_token
-//     ])->get('https://accounts.feb-unsiq.ac.id/api/user');
+    dd($access_token);
 
-//     return $response->json();
-// });
+    $response = Http::withHeaders([
+        'Accept' => 'application/json',
+        'Authorization' => 'Bearer ' . $access_token
+    ])->get('https://accounts.feb-unsiq.ac.id/api/user');
+
+    return $response->json();
+});

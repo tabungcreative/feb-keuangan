@@ -8,7 +8,7 @@ use Illuminate\Support\Str;
 
 class AuthController extends Controller
 {
-    private $redirectCallbak = '/pembayaran/cek/nim';
+    private $redirectCallbak = '/test';
 
     public function login(Request $request)
     {
@@ -22,7 +22,7 @@ class AuthController extends Controller
             'state' => $state,
         ]);
 
-        return redirect('https://accounts.feb-unsiq.ac.id/oauth/authorize?' . $query);
+        return redirect(env('URL_OAUTH') . '/oauth/authorize?' . $query);
     }
 
     public function callback(Request $request)
@@ -32,7 +32,7 @@ class AuthController extends Controller
         throw_unless(strlen($state) > 0 && $state == $request->state, InvalidArgumentException::class);
 
         $response = Http::asForm()->post(
-            'https://accounts.feb-unsiq.ac.id/oauth/token',
+            env('URL_OAUTH') . '/oauth/token',
             [
                 'grant_type' => 'authorization_code',
                 'client_id' => env('CLIENT_ID'),

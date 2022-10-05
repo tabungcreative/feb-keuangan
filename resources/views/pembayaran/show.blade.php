@@ -34,7 +34,7 @@
                         <td scope="col">Rp. {{ number_format($pembayaran->jenisPembayaran->jumlah_bayar) }}</td>
                     </tr>
                 </table>
-                <a href="" target="_blank" class="btn btn-sm btn-success">Cetak Kwitansi</a>
+                <a href="{{ route('pembayaran.cetak-kwitansi', $pembayaran->id) }}" target="_blank" class="btn btn-sm btn-success">Cetak Kwitansi</a>
             </div>
         </div>
     </div>

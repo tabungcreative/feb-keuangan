@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Exceptions\AkunNotFound;
 use App\Exceptions\InvariantExceotion;
+use App\Exceptions\ResponseHttpNotOk;
 use App\Exceptions\SameAkunException;
 use App\Http\Requests\PembayaranAddRequest;
 use App\Http\Requests\PembayaranCekNimRequest;
@@ -13,6 +14,8 @@ use App\Repositories\MahasiswaRepository;
 use App\Repositories\PembayaranRepository;
 use App\Services\MahasiswaService;
 use App\Services\PembayaranService;
+use Barryvdh\DomPDF\Facade\Pdf;
+use Carbon\Carbon;
 
 class PembayaranController extends Controller
 {
@@ -77,7 +80,7 @@ class PembayaranController extends Controller
             $cekNim = $this->mahasiswaService->checkNim($nim);
             if ($cekNim) {
                 $pembayaran = $this->pembayaranService->add($request);
-                return redirect()->route('pembayaran.detail', ['id' => $pembayaran->id])->with('success', 'pembayaran berhasil');
+                return redirect()->route('pembayaran.detail', $pembayaran->id)->with('success', 'pembayaran berhasil');
             }
             return redirect()->route('pembayaran.index')->with('error', 'Mahasiswa tidak ditemukan');
         } catch (InvariantExceotion $e) {
@@ -89,8 +92,32 @@ class PembayaranController extends Controller
 
     public function detail($id)
     {
-        $pembayaran = $this->pembayaranRepository->findById($id);
-        $mahasiswa = $this->mahasiswaRepository->findByNim($pembayaran->nim);
-        return view('pembayaran.show', compact('mahasiswa', 'pembayaran'));
+        try {
+            $pembayaran = $this->pembayaranRepository->findById($id);
+            $mahasiswa = $this->mahasiswaRepository->findByNim($pembayaran->nim);
+            return view('pembayaran.show', compact('mahasiswa', 'pembayaran'));
+        } catch (ResponseHttpNotOk $e) {
+            return response()->view('errors.500', ['message' => 'Terjadi kesalahan pada server .' . $e->getMessage()], 500);
+        }
+    }
+
+    public function cetakKwitansi($id)
+    {
+
+        try {
+            $pembayaran = $this->pembayaranRepository->findById($id);
+            $mahasiswa = $this->mahasiswaRepository->findByNim($pembayaran->nim);
+            $tanggal = Carbon::parse(now())->translatedFormat('d F Y');
+
+            $kop = base64_encode(file_get_contents(public_path('kop-feb.png')));
+            $footerKop = base64_encode(file_get_contents(public_path('footer-kop.png')));
+
+            $pdf = Pdf::loadView('pembayaran.kwitansi', compact('pembayaran', 'mahasiswa', 'kop', 'footerKop', 'tanggal'));
+
+            $pdf->setPaper('a5', 'landscape');
+            return $pdf->stream();
+        } catch (ResponseHttpNotOk $e) {
+            return response()->view('errors.500', ['message' => 'Terjadi kesalahan pada server .' . $e->getMessage()], 500);
+        }
     }
 }

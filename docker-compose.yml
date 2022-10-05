@@ -1,0 +1,27 @@
+version: "3"
+services:
+    feb-difisy:
+        image: ahmdrifai/feb-difisy:prod
+        container_name: feb-difisy
+        restart: unless-stopped
+        tty: true
+        env_file: .env
+        networks:
+            - feb-difisy-prod
+
+    feb-difisy-webserver:
+        image: ahmdrifai/feb-difisy-webserver:prod
+        container_name: feb-difisy-webserver
+        restart: unless-stopped
+        tty: true
+        ports:
+            - "8003:80"
+        depends_on:
+            - feb-difisy
+        networks:
+            - feb-difisy-prod
+
+#Docker Networks
+networks:
+    feb-difisy-prod:
+        driver: bridge
