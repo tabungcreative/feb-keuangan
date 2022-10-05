@@ -25,6 +25,7 @@ class AuthController extends Controller
             'state' => $state,
         ]);
 
+        dd($query);
         return redirect(env('URL_OAUTH') . '/oauth/authorize?' . $query);
     }
 

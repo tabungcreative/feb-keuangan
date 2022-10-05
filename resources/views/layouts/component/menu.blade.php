@@ -3,7 +3,7 @@
 
 <!-- Nav Item - Dashboard -->
 <li class="nav-item">
-    <a class="nav-link" href="index.html">
+    <a class="nav-link" href="{{ route('dashboard') }}">
         <i class="fas fa-fw fa-tachometer-alt"></i>
         <span>Dashboard</span></a>
 </li>
@@ -11,6 +11,7 @@
 <!-- Divider -->
 <hr class="sidebar-divider">
 
+@can('bendahara')
 <!-- Heading -->
 <div class="sidebar-heading text-white">
     Pembayaran
@@ -39,6 +40,7 @@
 </li>
 
 <hr class="sidebar-divider">
+
 
 <div class="sidebar-heading text-white">
     Akuntansi
@@ -95,6 +97,8 @@
         </div>
     </div>
 </li>
+<hr class="sidebar-divider">
+@endcan
 
 {{-- <!-- Heading -->
 <li class="nav-item">
@@ -103,7 +107,6 @@
         <span>Laporan</span></a>
 </li> --}}
 
-<hr class="sidebar-divider">
 
 <div class="sidebar-heading text-white">
     Manajemen Aset

@@ -3,15 +3,14 @@
 use App\Helper\AuthUser;
 use App\Http\Controllers\AkunController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\JenisPembayaranController;
 use App\Http\Controllers\PembayaranController;
 use App\Http\Controllers\TransaksiController;
 use App\Models\Akun;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Route;
-
 
 /*
 |--------------------------------------------------------------------------
@@ -36,7 +35,10 @@ Route::controller(AuthController::class)
         Route::get('/logout', 'logout')->name('logout');
         Route::get('/callback', 'callback')->name('callback');
     });
+
 Route::middleware('custom-auth')->group(function () {
+
+    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
     Route::controller(JenisPembayaranController::class)
         ->prefix('jenis-pembayaran')
@@ -52,7 +54,7 @@ Route::middleware('custom-auth')->group(function () {
     Route::controller(AkunController::class)
         ->prefix('akun')
         ->as('akun.')
-        // ->middleware(['can:bendahara'])
+        ->middleware(['can:bendahara'])
         ->group(function () {
             Route::get('/', 'index')->name('index');
             Route::post('/', 'store')->name('store');
