@@ -33,54 +33,58 @@ Route::controller(AuthController::class)
     ->as('auth.')
     ->group(function () {
         Route::get('/login', 'login')->name('login');
+        Route::get('/logout', 'logout')->name('logout');
         Route::get('/callback', 'callback')->name('callback');
     });
+Route::middleware('custom-auth')->group(function () {
 
-Route::controller(JenisPembayaranController::class)
-    ->prefix('jenis-pembayaran')
-    ->as('jenis-pembayaran.')
-    ->group(function () {
-        Route::get('/', 'index')->name('index');
-        Route::post('/', 'store')->name('store');
-        Route::get('/{id}/edit', 'edit')->name('edit');
-        Route::put('/{id}', 'update')->name('update');
-    });
+    Route::controller(JenisPembayaranController::class)
+        ->prefix('jenis-pembayaran')
+        ->as('jenis-pembayaran.')
+        ->group(function () {
+            Route::get('/', 'index')->name('index');
+            Route::post('/', 'store')->name('store');
+            Route::get('/{id}/edit', 'edit')->name('edit');
+            Route::put('/{id}', 'update')->name('update');
+        });
 
 
-Route::controller(AkunController::class)
-    ->prefix('akun')
-    ->as('akun.')
-    ->group(function () {
-        Route::get('/', 'index')->name('index');
-        Route::post('/', 'store')->name('store');
-        Route::post('/update-saldo', 'updateSaldo')->name('update-saldo');
-        Route::get('/{id}/edit', 'edit')->name('edit');
-        Route::put('/{id}', 'update')->name('update');
-    });
+    Route::controller(AkunController::class)
+        ->prefix('akun')
+        ->as('akun.')
+        // ->middleware(['can:bendahara'])
+        ->group(function () {
+            Route::get('/', 'index')->name('index');
+            Route::post('/', 'store')->name('store');
+            Route::post('/update-saldo', 'updateSaldo')->name('update-saldo');
+            Route::get('/{id}/edit', 'edit')->name('edit');
+            Route::put('/{id}', 'update')->name('update');
+        });
 
-Route::controller(PembayaranController::class)
-    ->prefix('pembayaran')
-    ->as('pembayaran.')
-    ->group(function () {
-        Route::get('/', 'index')->name('index');
-        Route::get('/cek/nim', 'getCekNim')->name('get-cek-nim');
-        Route::post('/cek/nim', 'postCekNim')->name('post-cek-nim');
-        Route::get('/{nim}/create', 'create')->name('create');
-        Route::post('/', 'store')->name('store');
-        Route::get('/{id}/detail', 'detail')->name('detail');
-        Route::get('/{id}/cetak-kwitansi', 'cetakKwitansi')->name('cetak-kwitansi');
-    });
+    Route::controller(PembayaranController::class)
+        ->prefix('pembayaran')
+        ->as('pembayaran.')
+        ->group(function () {
+            Route::get('/', 'index')->name('index');
+            Route::get('/cek/nim', 'getCekNim')->name('get-cek-nim');
+            Route::post('/cek/nim', 'postCekNim')->name('post-cek-nim');
+            Route::get('/{nim}/create', 'create')->name('create');
+            Route::post('/', 'store')->name('store');
+            Route::get('/{id}/detail', 'detail')->name('detail');
+            Route::get('/{id}/cetak-kwitansi', 'cetakKwitansi')->name('cetak-kwitansi');
+        });
 
-Route::controller(TransaksiController::class)
-    ->prefix('transaksi')
-    ->as('transaksi.')
-    ->group(function () {
-        Route::get('/', 'index')->name('index');
-        Route::post('/', 'store')->name('store');
-        Route::get('/create', 'create')->name('create');
-        Route::get('/buku-besar', 'bukuBesar')->name('buku-besar');
-        Route::get('/buku-besar-rinci', 'bukuBesarRinci')->name('buku-besar-rinci');
-    });
+    Route::controller(TransaksiController::class)
+        ->prefix('transaksi')
+        ->as('transaksi.')
+        ->group(function () {
+            Route::get('/', 'index')->name('index');
+            Route::post('/', 'store')->name('store');
+            Route::get('/create', 'create')->name('create');
+            Route::get('/buku-besar', 'bukuBesar')->name('buku-besar');
+            Route::get('/buku-besar-rinci', 'bukuBesarRinci')->name('buku-besar-rinci');
+        });
+});
 
 
 
@@ -88,7 +92,9 @@ Route::get('/test', function (Request $request) {
 
     $user = AuthUser::user();
 
-    dd($user);
+    return in_array('super-admin', $user->roles);
+
+    dd($user->roles);
 
     $response = Http::withHeaders([
         'Accept' => 'application/json',

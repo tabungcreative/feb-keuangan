@@ -2,14 +2,18 @@
 
 namespace App\Helper;
 
-use GuzzleHttp\Psr7\Request;
+use Illuminate\Support\Facades\Request;
 use Illuminate\Support\Facades\Session;
 
 class AuthUser
 {
     public static function user()
     {
-        $token = Session::get('access_token');
+        $token = session('access_token');
+
+        if ($token == null) {
+            return null;
+        }
 
         $tokenParts = explode(".", $token);
         $tokenHeader = base64_decode($tokenParts[0]);
@@ -17,7 +21,7 @@ class AuthUser
         $jwtHeader = json_decode($tokenHeader);
         $jwtPayload = json_decode($tokenPayload);
 
-        dd($jwtPayload->user);
+        return $jwtPayload->user;
     }
 
     public static function accessToken()
