@@ -8,7 +8,7 @@ use Illuminate\Support\Str;
 
 class AuthController extends Controller
 {
-    private $redirectCallbak = '/test';
+    private $redirectCallbak = '/akun';
 
     public function login(Request $request)
     {

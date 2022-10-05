@@ -1,5 +1,6 @@
 <?php
 
+use App\Helper\AuthUser;
 use App\Http\Controllers\AkunController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\JenisPembayaranController;
@@ -7,6 +8,7 @@ use App\Http\Controllers\PembayaranController;
 use App\Http\Controllers\TransaksiController;
 use App\Models\Akun;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Route;
 
@@ -84,13 +86,13 @@ Route::controller(TransaksiController::class)
 
 Route::get('/test', function (Request $request) {
 
-    $access_token = $request->session()->get('access_token');
+    $user = AuthUser::user();
 
-    dd($access_token);
+    dd($user);
 
     $response = Http::withHeaders([
         'Accept' => 'application/json',
-        'Authorization' => 'Bearer ' . $access_token
+        'Authorization' => 'Bearer ' . AuthUser::accessToken()
     ])->get('https://accounts.feb-unsiq.ac.id/api/user');
 
     return $response->json();
