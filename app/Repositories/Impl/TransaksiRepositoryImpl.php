@@ -5,6 +5,8 @@ namespace App\Repositories\Impl;
 use App\Models\Akun;
 use App\Models\Transaksi;
 use App\Repositories\TransaksiRepository;
+use Carbon\Carbon;
+use Illuminate\Support\Facades\DB;
 
 class TransaksiRepositoryImpl implements TransaksiRepository
 {
@@ -16,9 +18,17 @@ class TransaksiRepositoryImpl implements TransaksiRepository
 
 
 
-    function getAllByTanggal()
+    function getAllByMonthYear($date = null)
     {
-        return Transaksi::orderBy('tanggal', 'ASC')->get();
+        $month = Carbon::now()->month;
+        $year = Carbon::now()->year;
+
+        if ($date != null) {
+            $month = Carbon::createFromFormat('Y-m', $date)->month;
+            $year = Carbon::createFromFormat('Y-m', $date)->year;
+        }
+
+        return Transaksi::whereMonth('tanggal', $month)->whereYear('tanggal', $year)->get();
     }
 
 
@@ -43,5 +53,42 @@ class TransaksiRepositoryImpl implements TransaksiRepository
     function getById(int $id)
     {
         throw new \Exception("Method not implemented");
+    }
+
+    public function getWhereAkunKas($akunKas, $date = null)
+    {
+
+        $month = Carbon::now()->month;
+        $year = Carbon::now()->year;
+
+        if ($date != null) {
+            $month = Carbon::createFromFormat('Y-m', $date)->month;
+            $year = Carbon::createFromFormat('Y-m', $date)->year;
+        }
+
+
+        return Transaksi::whereHas('akun', function ($query) use ($akunKas) {
+            $query->where('akun_kas', $akunKas);
+        })
+            ->whereMonth('tanggal', $month)
+            ->whereYear('tanggal', $year)
+            ->get();
+    }
+
+
+    function getWhereAkunKasGroupByAkun($akunKas, $date = null)
+    {
+
+        if ($date = null) {
+            $date = Carbon::now();
+        }
+
+        return Transaksi::selectRaw('id, akun_id, sum(kredit) as total_kredit,sum(debit) as total_debit, count(id) as count_id')
+            ->groupBy('akun_id')
+            ->whereHas('akun', function ($query) use ($akunKas) {
+                $query->where('akun_kas', $akunKas);
+            })
+            ->whereMonth('created_at', Carbon::now()->month)
+            ->get();
     }
 }

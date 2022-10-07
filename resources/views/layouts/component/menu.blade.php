@@ -64,7 +64,7 @@
         <span>Jurnal Transaksi</span></a>
 </li>
 
-<li class="nav-item" {{ Route::is('pembayaran.*') ? 'active' : '' }}>
+<li class="nav-item" {{ Route::is('laporan-keuangan.buku-besar') ? 'active' : '' }}>
     <a class="nav-link" href="#" data-toggle="collapse" data-target="#buku_besar" aria-expanded="true"
         aria-controls="buku_besar">
         <i class="fas fa-book-open"></i>
@@ -73,25 +73,25 @@
     <div id="buku_besar" class="collapse" aria-labelledby="headingTwo"
         data-parent="#accordionSidebar">
         <div class="bg-white py-2 collapse-inner rounded">
-            <a class="collapse-item" {{ Route::is('transaksi.buku-besar') ? 'active' : '' }} href="{{ route('transaksi.buku-besar') }}">Buku Besar</a>
-            <a class="collapse-item " {{ Route::is('transaksi.index') ? 'active' : '' }} href="{{ route('transaksi.buku-besar-rinci') }}">Perincian Buku Besar</a>
+            <a class="collapse-item" {{ Route::is('laporan-keuangan.buku-besar') ? 'active' : '' }} href="{{ route('laporan-keuangan.buku-besar') }}">Buku Besar</a>
+            <a class="collapse-item " {{ Route::is('laporan-keuangan.index') ? 'active' : '' }} href="{{ route('laporan-keuangan.buku-besar-rinci') }}">Perincian Buku Besar</a>
         </div>
     </div>
 </li>
 
 
-<li class="nav-item">
+<li class="nav-item {{ Route::is('laporan-keuangan.*') ? 'active' : '' }}" >
     <a class="nav-link" href="#" data-toggle="collapse" data-target="#laporan_keuangan" aria-expanded="true"
         aria-controls="laporan_keuangan">
         <i class="fas fa-file-invoice-dollar"></i>
         <span>Laporan Keuangan</span>
     </a>
-    <div id="laporan_keuangan" class="collapse" aria-labelledby="headingTwo"
+    <div id="laporan_keuangan" class="collapse {{ Route::is('laporan-keuangan.*') ? 'show' : '' }}" aria-labelledby="headingTwo"
         data-parent="#accordionSidebar">
         <div class="bg-white py-2 collapse-inner rounded">
-            <a class="collapse-item" href="#">Perubahan Modal</a>
+            <a class="collapse-item {{ Route::is('laporan-keuangan.perubahan-modal') ? 'active' : '' }}"  href="{{ route('laporan-keuangan.perubahan-modal') }}">Perubahan Modal</a>
             <a class="collapse-item " href="#">Catatan Atas Keuangan</a>
-            <a class="collapse-item " href="#">Keuangan</a>
+            <a class="collapse-item " href="#">Laporan Keuangan</a>
             <a class="collapse-item " href="#">Keuangan Neraca</a>
             <a class="collapse-item " href="#">Laba Rugi</a>
         </div>

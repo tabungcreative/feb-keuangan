@@ -5,6 +5,7 @@ use App\Http\Controllers\AkunController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\JenisPembayaranController;
+use App\Http\Controllers\LaporanKeuanganController;
 use App\Http\Controllers\PembayaranController;
 use App\Http\Controllers\TransaksiController;
 use App\Models\Akun;
@@ -83,8 +84,19 @@ Route::middleware('custom-auth')->group(function () {
             Route::get('/', 'index')->name('index');
             Route::post('/', 'store')->name('store');
             Route::get('/create', 'create')->name('create');
+        });
+
+    Route::controller(LaporanKeuanganController::class)
+        ->prefix('laporan-keungan')
+        ->as('laporan-keuangan.')
+        ->group(function () {
             Route::get('/buku-besar', 'bukuBesar')->name('buku-besar');
             Route::get('/buku-besar-rinci', 'bukuBesarRinci')->name('buku-besar-rinci');
+            Route::get('/perubahan-modal', 'perubahanModal')->name('perubahan-modal');
+            Route::get('/catatan-atas-keuangan', 'catatanAtasKeuangan')->name('catatan-atas-keuangan');
+            Route::get('/laporan-keuangan', 'laporanKeuangan')->name('laporan-keuangan');
+            Route::get('/keuangan-neraca', 'keuangan-neraca')->name('keuangan-nerace');
+            Route::get('/laba-rugi', 'labaRugi')->name('laba-rugi');
         });
 });
 
