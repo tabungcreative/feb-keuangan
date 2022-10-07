@@ -3,6 +3,17 @@
 
 @endsection
 @section('content')
+<div class="row">
+    <div class="col-md-5">
+        <form action="" method="GET">
+            <div class="mb-3">
+                <label class="form-label">Pilih Bulan Transaksi</label>
+                <input type="month" name="bulan" class="form-control" value="{{ $_GET['bulan'] ?? Carbon\Carbon::now()->format('Y-m')}}">
+            </div>
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </form>
+    </div>
+</div>
 <div class="row d-flex justify-content-left my-4">
     <div class="col-md-12" id="detail-mhs">
         @foreach ($akun as $akunItem)
@@ -13,7 +24,36 @@
             </div>
             <div class="card-body">
                     @php
-                        $transaksi = App\Models\Transaksi::where('akun_id', $akunItem->id)->orderBy('tanggal', 'ASC')->get();
+                        $transaksi = App\Models\Transaksi::where('akun_id', $akunItem->id)
+                            ->whereMonth('tanggal', Carbon\Carbon::now()->month)
+                            ->whereYear('tanggal', Carbon\Carbon::now()->year)
+                            ->orderBy('tanggal', 'ASC')->get();
+                        $transaksiBulanLalu = App\Models\Transaksi::where('akun_id', $akunItem->id)
+                        ->whereMonth('tanggal', Carbon\Carbon::now()->subMonth(1)->month)
+                        ->whereYear('tanggal', Carbon\Carbon::now()->year)
+                        ->get();
+
+                        if (isset($_GET['bulan'])) {
+                            $transaksi = App\Models\Transaksi::where('akun_id', $akunItem->id)
+                            ->whereMonth('tanggal', Carbon\Carbon::createFromFormat('Y-m', $_GET['bulan'])->month)
+                            ->whereYear('tanggal', Carbon\Carbon::createFromFormat('Y-m', $_GET['bulan'])->year)
+                            ->orderBy('tanggal', 'ASC')->get();
+
+                            $transaksiBulanLalu = App\Models\Transaksi::where('akun_id', $akunItem->id)
+                            ->whereMonth('tanggal', Carbon\Carbon::createFromFormat('Y-m', $_GET['bulan'])->subMonth(1)->month)
+                            ->whereYear('tanggal', Carbon\Carbon::createFromFormat('Y-m', $_GET['bulan'])->year)
+                            ->get();
+                        }
+
+                        $saldoDebit = 0;
+                        $saldoKredit = 0;
+                        
+                        foreach ($transaksiBulanLalu as $value) {
+                            $saldoDebit += $value->debit;
+                            $saldoKredit += $value->kredit;
+                        }
+
+                        $saldoAwalBulanLalu = $saldoDebit - $saldoKredit;
                     @endphp
                     <table class="table table-striped table-hover">
                     <tr>
@@ -25,13 +65,13 @@
                         <th>Saldo</th>
                     </tr>
                     @php($i = 1)
-                    @php($totalDebit = 0)
+                    @php($totalDebit = $saldoAwalBulanLalu)
                     @php($totalKredit = 0)
-                    @php($saldo = $akunItem->saldo_awal)
+                    @php($saldo = $saldoAwalBulanLalu)
 
                     <tr class="font-weight-bold">
                         <th colspan="3">Saldo Awal</th>
-                        <td>Rp {{ number_format($akunItem->saldo_awal) }}</td>
+                        <td>Rp {{ number_format($saldoAwalBulanLalu) }}</td>
                         <td>Rp 0 </td>
                         <td>Rp. {{ number_format($saldo) }}</td>
                     </tr>
@@ -63,7 +103,7 @@
                         <td colspan="3">Total</td>
                         <td>Rp {{ number_format($totalDebit) }}</td>
                         <td>Rp {{ number_format($totalKredit) }}</td>
-                        <td>-</td>
+                        <td>Rp {{ number_format($totalDebit - $totalKredit) }}</td>
                     </tr>
                 </table>
             </div>

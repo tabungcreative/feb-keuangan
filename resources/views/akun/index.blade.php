@@ -12,7 +12,7 @@
                     <tr>
                         <th>Nama</th>
                         <th>Akun Kas</th>
-                        <th>Saldo Awal</th>
+                        {{-- <th>Saldo Awal</th> --}}
                         <th>Aksi</th>
                     </tr>
                     @foreach ($data as $item)    
@@ -27,18 +27,18 @@
                                     <i class="badge badge-primary">Kas Jalan</i>
                                 @endif
                             </td>
-                            <td class="font-weight-bold">Rp. {{ number_format($item->saldo_awal) }}</td>
+                            {{-- <td class="font-weight-bold">Rp. {{ number_format($item->saldo_awal) }}</td> --}}
                             <td class="d-flex">
                                 <button type="button" class="btn btn-sm btn-info mr-1" data-toggle="modal" data-target="#modalUpdate-{{ $item->id }}">
                                     <i class="fas fa-edit"></i>
                                 </button>
-                                @include('akun.edit-modal')
+                                {{-- @include('akun.edit-modal')
                                 @if ($item->akun_kas == 'kas_jalan')
                                     <button type="button" class="btn btn-sm btn-primary" data-toggle="modal" data-target="#modalUpdateSaldo-{{ $item->id }}">
                                         update saldo
                                     </button>
                                     @include('akun.update-saldo-modal')
-                                @endif
+                                @endif --}}
                             </td>
                         </tr>
                     @endforeach
@@ -47,6 +47,8 @@
         </div>
     </div>
     
+    {{-- {{ Auth::user() }} --}}
+    @can('bendahara')        
     <div class="col-md-5 mt-2">
         <div class="card shadow">
             <div class="card-header py-3">
@@ -75,5 +77,6 @@
             </div>
         </div>
     </div>
+    @endcan
 </div>
 @endsection

@@ -3,6 +3,17 @@
 
 @endsection
 @section('content')
+<div class="row">
+    <div class="col-md-5">
+        <form action="" method="GET">
+            <div class="mb-3">
+                <label class="form-label">Pilih Bulan Transaksi</label>
+                <input type="month" name="bulan" class="form-control" value="{{ $_GET['bulan'] ?? Carbon\Carbon::now()->format('Y-m')}}">
+            </div>
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </form>
+    </div>
+</div>
 <div class="row d-flex justify-content-left my-4">
     <div class="col-md-12" id="detail-mhs">
         @foreach ($akun as $akunItem)
@@ -13,7 +24,17 @@
             </div>
             <div class="card-body">
                     @php
-                        $transaksi = App\Models\Transaksi::where('akun_id', $akunItem->id)->orderBy('tanggal', 'ASC')->get();
+                        $transaksi = App\Models\Transaksi::where('akun_id', $akunItem->id)
+                        ->whereMonth('tanggal', Carbon\Carbon::now()->month)
+                        ->whereYear('tanggal', Carbon\Carbon::now()->year)
+                        ->orderBy('tanggal', 'ASC')->get();
+
+                        if (isset($_GET['bulan'])) {
+                            $transaksi = App\Models\Transaksi::where('akun_id', $akunItem->id)
+                            ->whereMonth('tanggal', Carbon\Carbon::createFromFormat('Y-m', $_GET['bulan'])->month)
+                            ->whereYear('tanggal', Carbon\Carbon::createFromFormat('Y-m', $_GET['bulan'])->year)
+                            ->orderBy('tanggal', 'ASC')->get();
+                        }
                     @endphp
                     <table class="table table-striped table-hover">
                     <tr>

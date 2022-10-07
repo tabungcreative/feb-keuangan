@@ -7,7 +7,9 @@ use App\Http\Requests\TransaksiAddRequest;
 use App\Repositories\AkunRepository;
 use App\Repositories\TransaksiRepository;
 use App\Services\TransaksiService;
+use Carbon\Carbon;
 use Exception;
+use Illuminate\Http\Request;
 
 class TransaksiController extends Controller
 {
@@ -24,9 +26,10 @@ class TransaksiController extends Controller
         $this->transaksiService = $transaksiService;
     }
 
-    public function index()
+    public function index(Request $request)
     {
-        $data = $this->transaksiRepository->getAllByTanggal();
+        $date = $request->query('bulan');
+        $data = $this->transaksiRepository->getAllByMonthYear($date);
         return view('transaksi.index', compact('data'));
     }
 
@@ -46,19 +49,5 @@ class TransaksiController extends Controller
         } catch (Exception $e) {
             return response()->view('errors.500', ['message' => 'Terjadi kesalahan pada server .'], 500);
         }
-    }
-
-    public function bukuBesar()
-    {
-        $title = 'Buku Besar';
-        $akun = $this->akunRepository->getAkunByAkunKasJalan();
-        return view('transaksi.buku-besar', compact('title', 'akun'));
-    }
-
-    public function bukuBesarRinci()
-    {
-        $title = 'Perincian Buku Besar';
-        $akun = $this->akunRepository->getAkunByIsNotAkunKasJalan();
-        return view('transaksi.buku-besar-rinci', compact('title', 'akun'));
     }
 }
