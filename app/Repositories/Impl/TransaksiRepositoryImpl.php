@@ -79,8 +79,12 @@ class TransaksiRepositoryImpl implements TransaksiRepository
     function getWhereAkunKasGroupByAkun($akunKas, $date = null)
     {
 
-        if ($date = null) {
-            $date = Carbon::now();
+        $month = Carbon::now()->month;
+        $year = Carbon::now()->year;
+
+        if ($date != null) {
+            $month = Carbon::createFromFormat('Y-m', $date)->month;
+            $year = Carbon::createFromFormat('Y-m', $date)->year;
         }
 
         return Transaksi::selectRaw('id, akun_id, sum(kredit) as total_kredit,sum(debit) as total_debit, count(id) as count_id')
@@ -88,7 +92,8 @@ class TransaksiRepositoryImpl implements TransaksiRepository
             ->whereHas('akun', function ($query) use ($akunKas) {
                 $query->where('akun_kas', $akunKas);
             })
-            ->whereMonth('created_at', Carbon::now()->month)
+            ->whereMonth('tanggal', $month)
+            ->whereYear('tanggal', $year)
             ->get();
     }
 }

@@ -34,6 +34,11 @@ class PembayaranRepositoryImpl implements PembayaranRepository
 
     function findById(int $id): Pembayaran
     {
-        return Pembayaran::findOrFail($id)->first();
+        return Pembayaran::find($id);
+    }
+
+    function findByNoPembayaran(string $nomerPembayaran): ?Pembayaran
+    {
+        return Pembayaran::where('no_pembayaran', $nomerPembayaran)->first();
     }
 }
