@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Akun;
 use App\Models\Transaksi;
 use App\Repositories\AkunRepository;
 use App\Repositories\TransaksiRepository;
@@ -30,10 +31,60 @@ class LaporanKeuanganController extends Controller
 
     public function bukuBesar(Request $request)
     {
-        $title = 'Buku Besar';
-        $akun = $this->akunRepository->getAkunByAkunKasJalan();
 
-        return view('transaksi.buku-besar', compact('title', 'akun'));
+        $yearMounth = $request->query('bulan');
+
+        if ($yearMounth == null) {
+            $yearMounth = Carbon::now()->format('Y-m');
+        }
+
+
+        $dateStart = Transaksi::orderBy('tanggal', 'ASC')->first()->tanggal;
+        $dateEnd = Carbon::createFromFormat('Y-m', $yearMounth)->subMonth(1)->lastOfMonth()->format('Y-m-d');
+        $month = Carbon::createFromFormat('Y-m', $yearMounth)->month;
+        $year = Carbon::createFromFormat('Y-m', $yearMounth)->year;
+
+        $akunKasJalan = Akun::where('akun_kas', 'kas_jalan')->get();
+
+        $listTotalDebit = [];
+        $listTotalKredit = [];
+        $listSaldoAwalKas = [];
+        $listTransaksi = [];
+
+        foreach ($akunKasJalan as $akun) {
+            $queryTransaksi = Transaksi::where('akun_id', $akun->id)
+                ->whereMonth('tanggal', $month)
+                ->whereYear('tanggal', $year)
+                ->orderBy('tanggal', 'ASC')->get();
+
+            $listTransaksi[] = $queryTransaksi;
+            $totalDebit = 0;
+            $totalKredit = 0;
+
+            foreach ($queryTransaksi as $transaksi) {
+                $totalDebit += $transaksi->debit;
+                $totalKredit += $transaksi->kredit;
+            }
+
+            $listTotalDebit[] = $totalDebit;
+            $listTotalKredit[] = $totalKredit;
+
+            $saldoAwalKas = 0;
+
+            $transaksiOld = Transaksi::select('id', 'debit', 'tanggal', 'kredit', 'akun_id')
+                ->whereBetween('tanggal', [$dateStart, $dateEnd])->where('akun_id', $akun->id)->get();
+
+            foreach ($transaksiOld as $value) {
+                $saldoAwalKas += $akun->saldo_awal + ($value->debit - $value->kredit);
+            }
+
+            $listSaldoAwalKas[] = $saldoAwalKas;
+        }
+
+        // $title = 'Buku Besar';
+        // $akun = $this->akunRepository->getAkunByAkunKasJalan();
+
+        return view('laporan.buku-besar', compact('akunKasJalan', 'listTotalDebit', 'listTotalKredit', 'listSaldoAwalKas', 'listTransaksi'));
     }
 
     public function bukuBesarRinci()
@@ -43,10 +94,15 @@ class LaporanKeuanganController extends Controller
         return view('transaksi.buku-besar-rinci', compact('title', 'akun'));
     }
 
-    public function perubahanModal(Request $request)
+    public function FunctionName()
     {
-        $date = '2022-11';
-        $datePrevius = '2022-10';
+        # code...
+    }
+
+    public function perubahanModalSalah(Request $request)
+    {
+        $date = '2022-10';
+        $datePrevius = '2022-9';
 
 
         $month = Carbon::now()->month;
