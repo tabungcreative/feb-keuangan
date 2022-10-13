@@ -1,6 +1,7 @@
 <?php
 
 use App\Helper\AuthUser;
+use App\Http\Controllers\AktivaController;
 use App\Http\Controllers\AkunController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DashboardController;
@@ -97,6 +98,15 @@ Route::middleware('custom-auth')->group(function () {
             Route::get('/laporan-keuangan', 'laporanKeuangan')->name('laporan-keuangan');
             Route::get('/keuangan-neraca', 'keuangan-neraca')->name('keuangan-nerace');
             Route::get('/laba-rugi', 'labaRugi')->name('laba-rugi');
+        });
+
+    Route::controller(AktivaController::class)
+        ->prefix('aktiva')
+        ->as('aktiva.')
+        ->group(function () {
+            Route::get('/', 'index')->name('index');
+            Route::get('/tambah-aktiva', 'create')->name('create');
+            Route::post('/', 'store')->name('store');
         });
 });
 
