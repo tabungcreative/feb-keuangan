@@ -17,7 +17,6 @@ class CreateAktivaTable extends Migration
             $table->id();
             $table->string('kode_aktiva');
             $table->string('nama_aktiva');
-            $table->string('jenis_aktiva');
             $table->date('tanggal_perolehan');
             $table->integer('harga_perolehan');
             $table->double('penyusutan_perhari');

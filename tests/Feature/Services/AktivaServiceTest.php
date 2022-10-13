@@ -25,7 +25,6 @@ class AktivaServiceTest extends TestCase
         $request = new AktivaAddRequest([
             'kode_aktiva' => 'required',
             'nama_aktiva' => 'required',
-            'jenis_aktiva' => 'required',
             'tanggal_perolehan' => '2020-10-01',
             'harga_perolehan' => 100000,
         ]);
@@ -38,7 +37,6 @@ class AktivaServiceTest extends TestCase
         $this->assertDatabaseHas('aktiva', [
             'kode_aktiva' => 'required',
             'nama_aktiva' => 'required',
-            'jenis_aktiva' => 'required',
             'tanggal_perolehan' => '2020-10-01',
             'harga_perolehan' => 100000,
             'penyusutan_perhari' => $penyusutan

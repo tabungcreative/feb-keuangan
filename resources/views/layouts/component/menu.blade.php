@@ -109,23 +109,17 @@
 
 
 <div class="sidebar-heading text-white">
-    Manajemen Aset
+    Manajemen Inventaris
 </div>
 
-<li class="nav-item">
-    <a class="nav-link" href="{{ route('akun.index') }}">
+<li class="nav-item {{ Route::is('aktiva.index*') ? 'active' : '' }}">
+    <a class="nav-link " href="{{ route('aktiva.index') }}">
         <i class="fas fa-fw fa-table"></i>
-        <span>Aset Masuk</span></a>
+        <span>Laporan aktiva</span></a>
 </li>
 
-<li class="nav-item">
-    <a class="nav-link" href="{{ route('akun.index') }}">
+<li class="nav-item {{ Route::is('aktiva.create*') ? 'active' : '' }}">
+    <a class="nav-link " href="{{ route('aktiva.create') }}">
         <i class="fas fa-fw fa-table"></i>
-        <span>Aset Keluar</span></a>
-</li>
-
-<li class="nav-item">
-    <a class="nav-link" href="{{ route('akun.index') }}">
-        <i class="fas fa-fw fa-table"></i>
-        <span>Status Aset</span></a>
+        <span>Tambah Aktiva</span></a>
 </li>

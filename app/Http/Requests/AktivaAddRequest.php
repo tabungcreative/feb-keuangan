@@ -13,7 +13,7 @@ class AktivaAddRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -27,7 +27,6 @@ class AktivaAddRequest extends FormRequest
             //
             'kode_aktiva' => 'required',
             'nama_aktiva' => 'required',
-            'jenis_aktiva' => 'required',
             'tanggal_perolehan' => 'required',
             'harga_perolehan' => 'required',
         ];

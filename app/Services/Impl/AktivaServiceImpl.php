@@ -22,7 +22,6 @@ class AktivaServiceImpl implements AktivaService
     {
         $kodeAktiva = $request->input('kode_aktiva');
         $namaAktiva = $request->input('nama_aktiva');
-        $jenisAktiva = $request->input('jenis_aktiva');
         $tanggalPerolehan = $request->input('tanggal_perolehan');
         $hargaPerolehan = $request->input('harga_perolehan');
         $penyusutanPerhari = ($hargaPerolehan * 20 / 100) / 360;
@@ -30,7 +29,6 @@ class AktivaServiceImpl implements AktivaService
             $aktiva = new Aktiva([
                 'kode_aktiva' => $kodeAktiva,
                 'nama_aktiva' => $namaAktiva,
-                'jenis_aktiva' => $jenisAktiva,
                 'tanggal_perolehan' => $tanggalPerolehan,
                 'harga_perolehan' => $hargaPerolehan,
                 'penyusutan_perhari' => $penyusutanPerhari,
