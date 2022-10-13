@@ -181,6 +181,8 @@ return [
         App\Providers\PembayaranProvider::class,
         App\Providers\TransaksiProvider::class,
         App\Providers\MahasiswaProvider::class,
+        // aktiva provider
+        App\Providers\AktivaProvider::class,
 
         // dompdf
         Barryvdh\DomPDF\ServiceProvider::class,
