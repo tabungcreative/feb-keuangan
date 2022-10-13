@@ -32,35 +32,48 @@ class LaporanKeuanganController extends Controller
     public function bukuBesar(Request $request)
     {
 
+        // mendapatkan bulan dan tahun dari request
         $yearMounth = $request->query('bulan');
 
+        // jika tidak ada bulan dan tahun akan default now
         if ($yearMounth == null) {
             $yearMounth = Carbon::now()->format('Y-m');
         }
 
 
+        // mendapat tanggal transaksi pertama
         $dateStart = Transaksi::orderBy('tanggal', 'ASC')->first()->tanggal;
+        // mendapat bulan lau dari request
         $dateEnd = Carbon::createFromFormat('Y-m', $yearMounth)->subMonth(1)->lastOfMonth()->format('Y-m-d');
+        // inisialisasi bulan
         $month = Carbon::createFromFormat('Y-m', $yearMounth)->month;
+        // inisialisasi tahun
         $year = Carbon::createFromFormat('Y-m', $yearMounth)->year;
 
+        // get akun where akun kas jalan
         $akunKasJalan = Akun::where('akun_kas', 'kas_jalan')->get();
 
+        // inisialisasi kebutuha view
         $listTotalDebit = [];
         $listTotalKredit = [];
         $listSaldoAwalKas = [];
         $listTransaksi = [];
 
+        // iterasi akun kas jalan
         foreach ($akunKasJalan as $akun) {
+            // query mendapatkan transaksi berdasarkan akun
             $queryTransaksi = Transaksi::where('akun_id', $akun->id)
                 ->whereMonth('tanggal', $month)
                 ->whereYear('tanggal', $year)
                 ->orderBy('tanggal', 'ASC')->get();
 
+            // memsukan transaksi kedalam arrat
             $listTransaksi[] = $queryTransaksi;
+            // inisialisasi total debit dan kredit
             $totalDebit = 0;
             $totalKredit = 0;
 
+            // iterasi menambah debit dan kredit
             foreach ($queryTransaksi as $transaksi) {
                 $totalDebit += $transaksi->debit;
                 $totalKredit += $transaksi->kredit;
@@ -68,6 +81,8 @@ class LaporanKeuanganController extends Controller
 
             $listTotalDebit[] = $totalDebit;
             $listTotalKredit[] = $totalKredit;
+
+            // mengisi array saldo kas awal dari transaksi pertama sampai transaksi bulan lalu
 
             $saldoAwalKas = 0;
 
@@ -81,9 +96,6 @@ class LaporanKeuanganController extends Controller
             $listSaldoAwalKas[] = $saldoAwalKas;
         }
 
-        // $title = 'Buku Besar';
-        // $akun = $this->akunRepository->getAkunByAkunKasJalan();
-
         return view('laporan.buku-besar', compact('akunKasJalan', 'listTotalDebit', 'listTotalKredit', 'listSaldoAwalKas', 'listTransaksi'));
     }
 
@@ -94,97 +106,93 @@ class LaporanKeuanganController extends Controller
         return view('transaksi.buku-besar-rinci', compact('title', 'akun'));
     }
 
-    public function FunctionName()
+
+    public function perubahanModal(Request $request)
     {
-        # code...
-    }
-
-    public function perubahanModalSalah(Request $request)
-    {
-        $date = '2022-10';
-        $datePrevius = '2022-9';
-
-
-        $month = Carbon::now()->month;
-        $monthPrevius = Carbon::now()->subMonth(1)->month;
-        $year = Carbon::now()->year;
-
-        if ($date != null) {
-            $month = Carbon::createFromFormat('Y-m', $date)->month;
-            $monthPrevius = Carbon::createFromFormat('Y-m', $date)->subMonth(1)->month;
-            $year = Carbon::createFromFormat('Y-m', $date)->year;
+        // mendapatkan bulan dan tahun dari request
+        $yearMounth = $request->query('bulan');
+        // jika tidak ada bulan dan tahun akan default now
+        if ($yearMounth == null) {
+            $yearMounth = Carbon::now()->format('Y-m');
         }
 
-        // pendapatan bulan ini
-        $pendapatanBulanIni = $this->transaksiRepository->getWhereAkunKasGroupByAkun('kas_masuk', $date);
-        $totalPendapatanBulanIni = 0;
-        foreach ($pendapatanBulanIni as $value) {
-            $totalPendapatanBulanIni += $value->total_kredit;
+        // mendapat tanggal transaksi pertama
+        $dateStart = Transaksi::orderBy('tanggal', 'ASC')->first()->tanggal;
+        // mendapat bulan lau dari request
+        $dateEnd = Carbon::createFromFormat('Y-m', $yearMounth)->subMonth(1)->lastOfMonth()->format('Y-m-d');
+        // inisialisasi bulan
+        $month = Carbon::createFromFormat('Y-m', $yearMounth)->month;
+        // inisialisasi tahun
+        $year = Carbon::createFromFormat('Y-m', $yearMounth)->year;
+
+        // get pendapatan bulan ini
+        $pendapatan =  Transaksi::selectRaw('id, akun_id, sum(kredit) as total_kredit,sum(debit) as total_debit, count(id) as count_id')
+            ->groupBy('akun_id')
+            ->whereHas('akun', function ($query) {
+                $query->where('akun_kas', 'kas_masuk');
+            })
+            ->whereMonth('tanggal', $month)
+            ->whereYear('tanggal', $year)
+            ->get();
+
+        // get pengeuaran
+        $pengeluaran =  Transaksi::selectRaw('id, akun_id, sum(kredit) as total_kredit,sum(debit) as total_debit, count(id) as count_id')
+            ->groupBy('akun_id')
+            ->whereHas('akun', function ($query) {
+                $query->where('akun_kas', 'kas_keluar');
+            })
+            ->whereMonth('tanggal', $month)
+            ->whereYear('tanggal', $year)
+            ->get();
+
+        // echo 'PENDAPATAN' . '<br>';
+        // iterasi pendapatan
+        $totalPendapatan = 0;
+        foreach ($pendapatan as $value) {
+            $totalPendapatan += $value->total_kredit;
+            // echo $value->akun->nama . ' ====>' . $value->total_kredit . '<br>';
         }
 
-        // pendapatan bulan lalu
-        $pendapatanBulanLalu = $this->transaksiRepository->getWhereAkunKasGroupByAkun('kas_masuk', $datePrevius);
-        $totalPendapatanBulanLalu = 0;
-        foreach ($pendapatanBulanLalu as $value) {
-            $totalPendapatanBulanLalu += $value->total_kredit;
+        // echo '<hr>';
+        // echo 'PENGELUARAN' . '<br>';
+        // iterasi pengeluaran
+        $totalPengeluaran = 0;
+        foreach ($pengeluaran as $value) {
+            $totalPengeluaran += $value->total_debit;
+            // echo $value->akun->nama . ' ====>' . $value->total_debit . '<br>';
         }
 
-        // pengeluran bulan ini
-        $pengeluaranBulanIni = $this->transaksiRepository->getWhereAkunKasGroupByAkun('kas_keluar', $date);
-        $totalPengeluaranBulanIni = 0;
-        foreach ($pengeluaranBulanIni as $value) {
-            $totalPengeluaranBulanIni += $value->total_debit;
+        // echo '<hr>';
+        // echo 'Total Pendapatan : ' . $totalPendapatan . '<br>';
+        // echo 'Total Pengeluaran : ' . $totalPengeluaran . '<br>';
+        // echo '<hr>';
+
+
+
+        $penambahanModalBersih = $totalPendapatan - $totalPengeluaran;
+
+        $modalAwal = 0;
+        // Modal Tanggal 1
+        $transaksiOld = Transaksi::select('id', 'debit', 'tanggal', 'kredit', 'akun_id')
+            ->whereBetween('tanggal', [$dateStart, $dateEnd])->whereHas('akun', function ($query) {
+                $query->where('akun_kas', 'kas_jalan');
+            })->get();
+
+
+        foreach ($transaksiOld as $value) {
+            $modalAwal += ($value->debit - $value->kredit);
         }
 
-        $pengeluaranBulanLalu = $this->transaksiRepository->getWhereAkunKasGroupByAkun('kas_keluar', $datePrevius);
-        $totalPengeluaranBulanLalu = 0;
-        foreach ($pengeluaranBulanLalu as $value) {
-            $totalPengeluaranBulanLalu += $value->total_debit;
-        }
+        $modalAkhir = $modalAwal + $penambahanModalBersih;
+        // echo 'Modal Tanggal 1 : ' . $modalAwal . '<br>';
+        // echo 'Pendambahan modal bersih : ' . $penambahanModalBersih . '<br>';
+        // echo 'Modal Tanggal 30 : ' . $modalAkhir . '<br>';
 
-        $hasilPendapatanBulanIni = $totalPendapatanBulanIni - $totalPengeluaranBulanIni;
-
-        $hasilPendapatanBulanLalu = $totalPendapatanBulanLalu - $totalPengeluaranBulanLalu;
-
-        $modalAwalBulanIni = $hasilPendapatanBulanLalu;
-
-        $modalAwalBulanLalu = 0;
-
-        $modalAkhirBulanIni = $modalAwalBulanIni + $hasilPendapatanBulanIni;
-
-
-        echo 'Pendapatan bulan lalu = ' . $totalPendapatanBulanLalu;
-
-        echo '<hr>';
-        echo 'Pengeluran bulan lalu = ' . $totalPengeluaranBulanLalu;
-
-        echo '<hr>';
-        echo 'Hasil Pendapatan bulan lalu = ' . $hasilPendapatanBulanLalu;
-
-        echo '<hr>';
-        echo 'Modal Awal Bulan lalu = ' . $modalAwalBulanLalu;
-
-        echo '<hr>';
-        echo '<hr>';
-        echo '<hr>';
-        echo '<hr>';
-        echo '<hr>';
-
-        echo 'Pendapatan bulan ini = ' . $totalPendapatanBulanIni;
-
-        echo '<hr>';
-        echo 'Pengeluran bulan ini = ' . $totalPengeluaranBulanIni;
-
-        echo '<hr>';
-        echo 'Hasil Pendapatan bulan ini = ' . $hasilPendapatanBulanIni;
-
-        echo '<hr>';
-        echo 'Modal Awal Bulan ini = ' . $modalAwalBulanIni;
-
-
-        echo '<hr>';
-        echo 'Modal Akhir Bulan ini = ' . $modalAkhirBulanIni;
-
-        die;
+        return view('laporan.perubahan-modal', compact('pendapatan', 'totalPendapatan', 'pengeluaran', 'totalPengeluaran', 'modalAwal', 'modalAkhir', 'penambahanModalBersih'));
+        // $pendapatanBulanIni = $this->transaksiRepository->getWhereAkunKasGroupByAkun('kas_masuk', $date);
+        // $totalPendapatanBulanIni = 0;
+        // foreach ($pendapatanBulanIni as $value) {
+        //     $totalPendapatanBulanIni += $value->total_kredit;
+        // }
     }
 }
