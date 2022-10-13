@@ -73,7 +73,7 @@
                 <td style="width: 30%; vertical-align: top;">Uang sebanyak</td>
                 <td style="width: 5%; vertical-align: top;">:</td>
                 <td><span style="font: italic small-caps bold 16px/30px Georgia, serif; border: 1px dashed black; padding: 5px 100px 5px 30px;">
-                    {{ Riskihajar\Terbilang\Facades\Terbilang::make($pembayaran->jenisPembayaran->jumlah_bayar) }} rupiah
+                    {{ ucfirst(Riskihajar\Terbilang\Facades\Terbilang::make($pembayaran->jenisPembayaran->jumlah_bayar)) }} rupiah
                 </span></td>
             </tr>
             <tr>

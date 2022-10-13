@@ -2,6 +2,7 @@
 
 namespace App\Http;
 
+use App\Http\Middleware\ApiKeyMiddleware;
 use App\Http\Middleware\OauthMiddleware;
 use App\Http\Middleware\SuperAdminMiddleware;
 use Illuminate\Foundation\Http\Kernel as HttpKernel;
@@ -67,5 +68,6 @@ class Kernel extends HttpKernel
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
         // middleware baru
         'custom-auth' => OauthMiddleware::class,
+        'api-key' => ApiKeyMiddleware::class,
     ];
 }

@@ -11,4 +11,5 @@ interface PembayaranRepository
     function update(int $id, array $detailPembayaran): Pembayaran;
     function delete(int $id);
     function findById(int $id): Pembayaran;
+    function findByNoPembayaran(string $nomerPembayaran): ?Pembayaran;
 }

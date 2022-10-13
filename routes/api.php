@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Api\PembayaranController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -17,3 +18,13 @@ use Illuminate\Support\Facades\Route;
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
+
+
+Route::controller(PembayaranController::class)
+    ->as('pembayaran.')
+    ->middleware('api-key')
+    ->prefix('pembayaran')
+    ->group(function () {
+        Route::get('/', 'index')->name('index');
+        Route::get('/{no_pembayaran}/no-pembayaran', 'showNoPembayaran')->name('show-no-pembayaran');
+    });

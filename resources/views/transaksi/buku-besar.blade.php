@@ -45,15 +45,25 @@
                             ->get();
                         }
 
-                        $saldoDebit = 0;
-                        $saldoKredit = 0;
+                        $saldoDebitBulanLalu = 0;
+                        $saldoKreditBulanLalu = 0;
                         
                         foreach ($transaksiBulanLalu as $value) {
-                            $saldoDebit += $value->debit;
-                            $saldoKredit += $value->kredit;
+                            $saldoDebitBulanLalu += $value->debit;
+                            $saldoKreditBulanLalu += $value->kredit;
                         }
 
-                        $saldoAwalBulanLalu = $saldoDebit - $saldoKredit;
+                        $saldoDebitBulanIni = 0;
+                        $saldoKreditBulanIni = 0;
+                        
+                        foreach ($transaksi as $value) {
+                            $saldoDebitBulanIni += $value->debit;
+                            $saldoKreditBulanIni += $value->kredit;
+                        }
+
+                        $saldoAwalBulanLalu = $saldoDebitBulanLalu - $saldoKreditBulanLalu;
+                        $saldoAwalBulanIni = $saldoDebitBulanIni - $saldoKreditBulanIni;
+
                     @endphp
                     <table class="table table-striped table-hover">
                     <tr>
@@ -65,13 +75,13 @@
                         <th>Saldo</th>
                     </tr>
                     @php($i = 1)
-                    @php($totalDebit = $saldoAwalBulanLalu)
+                    @php($totalDebit = $saldoAwalBulanLalu )
                     @php($totalKredit = 0)
-                    @php($saldo = $saldoAwalBulanLalu)
+                    @php($saldo = $saldoAwalBulanLalu + $saldoAwalBulanIni)
 
                     <tr class="font-weight-bold">
                         <th colspan="3">Saldo Awal</th>
-                        <td>Rp {{ number_format($saldoAwalBulanLalu) }}</td>
+                        <td>Rp {{ number_format($saldo) }}</td>
                         <td>Rp 0 </td>
                         <td>Rp. {{ number_format($saldo) }}</td>
                     </tr>

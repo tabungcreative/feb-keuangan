@@ -27,9 +27,9 @@
                 <h6 class="m-0 font-weight-bold text-primary">
                     Jurnal Transaksi 
                     @if (isset($_GET['bulan']))
-                        {{ Carbon\Carbon::createFromFormat('Y-m', $_GET['bulan'])->format('M Y') }}
+                        {{ Carbon\Carbon::createFromFormat('Y-m', $_GET['bulan'])->format('F Y') }}
                     @else
-                        {{ Carbon\Carbon::parse(now())->format('M Y') }}
+                        {{ Carbon\Carbon::parse(now())->format('F Y') }}
                     @endif
                 </h6>
             </div>
