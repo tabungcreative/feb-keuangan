@@ -25,4 +25,8 @@ class AktivaRepositoryImpl implements AktivaRepository
 
         return Aktiva::whereMonth('tanggal_perolehan', $month)->whereYear('tanggal_perolehan', $year)->get();
     }
+    function findById(int $id)
+    {
+        return Aktiva::findOrFail($id);
+    }
 }

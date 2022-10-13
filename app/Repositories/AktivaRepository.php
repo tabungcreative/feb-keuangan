@@ -8,4 +8,5 @@ interface AktivaRepository
 {
     function getAll();
     function getAllByMonthYear($date = null);
+    function findById(int $id);
 }

@@ -4,6 +4,7 @@ namespace App\Services\Impl;
 
 use App\Exceptions\InvariantExceotion;
 use App\Http\Requests\AktivaAddRequest;
+use App\Http\Requests\AktivaUpdateRequest;
 use App\Models\Aktiva;
 use App\Repositories\AktivaRepository;
 use App\Services\AktivaService;
@@ -38,5 +39,29 @@ class AktivaServiceImpl implements AktivaService
         } catch (\Exception $exception) {
             throw new InvariantExceotion($exception->getMessage());
         }
+    }
+
+    function update(AktivaUpdateRequest $request, int $id): Aktiva
+    {
+        $kodeAktiva = $request->input('kode_aktiva');
+        $namaAktiva = $request->input('nama_aktiva');
+        $tanggalPerolehan = $request->input('tanggal_perolehan');
+        $hargaPerolehan = $request->input('harga_perolehan');
+        $penyusutanPerhari = ($hargaPerolehan * 20 / 100) / 360;
+
+        $aktiva = Aktiva::find($id);
+
+        try {
+            $aktiva->kode_aktiva = $kodeAktiva;
+            $aktiva->nama_aktiva = $namaAktiva;
+            $aktiva->tanggal_perolehan = $tanggalPerolehan;
+            $aktiva->harga_perolehan = $hargaPerolehan;
+            $aktiva->penyusutan_perhari = $penyusutanPerhari;
+            $aktiva->save();
+        } catch (\Exception $exception) {
+            throw new InvariantExceotion($exception);
+        }
+
+        return $aktiva;
     }
 }
