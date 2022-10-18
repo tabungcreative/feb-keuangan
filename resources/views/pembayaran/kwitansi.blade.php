@@ -20,11 +20,11 @@
             padding: 30px 30px 10px;
         }
         #halaman{
-            width: 100%; 
-            height: auto; 
+            width: 100%;
+            height: auto;
             /* position: absolute;  */
-            padding-left: 30px; 
-            padding-right: 30px; 
+            padding-left: 30px;
+            padding-right: 30px;
             padding-bottom: 80px;
         }
         .terbilang {
@@ -94,11 +94,11 @@
                 <div>Triana Rizki Kurniawati, S.E,</div>
             </div>
         </div>
-        
+
 
     </div>
     <footer>
-        <img src="data:image/png;base64, {{ $footerKop }}" alt="Red dot" width="100%"/>
+        <img src="data:image/png;base64, {{ $footerKop }}" alt="Red dot" width="90%"/>
     </footer>
 </body>
 

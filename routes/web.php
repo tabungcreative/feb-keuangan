@@ -87,6 +87,7 @@ Route::middleware('custom-auth')->group(function () {
             Route::get('/create', 'create')->name('create');
         });
 
+
     Route::controller(LaporanKeuanganController::class)
         ->prefix('laporan-keungan')
         ->as('laporan-keuangan.')
