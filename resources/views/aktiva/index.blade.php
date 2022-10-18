@@ -44,7 +44,6 @@
                             <th>Harga Perolehan</th>
                             <th>Penyusutan per tahun</th>
                             <th>Penyusutan per hari</th>
-                            <th>Total Penyusutan</th>
                             <th>Total Penyusutan s/d Hari ini</th>
                             <th>Nilai Buku</th>
                             <th>Aksi</th>
@@ -55,7 +54,7 @@
                             @php($penyusutanPerTahun = ($data->harga_perolehan*20/100))
                             @php($penyusutanSdHariIni = Carbon\Carbon::now()->diffInDays(Carbon\Carbon::createFromFormat('Y-m-d', $data->tanggal_perolehan)))
                             @php($totalPenyusutan = $penyusutanPerTahun * $penyusutanSdHariIni)
-                            @php($nilaiBuku = $data->harga_perolehan - $penyusutanSdHariIni)
+                            @php($nilaiBuku = $data->harga_perolehan - $totalPenyusutan)
                             <tr>
                                 <td>{{$no++}}</td>
                                 <td>{{ $data->nama_aktiva}}</td>
@@ -84,65 +83,6 @@
                                     <a href="{{ route('jenis-pembayaran.edit', $data->id) }}" class="btn btn-info btn-sm"><i class="fas fa-edit"></i></a>
                                 </td>
                             </tr>
-                        @foreach ($aktiva as $data) 
-                        @php($penyusutanPerTahun = ($data->harga_perolehan*20/100))
-                        @php($penyusutanSdHariIni = Carbon\Carbon::now()->diffInDays(Carbon\Carbon::createFromFormat('Y-m-d', $data->tanggal_perolehan)))
-                        @php($totalPenyusutan = $data->penyusutan_perhari * $penyusutanSdHariIni)
-                        @php($nilaiBuku = $data->harga_perolehan - $totalPenyusutan )
-                            <tr>
-                                <td>{{$no++}}</td>
-                                <td>{{ $data->nama_aktiva}}</td>
-                                <td>{{ Carbon\Carbon::parse($data->tanggal_perolehan)->format('d M Y') }}</td>
-                                <td>Rp. {{number_format($data->harga_perolehan)}}</td>
-                                <td>Rp. {{number_format($penyusutanPerTahun)}}</td>
-                                <td>Rp. {{number_format($data->penyusutan_perhari)}}/hari</td>
-                                <td>Rp. {{number_format($totalPenyusutan) }}</td>
-                                <td>Rp. {{number_format($nilaiBuku)}}</td>
-                                <td>
-                                    <a href="{{ route('aktiva.edit', $data->id) }}" class="btn btn-info btn-sm"><i class="fas fa-edit"></i></a>
-                                </td>
-                            </tr>  
-                            {{-- <tr>
-                                @if ($i % 2 == 0)
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td  style="padding-left: 60px">
-                                    {{ $data->nama }}
-                                </td>
-    
-                                @else
-                                    <td>{{ $no }}</td>
-                                    <td>
-                                        {{ Carbon\Carbon::parse($data->tanggal)->format('d M Y') }}
-                                    </td>
-                                    <td>{{ $data->kode_transaksi }}</td>
-                                    <th><i>{{ $data->nama_transaksi }}</i></th>
-                                    <td>{{ $data->nama }}</td>
-                                    @php($no++)
-                                @endif
-                                @if($data->debit == null)
-                                    <td></td>
-                                @else
-                                    <td>Rp. {{ number_format($data->debit) }}</td>
-                                @endif
-    
-                                @if($data->kredit == null)
-                                    <td></td>
-                                @else
-                                    <td>Rp. {{ number_format($data->kredit) }}</td>
-                                @endif
-    
-                                <td>
-                                @if ($i % 2 == 0)
-                                -
-                                @else
-                                <a href="{{ route('jenis-pembayaran.edit', $data->id) }}" class="btn btn-info btn-sm"><i class="fas fa-edit"></i></a>
-                                @endif
-                                </td>
-                            </tr> --}}
-                            @php($i++)
                         @endforeach
                     </table>
                 </div>

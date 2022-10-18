@@ -42,7 +42,7 @@ class LaporanKeuanganController extends Controller
 
 
         // mendapat tanggal transaksi pertama
-        $dateStart = Transaksi::orderBy('tanggal', 'ASC')->first()->tanggal;
+        $dateStart = Transaksi::orderBy('tanggal', 'ASC')->first()->tanggal ?? null;
         // mendapat bulan lau dari request
         $dateEnd = Carbon::createFromFormat('Y-m', $yearMounth)->subMonth(1)->lastOfMonth()->format('Y-m-d');
         // inisialisasi bulan
