@@ -33,4 +33,9 @@ class AktivaRepositoryImpl implements AktivaRepository
         $aktiva->save();
         return $aktiva;
     }
+    
+    function findById(int $id)
+    {
+        return Aktiva::findOrFail($id);
+    }
 }

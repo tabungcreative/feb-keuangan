@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\AktivaAddRequest;
+use App\Http\Requests\AktivaUpdateRequest;
 use App\Repositories\AktivaRepository;
 use App\Services\AktivaService;
 use Carbon\Carbon;
@@ -50,6 +51,22 @@ class AktivaController extends Controller
         try {
             $this->aktivaService->add($request);
             return redirect()->route('aktiva.index')->with('success', 'aktiva berhasil ditambahkan');
+        } catch (\Exception $e) {
+            return response()->view('errors.500', ['message' => $e->getMessage()], 500);
+        }
+    }
+
+    public function edit($id)
+    {
+        $data = $this->aktivaRepository->findById($id);
+        return view('aktiva.edit', compact('data'));
+    }
+
+    public function update(AktivaUpdateRequest $request, $id)
+    {
+        try {
+            $this->aktivaService->update($request, $id);
+            return redirect()->route('aktiva.index')->with('success', 'aktiva berhasi diubah');
         } catch (\Exception $e) {
             return response()->view('errors.500', ['message' => $e->getMessage()], 500);
         }
