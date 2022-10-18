@@ -32,7 +32,9 @@ class AktivaController extends Controller
         foreach ($aktiva as $value) {
             $penyusutanSdHariIni = Carbon::now()->diffInDays(Carbon::createFromFormat('Y-m-d', $value->tanggal_perolehan));
             $nilaiBuku = $value->harga_perolehan - $penyusutanSdHariIni;
-            $totalAkhirAktiva += $nilaiBuku;
+            if (!$nilaiBuku <= 0) {
+                $totalAkhirAktiva += $nilaiBuku;
+            }
         }
 
         return view('aktiva.index', compact('aktiva', 'totalAkhirAktiva'));
