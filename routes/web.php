@@ -4,12 +4,12 @@ use App\Helper\AuthUser;
 use App\Http\Controllers\AktivaController;
 use App\Http\Controllers\AkunController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\BukuBesarController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\JenisPembayaranController;
 use App\Http\Controllers\LaporanKeuanganController;
 use App\Http\Controllers\PembayaranController;
 use App\Http\Controllers\TransaksiController;
-use App\Models\Akun;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Route;
@@ -85,6 +85,15 @@ Route::middleware('custom-auth')->group(function () {
             Route::get('/', 'index')->name('index');
             Route::post('/', 'store')->name('store');
             Route::get('/create', 'create')->name('create');
+        });
+
+    Route::controller(BukuBesarController::class)
+        ->prefix('buku-besar')
+        ->as('buku-besar.')
+        ->group(function () {
+            Route::get('/kas', 'kas')->name('kas');
+            Route::get('/biaya', 'biaya')->name('biaya');
+            Route::get('/pendapatan', 'pendapatan')->name('pendapatan');
         });
 
     Route::controller(LaporanKeuanganController::class)

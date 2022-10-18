@@ -64,17 +64,18 @@
         <span>Jurnal Transaksi</span></a>
 </li>
 
-<li class="nav-item" {{ Route::is('laporan-keuangan.buku-besar') ? 'active' : '' }}>
+<li class="nav-item {{ Route::is('buku-besar.*') ? 'active' : '' }}">
     <a class="nav-link" href="#" data-toggle="collapse" data-target="#buku_besar" aria-expanded="true"
         aria-controls="buku_besar">
         <i class="fas fa-book-open"></i>
         <span>Buku Besar</span>
     </a>
-    <div id="buku_besar" class="collapse" aria-labelledby="headingTwo"
+    <div id="buku_besar" class="collapse {{ Route::is('buku-besar.*') ? 'show' : '' }}" aria-labelledby="headingTwo"
         data-parent="#accordionSidebar">
         <div class="bg-white py-2 collapse-inner rounded">
-            <a class="collapse-item" {{ Route::is('laporan-keuangan.buku-besar') ? 'active' : '' }} href="{{ route('laporan-keuangan.buku-besar') }}">Buku Besar</a>
-            <a class="collapse-item " {{ Route::is('laporan-keuangan.index') ? 'active' : '' }} href="{{ route('laporan-keuangan.buku-besar-rinci') }}">Perincian Buku Besar</a>
+            <a class="collapse-item {{ Route::is('buku-besar.kas') ? 'active' : '' }}" href="{{ route('buku-besar.kas') }}">Buku Besar Kas</a>
+            <a class="collapse-item {{ Route::is('buku-besar.biaya') ? 'active' : '' }}" href="{{ route('buku-besar.biaya') }}">Buku Besar Biaya</a>
+            <a class="collapse-item {{ Route::is('buku-besar.pendapatan') ? 'active' : '' }}" href="{{ route('buku-besar.pendapatan') }}">Buku Besar Pendapatan</a>
         </div>
     </div>
 </li>
