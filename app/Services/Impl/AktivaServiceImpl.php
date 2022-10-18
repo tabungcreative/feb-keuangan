@@ -24,19 +24,21 @@ class AktivaServiceImpl implements AktivaService
         $namaAktiva = $request->input('nama_aktiva');
         $tanggalPerolehan = $request->input('tanggal_perolehan');
         $hargaPerolehan = $request->input('harga_perolehan');
+        $kategori = $request->input('kategori');
         $penyusutanPerhari = ($hargaPerolehan * 20 / 100) / 360;
-        try {
-            $aktiva = new Aktiva([
-                'kode_aktiva' => $kodeAktiva,
-                'nama_aktiva' => $namaAktiva,
-                'tanggal_perolehan' => $tanggalPerolehan,
-                'harga_perolehan' => $hargaPerolehan,
-                'penyusutan_perhari' => $penyusutanPerhari,
-            ]);
-            $aktiva->save();
-            return $aktiva;
-        } catch (\Exception $exception) {
-            throw new InvariantExceotion($exception->getMessage());
-        }
+
+        $detailAktiva = [
+            'kode_aktiva' => $kodeAktiva,
+            'nama_aktiva' => $namaAktiva,
+            'tanggal_perolehan' => $tanggalPerolehan,
+            'harga_perolehan' => $hargaPerolehan,
+            'penyusutan_perhari' => $penyusutanPerhari,
+            'kategori' => $kategori,
+        ];
+
+        $aktiva = $this->aktivaRepository->create($detailAktiva);
+
+        return $aktiva;
+
     }
 }

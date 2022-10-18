@@ -13,11 +13,11 @@
                     <div class="mb-3">
                         <label class="form-label">Kode Aktiva</label>
                         <input type="text" name="kode_aktiva" class="form-control">
-                    </div>  
+                    </div>
                     <div class="mb-3">
                         <label class="form-label">Nama Aktiva</label>
                         <input type="text" name="nama_aktiva" class="form-control">
-                    </div>  
+                    </div>
                     <div class="mb-3">
                         <label class="form-label">Tanggal Perolehan</label>
                         <input type="date" name="tanggal_perolehan" max="<?= date('Y-m-d'); ?>" class="form-control">
@@ -30,6 +30,15 @@
                             </div>
                             <input type="number" name="harga_perolehan" class="form-control" min="0" value="{{ old('harga_perolehan') ?? 0}}">
                         </div>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Kategori</label>
+                        <select class="form-control" name="kategori">
+                            <option value="">-- Pilih Kategori --</option>
+                            <option value="peralatan">Peralatan</option>
+                            <option value="perlengkapan">Perlengkapan</option>
+                            <option value="gedung">Gedung</option>
+                        </select>
                     </div>
 
                     <button type="submit" class="btn btn-primary">Tambah</button>

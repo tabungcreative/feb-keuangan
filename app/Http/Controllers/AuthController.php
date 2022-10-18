@@ -11,7 +11,7 @@ use Illuminate\Support\Str;
 
 class AuthController extends Controller
 {
-    private $redirectCallbak = '/akun';
+    private $redirectCallbak = '/dashboard';
 
     public function login(Request $request)
     {

@@ -28,7 +28,8 @@ class AktivaAddRequest extends FormRequest
             'kode_aktiva' => 'required',
             'nama_aktiva' => 'required',
             'tanggal_perolehan' => 'required',
-            'harga_perolehan' => 'required',
+            'harga_perolehan' => 'required|min:0',
+            'kategori' => 'required',
         ];
     }
 }
