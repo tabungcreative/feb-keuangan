@@ -44,6 +44,7 @@ Route::middleware('custom-auth')->group(function () {
 
     Route::controller(JenisPembayaranController::class)
         ->prefix('jenis-pembayaran')
+        ->middleware('can:manage-pembayaran')
         ->as('jenis-pembayaran.')
         ->group(function () {
             Route::get('/', 'index')->name('index');
@@ -56,7 +57,7 @@ Route::middleware('custom-auth')->group(function () {
     Route::controller(AkunController::class)
         ->prefix('akun')
         ->as('akun.')
-        ->middleware(['can:bendahara'])
+        ->middleware('can:manage-akun')
         ->group(function () {
             Route::get('/', 'index')->name('index');
             Route::post('/', 'store')->name('store');
@@ -67,6 +68,7 @@ Route::middleware('custom-auth')->group(function () {
 
     Route::controller(PembayaranController::class)
         ->prefix('pembayaran')
+        ->middleware('can:manage-pembayaran')
         ->as('pembayaran.')
         ->group(function () {
             Route::get('/', 'index')->name('index');
@@ -80,6 +82,7 @@ Route::middleware('custom-auth')->group(function () {
 
     Route::controller(TransaksiController::class)
         ->prefix('transaksi')
+        ->middleware('can:manage-transaksi')
         ->as('transaksi.')
         ->group(function () {
             Route::get('/', 'index')->name('index');
@@ -89,6 +92,7 @@ Route::middleware('custom-auth')->group(function () {
 
     Route::controller(BukuBesarController::class)
         ->prefix('buku-besar')
+        ->middleware('can:manage-lapkeu')
         ->as('buku-besar.')
         ->group(function () {
             Route::get('/kas', 'kas')->name('kas');
@@ -98,6 +102,7 @@ Route::middleware('custom-auth')->group(function () {
 
     Route::controller(LaporanKeuanganController::class)
         ->prefix('laporan-keungan')
+        ->middleware('can:manage-lapkeu')
         ->as('laporan-keuangan.')
         ->group(function () {
             Route::get('/perubahan-modal', 'perubahanModal')->name('perubahan-modal');
@@ -109,6 +114,7 @@ Route::middleware('custom-auth')->group(function () {
 
     Route::controller(AktivaController::class)
         ->prefix('aktiva')
+        ->middleware('can:manage-activa')
         ->as('aktiva.')
         ->group(function () {
             Route::get('/', 'index')->name('index');

@@ -11,8 +11,8 @@
 <!-- Divider -->
 <hr class="sidebar-divider">
 
-@can('bendahara')
 <!-- Heading -->
+@can('manage-pembayaran')
 <div class="sidebar-heading text-white">
     Pembayaran
 </div>
@@ -38,10 +38,12 @@
         </div>
     </div>
 </li>
+@endcan
 
 <hr class="sidebar-divider">
 
 
+@can('manage-akun')
 <div class="sidebar-heading text-white">
     Akuntansi
 </div>
@@ -51,13 +53,16 @@
         <i class="fas fa-fw fa-table"></i>
         <span>Akun</span></a>
 </li>
-
+@endcan
+@can('manage-transaksi')
 <li class="nav-item {{ Route::is('transaksi.create') ? 'active' : '' }}">
     <a class="nav-link" href="{{ route('transaksi.create') }}">
         <i class="fas fa-credit-card"></i>
         <span>Tambah Transaksi</span></a>
 </li>
+@endcan
 
+@can('manage-lapkeu')
 <li class="nav-item {{ Route::is('transaksi.index') ? 'active' : '' }}">
     <a class="nav-link" href="{{ route('transaksi.index') }}">
         <i class="fas fa-book"></i>
@@ -100,7 +105,6 @@
 </li>
 <hr class="sidebar-divider">
 @endcan
-
 {{-- <!-- Heading -->
 <li class="nav-item">
     <a class="nav-link" href="{{ route('admin.akun.index') }}">
@@ -108,7 +112,7 @@
         <span>Laporan</span></a>
 </li> --}}
 
-
+@can('manage-inventaris')
 <div class="sidebar-heading text-white">
     Manajemen Inventaris
 </div>
@@ -124,3 +128,4 @@
         <i class="fas fa-fw fa-table"></i>
         <span>Tambah Aktiva</span></a>
 </li>
+@endcan

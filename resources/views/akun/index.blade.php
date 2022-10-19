@@ -48,7 +48,6 @@
     </div>
 
     {{-- {{ Auth::user() }} --}}
-    @can('bendahara')
     <div class="col-md-5 mt-2">
         <div class="card shadow">
             <div class="card-header py-3">
@@ -79,6 +78,5 @@
             </div>
         </div>
     </div>
-    @endcan
 </div>
 @endsection

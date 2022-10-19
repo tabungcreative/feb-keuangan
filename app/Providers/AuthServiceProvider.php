@@ -28,22 +28,52 @@ class AuthServiceProvider extends ServiceProvider
         $this->registerPolicies();
 
         //
-        Gate::define('super-admin', function ($user = null) {
+        Gate::define('manage-akun', function ($user = null) {
             $user = AuthUser::user();
+            return
+                in_array( 'bendahara', $user->roles) ||
+                in_array( 'super-admin', $user->roles);
+        });
 
-            return in_array('super-admin', $user->roles);
-        });
-        Gate::define('bendahara', function ($user = null) {
+        Gate::define('manage-transaksi', function ($user = null) {
             $user = AuthUser::user();
-            return in_array('bendahara', $user->roles);
+            return
+                in_array( 'bendahara', $user->roles) ||
+                in_array( 'super-admin', $user->roles);
         });
-        Gate::define('dekan', function ($user = null) {
+
+        Gate::define('manage-pembayaran', function ($user = null) {
             $user = AuthUser::user();
-            return in_array('dekan', $user->roles);
+            return
+                in_array( 'bendahara', $user->roles) ||
+                in_array( 'super-admin', $user->roles);
         });
-        Gate::define('kabag-tu', function ($user = null) {
+
+
+        Gate::define('manage-lapkeu', function ($user = null) {
             $user = AuthUser::user();
-            return in_array('kabag-tu', $user->roles);
+            return
+                in_array( 'bendahara', $user->roles) ||
+                in_array( 'super-admin', $user->roles) ||
+                in_array( 'kabag-tu', $user->roles) ||
+                in_array( 'dekan', $user->roles);
         });
+
+        Gate::define('manage-inventaris', function ($user = null) {
+            $user = AuthUser::user();
+            return
+                in_array( 'bendahara', $user->roles) ||
+                in_array( 'super-admin', $user->roles) ||
+                in_array( 'kabag-tu', $user->roles);
+        });
+
+        Gate::define('manage-activa', function ($user = null) {
+            $user = AuthUser::user();
+            return
+                in_array( 'bendahara', $user->roles) ||
+                in_array( 'super-admin', $user->roles) ||
+                in_array( 'kabag-tu', $user->roles);
+        });
+
     }
 }
