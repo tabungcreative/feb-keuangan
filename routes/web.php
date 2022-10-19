@@ -100,12 +100,10 @@ Route::middleware('custom-auth')->group(function () {
         ->prefix('laporan-keungan')
         ->as('laporan-keuangan.')
         ->group(function () {
-            Route::get('/buku-besar', 'bukuBesar')->name('buku-besar');
-            Route::get('/buku-besar-rinci', 'bukuBesarRinci')->name('buku-besar-rinci');
             Route::get('/perubahan-modal', 'perubahanModal')->name('perubahan-modal');
             Route::get('/catatan-atas-keuangan', 'catatanAtasKeuangan')->name('catatan-atas-keuangan');
             Route::get('/laporan-keuangan', 'laporanKeuangan')->name('laporan-keuangan');
-            Route::get('/keuangan-neraca', 'keuangan-neraca')->name('keuangan-nerace');
+            Route::get('/neraca', 'neraca')->name('neraca');
             Route::get('/laba-rugi', 'labaRugi')->name('laba-rugi');
         });
 

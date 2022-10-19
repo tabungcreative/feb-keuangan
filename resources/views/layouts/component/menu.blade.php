@@ -2,7 +2,7 @@
 <hr class="sidebar-divider my-0">
 
 <!-- Nav Item - Dashboard -->
-<li class="nav-item">
+<li class="nav-item {{ Route::is('dashboard') ? 'active' : '' }}">
     <a class="nav-link" href="{{ route('dashboard') }}">
         <i class="fas fa-fw fa-tachometer-alt"></i>
         <span>Dashboard</span></a>
@@ -90,11 +90,11 @@
     <div id="laporan_keuangan" class="collapse {{ Route::is('laporan-keuangan.*') ? 'show' : '' }}" aria-labelledby="headingTwo"
         data-parent="#accordionSidebar">
         <div class="bg-white py-2 collapse-inner rounded">
+            <a class="collapse-item {{ Route::is('laporan-keuangan.catatan-atas-keuangan') ? 'active' : '' }}" href="{{ route('laporan-keuangan.catatan-atas-keuangan') }}">Catatan Atas Keuangan</a>
+            <a class="collapse-item {{ Route::is('laporan-keuangan.laba-rugi') ? 'active' : '' }}" href="{{ route('laporan-keuangan.laba-rugi') }}">Laba Rugi</a>
             <a class="collapse-item {{ Route::is('laporan-keuangan.perubahan-modal') ? 'active' : '' }}"  href="{{ route('laporan-keuangan.perubahan-modal') }}">Perubahan Modal</a>
-            <a class="collapse-item " href="#">Catatan Atas Keuangan</a>
+            <a class="collapse-item {{ Route::is('laporan-keuangan.neraca') ? 'active' : '' }}" href="{{ route('laporan-keuangan.neraca') }}">Keuangan Neraca</a>
             <a class="collapse-item " href="#">Laporan Keuangan</a>
-            <a class="collapse-item " href="#">Keuangan Neraca</a>
-            <a class="collapse-item " href="#">Laba Rugi</a>
         </div>
     </div>
 </li>

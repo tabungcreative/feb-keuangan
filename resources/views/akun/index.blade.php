@@ -15,7 +15,7 @@
                         {{-- <th>Saldo Awal</th> --}}
                         <th>Aksi</th>
                     </tr>
-                    @foreach ($data as $item)    
+                    @foreach ($data as $item)
                         <tr>
                             <td>{{ $item->nama }}</td>
                             <td>
@@ -46,9 +46,9 @@
             </div>
         </div>
     </div>
-    
+
     {{-- {{ Auth::user() }} --}}
-    @can('bendahara')        
+    @can('bendahara')
     <div class="col-md-5 mt-2">
         <div class="card shadow">
             <div class="card-header py-3">
@@ -69,9 +69,11 @@
                             <option value="kas_masuk">Kas Masuk</option>
                             <option value="kas_keluar">Kas Keluar</option>
                             <option value="kas_jalan">Kas Jalan</option>
+                            <option value="kas_bank">Kas Bank</option>
+                            <option value="piutang">Piutang</option>
                         </select>
                     </div>
-                
+
                     <button type="submit" class="btn btn-primary">Tambah</button>
                 </form>
             </div>

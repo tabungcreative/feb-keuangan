@@ -15,9 +15,10 @@ class CreateAkunTable extends Migration
     {
         Schema::create('akun', function (Blueprint $table) {
             $table->id();
+            $table->string('kode')->nullable();
             $table->string('nama');
             $table->bigInteger('saldo_awal')->default(0);
-            $table->enum('akun_kas', ['kas_masuk', 'kas_keluar', 'kas_jalan']);
+            $table->enum('akun_kas', ['kas_masuk', 'kas_keluar', 'kas_jalan', 'kas_bank', 'piutang']);
             $table->timestamps();
         });
     }
