@@ -98,6 +98,9 @@ Route::middleware('custom-auth')->group(function () {
             Route::get('/kas', 'kas')->name('kas');
             Route::get('/biaya', 'biaya')->name('biaya');
             Route::get('/pendapatan', 'pendapatan')->name('pendapatan');
+            Route::get('/modal', 'modal')->name('modal');
+            Route::get('/hutang', 'hutang')->name('hutang');
+            Route::get('/piutang', 'piutang')->name('piutang');
         });
 
     Route::controller(LaporanKeuanganController::class)

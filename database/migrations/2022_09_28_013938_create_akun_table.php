@@ -18,7 +18,7 @@ class CreateAkunTable extends Migration
             $table->string('kode')->nullable();
             $table->string('nama');
             $table->bigInteger('saldo_awal')->default(0);
-            $table->enum('akun_kas', ['kas_masuk', 'kas_keluar', 'kas_jalan', 'kas_bank', 'piutang']);
+            $table->enum('akun_kas', ['kas_masuk', 'kas_keluar', 'kas_jalan', 'kas_bank', 'piutang', 'modal', 'hutang']);
             $table->timestamps();
         });
     }

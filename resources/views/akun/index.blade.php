@@ -10,22 +10,20 @@
             <div class="card-body">
                 <table class="table table-striped table-hover">
                     <tr>
+                        <th>No</th>
+                        <th>Kode Akun</th>
                         <th>Nama</th>
                         <th>Akun Kas</th>
-                        {{-- <th>Saldo Awal</th> --}}
                         <th>Aksi</th>
                     </tr>
+                    @php($no=1)
                     @foreach ($data as $item)
                         <tr>
+                            <td>{{ $no }}</td>
+                            <td>{{ $item->kode }}</td>
                             <td>{{ $item->nama }}</td>
                             <td>
-                                @if ($item->akun_kas == 'kas_masuk')
-                                    <i class="badge badge-success">Kas Masuk</i>
-                                @elseif($item->akun_kas == 'kas_keluar')
-                                    <i class="badge badge-warning">Kas Keluar</i>
-                                @elseif($item->akun_kas == 'kas_jalan')
-                                    <i class="badge badge-primary">Kas Jalan</i>
-                                @endif
+                                <i class="badge badge-secondary">{{ $item->akun_kas }}</i>
                             </td>
                             {{-- <td class="font-weight-bold">Rp. {{ number_format($item->saldo_awal) }}</td> --}}
                             <td class="d-flex">
@@ -41,6 +39,7 @@
                                 @endif --}}
                             </td>
                         </tr>
+                    @php($no++)
                     @endforeach
                 </table>
             </div>
@@ -57,6 +56,11 @@
                 <form method="POST" action="{{ route('akun.store') }}">
                     @csrf
                     <div class="mb-3">
+                        <label class="form-label">Kode Akun</label>
+                        <input type="text" name="kode" class="form-control">
+                    </div>
+
+                    <div class="mb-3">
                         <label class="form-label">Nama Akun</label>
                         <input type="text" name="nama" class="form-control">
                     </div>
@@ -70,6 +74,8 @@
                             <option value="kas_jalan">Kas Jalan</option>
                             <option value="kas_bank">Kas Bank</option>
                             <option value="piutang">Piutang</option>
+                            <option value="modal">Modal</option>
+                            <option value="hutang">Hutang</option>
                         </select>
                     </div>
 

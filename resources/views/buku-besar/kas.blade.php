@@ -40,25 +40,27 @@
                                 <td>Rp. {{ number_format($listSaldoAwalKas[$i]) }}</td>
                             </tr>
 
+                            @php($no = 1)
                             @php($transaksi = $listTransaksi[$i])
                             @php($saldo = $listSaldoAwalKas[$i])
                             @foreach ($transaksi as $item)
                                 @php($saldo += $item->debit)
                                 @php($saldo -= $item->kredit)
                                 <tr>
-                                    <td>#</td>
+                                    <td>{{ $no }}</td>
                                     <td>{{ $item->tanggal }}</td>
                                     <td>{{ $item->nama_transaksi }}</td>
-                                    <td>{{ number_format($item->debit) }}</td>
-                                    <td>{{ number_format($item->kredit) }}</td>
-                                    <td>{{ number_format($saldo) }}</td>
+                                    <td>Rp. {{ number_format($item->debit) }},-</td>
+                                    <td>Rp. {{ number_format($item->kredit) }},-</td>
+                                    <td>Rp. {{ number_format($saldo) }},-</td>
                                 </tr>
+                                @php($no++)
                             @endforeach
                             <tr class="font-weight-bold">
                                 <td colspan="3">Total</td>
-                                <td>{{ number_format($listTotalDebit[$i]) }}</td>
-                                <td>{{ number_format($listTotalKredit[$i]) }}</td>
-                                <td>Rp {{ number_format($saldo) }}</td>
+                                <td>Rp. {{ number_format($listTotalDebit[$i]) }},-</td>
+                                <td>Rp. {{ number_format($listTotalKredit[$i]) }},-</td>
+                                <td>Rp. {{ number_format($saldo) }},-</td>
                             </tr>
                         </table>
                     </div>
