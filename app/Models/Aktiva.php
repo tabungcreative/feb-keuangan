@@ -11,5 +11,5 @@ class Aktiva extends Model
 
     protected $table = 'aktiva';
 
-    protected $fillable = ['kode_aktiva', 'nama_aktiva', 'jenis_aktiva', 'tanggal_perolehan', 'harga_perolehan', 'penyusutan_perhari'];
+    protected $fillable = ['kode_aktiva', 'nama_aktiva', 'jenis_aktiva', 'tanggal_perolehan', 'harga_perolehan', 'penyusutan_perhari', 'kategori'];
 }

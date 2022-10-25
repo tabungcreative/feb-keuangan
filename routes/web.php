@@ -4,12 +4,12 @@ use App\Helper\AuthUser;
 use App\Http\Controllers\AktivaController;
 use App\Http\Controllers\AkunController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\BukuBesarController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\JenisPembayaranController;
 use App\Http\Controllers\LaporanKeuanganController;
 use App\Http\Controllers\PembayaranController;
 use App\Http\Controllers\TransaksiController;
-use App\Models\Akun;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Route;
@@ -44,6 +44,7 @@ Route::middleware('custom-auth')->group(function () {
 
     Route::controller(JenisPembayaranController::class)
         ->prefix('jenis-pembayaran')
+        ->middleware('can:manage-pembayaran')
         ->as('jenis-pembayaran.')
         ->group(function () {
             Route::get('/', 'index')->name('index');
@@ -56,7 +57,7 @@ Route::middleware('custom-auth')->group(function () {
     Route::controller(AkunController::class)
         ->prefix('akun')
         ->as('akun.')
-        ->middleware(['can:bendahara'])
+        ->middleware('can:manage-akun')
         ->group(function () {
             Route::get('/', 'index')->name('index');
             Route::post('/', 'store')->name('store');
@@ -67,6 +68,7 @@ Route::middleware('custom-auth')->group(function () {
 
     Route::controller(PembayaranController::class)
         ->prefix('pembayaran')
+        ->middleware('can:manage-pembayaran')
         ->as('pembayaran.')
         ->group(function () {
             Route::get('/', 'index')->name('index');
@@ -80,6 +82,7 @@ Route::middleware('custom-auth')->group(function () {
 
     Route::controller(TransaksiController::class)
         ->prefix('transaksi')
+        ->middleware('can:manage-transaksi')
         ->as('transaksi.')
         ->group(function () {
             Route::get('/', 'index')->name('index');
@@ -88,21 +91,34 @@ Route::middleware('custom-auth')->group(function () {
         });
 
 
+    Route::controller(BukuBesarController::class)
+        ->prefix('buku-besar')
+        ->middleware('can:manage-lapkeu')
+        ->as('buku-besar.')
+        ->group(function () {
+            Route::get('/kas', 'kas')->name('kas');
+            Route::get('/biaya', 'biaya')->name('biaya');
+            Route::get('/pendapatan', 'pendapatan')->name('pendapatan');
+            Route::get('/modal', 'modal')->name('modal');
+            Route::get('/hutang', 'hutang')->name('hutang');
+            Route::get('/piutang', 'piutang')->name('piutang');
+        });
+
     Route::controller(LaporanKeuanganController::class)
         ->prefix('laporan-keungan')
+        ->middleware('can:manage-lapkeu')
         ->as('laporan-keuangan.')
         ->group(function () {
-            Route::get('/buku-besar', 'bukuBesar')->name('buku-besar');
-            Route::get('/buku-besar-rinci', 'bukuBesarRinci')->name('buku-besar-rinci');
             Route::get('/perubahan-modal', 'perubahanModal')->name('perubahan-modal');
             Route::get('/catatan-atas-keuangan', 'catatanAtasKeuangan')->name('catatan-atas-keuangan');
             Route::get('/laporan-keuangan', 'laporanKeuangan')->name('laporan-keuangan');
-            Route::get('/keuangan-neraca', 'keuangan-neraca')->name('keuangan-nerace');
+            Route::get('/neraca', 'neraca')->name('neraca');
             Route::get('/laba-rugi', 'labaRugi')->name('laba-rugi');
         });
 
     Route::controller(AktivaController::class)
         ->prefix('aktiva')
+        ->middleware('can:manage-activa')
         ->as('aktiva.')
         ->group(function () {
             Route::get('/', 'index')->name('index');

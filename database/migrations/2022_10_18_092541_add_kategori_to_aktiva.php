@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class AddKodeToAkun extends Migration
+class AddKategoriToAktiva extends Migration
 {
     /**
      * Run the migrations.
@@ -13,8 +13,8 @@ class AddKodeToAkun extends Migration
      */
     public function up()
     {
-        Schema::table('akun', function (Blueprint $table) {
-            $table->string('kode')->nullable();
+        Schema::table('aktiva', function (Blueprint $table) {
+            $table->enum('kategori', ['peralatan', 'perlengkapan','gedung'])->nullable();
         });
     }
 
@@ -25,8 +25,8 @@ class AddKodeToAkun extends Migration
      */
     public function down()
     {
-        Schema::table('akun', function (Blueprint $table) {
-            $table->dropColumn('kode');
+        Schema::table('aktiva', function (Blueprint $table) {
+            $table->dropColumn('kategori');
         });
     }
 }
