@@ -40,7 +40,15 @@ class PembayaranController extends Controller
 
             return response()->json([
                 'status' => true,
-                'data' => $pembayaran,
+                'data' => [
+                    'id' => $pembayaran->id,
+                    'no_pembayaran' => $pembayaran->no_pembayaran,
+                    "nim" => "2019150080",
+                    'kode_pembayaran' => $pembayaran->jenisPembayaran->kode,
+                    "tanggal_bayar" => $pembayaran->tanggal_bayar,
+                    "created_at" => $pembayaran->created_at,
+                    "updated_at" => $pembayaran->updated_at
+                ],
             ], 200);
         } catch (\Exception  $e) {
             return response()->json([

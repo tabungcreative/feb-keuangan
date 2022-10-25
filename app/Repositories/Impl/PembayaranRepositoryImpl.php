@@ -11,7 +11,7 @@ class PembayaranRepositoryImpl implements PembayaranRepository
 
     function getAll()
     {
-        return Pembayaran::orderBy('created_at', 'DESC');
+        return Pembayaran::orderBy('created_at', 'DESC')->get();
     }
 
     function create(array $detailPembayaran, int $jenisPembayaranId): Pembayaran

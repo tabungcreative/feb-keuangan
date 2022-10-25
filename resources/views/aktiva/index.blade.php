@@ -3,17 +3,6 @@
 
 @endsection
 @section('content')
-<div class="row">
-    <div class="col-md-5">
-        <form action="" method="GET">
-            <div class="mb-3">
-                <label class="form-label">Pilih Tahun Laporan Aktiva</label>
-                <input type="number" min="1900" max="2099" name="tahun" class="form-control" value="{{ $_GET['tahun'] ?? Carbon\Carbon::now()->format('Y')}}">
-            </div>
-            <button type="submit" class="btn btn-primary">Submit</button>
-        </form>
-    </div>
-</div>
 <div class="row d-flex justify-content-left my-4">
     <div class="col-md-12" id="detail-mhs">
         <div class="row container my-3">
@@ -25,7 +14,7 @@
         <div class="card shadow">
             <div class="card-header py-3">
                 <h6 class="m-0 font-weight-bold text-primary">
-                    Laporan Aktiva Tahun
+                    Aktiva Tahun
                     @if (isset($_GET['tahun']))
                         {{ Carbon\Carbon::createFromFormat('Y-m', $_GET['tahun'])->format('Y') }}
                     @else
@@ -53,7 +42,7 @@
                         @foreach ($aktiva as $data)
                             @php($penyusutanPerTahun = ($data->harga_perolehan*20/100))
                             @php($penyusutanSdHariIni = Carbon\Carbon::now()->diffInDays(Carbon\Carbon::createFromFormat('Y-m-d', $data->tanggal_perolehan)))
-                            @php($totalPenyusutan = $penyusutanPerTahun * $penyusutanSdHariIni)
+                            @php($totalPenyusutan = $data->penyusutan_perhari * $penyusutanSdHariIni)
                             @php($nilaiBuku = $data->harga_perolehan - $totalPenyusutan)
                             <tr>
                                 <td>{{$no++}}</td>
@@ -70,7 +59,7 @@
                                 <td>{{ Carbon\Carbon::parse($data->tanggal_perolehan)->format('d M Y') }}</td>
                                 <td>Rp. {{number_format($data->harga_perolehan)}}</td>
                                 <th>Rp. {{number_format($penyusutanPerTahun)}}</th>
-                                <th>Rp. {{round($data->penyusutan_perhari)}}/hari</th>
+                                <th>Rp. {{number_format($data->penyusutan_perhari)}}/hari</th>
                                 <th>Rp. {{ number_format($totalPenyusutan) }}</th>
                                 <th>
                                     @if($nilaiBuku <= 0)
@@ -87,9 +76,9 @@
                     </table>
                 </div>
                 <div class="container-fluid my-5">
-                    <h5 class="m-0 font-weight-bold text-primary float-right">
-                        Total Keseluruhan Aktiva Sesudah Penyusutan : Rp. {{ number_format($totalAkhirAktiva) }}
-                    </h5>
+{{--                    <h5 class="m-0 font-weight-bold text-primary float-right">--}}
+{{--                        Total Keseluruhan Aktiva Sesudah Penyusutan : Rp. {{ number_format($totalAkhirAktiva) }}--}}
+{{--                    </h5>--}}
                 </div>
             </div>
         </div>

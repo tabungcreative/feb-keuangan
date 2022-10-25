@@ -8,6 +8,7 @@ use App\Http\Requests\AktivaUpdateRequest;
 use App\Models\Aktiva;
 use App\Repositories\AktivaRepository;
 use App\Services\AktivaService;
+use Carbon\Carbon;
 
 class AktivaServiceImpl implements AktivaService
 {
@@ -26,7 +27,7 @@ class AktivaServiceImpl implements AktivaService
         $tanggalPerolehan = $request->input('tanggal_perolehan');
         $hargaPerolehan = $request->input('harga_perolehan');
         $kategori = $request->input('kategori');
-        $penyusutanPerhari = ($hargaPerolehan * 20 / 100) / 360;
+        $penyusutanPerhari = ($hargaPerolehan * 20 / 100) / Carbon::now()->daysInYear;
 
         $detailAktiva = [
             'kode_aktiva' => $kodeAktiva,
