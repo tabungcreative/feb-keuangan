@@ -3,6 +3,7 @@
 namespace App\Traits;
 
 use App\Models\Pembayaran;
+use App\Models\Transaksi;
 use Carbon\Carbon;
 
 trait Numbering
@@ -39,17 +40,20 @@ trait Numbering
         }
     }
 
-    public function kodeTransaksi()
+    public function kodeTransaksi($kodeTransaksi)
     {
-        $year = Carbon::parse(now())->translatedFormat('Y');
+        $year = Carbon::parse(now())->translatedFormat('y');
+        $month = Carbon::parse(now())->translatedFormat('m');
 
-        $pembayaran = Pembayaran::orderBy('id', 'DESC')->first();
+        $transaksi = Transaksi::latest()->first();
 
-        if ($pembayaran != null) {
-            $noPembayaranTerakhir = $pembayaran->no_pembayaran;
+        if ($transaksi != null) {
+            $noPembayaranTerakhir = $transaksi->kode_transaksi;
             $explode = explode('-', $noPembayaranTerakhir);
-            $tahunAkhir = $explode[1];
-            $nomerTerahir = end($explode);
+            $dateAkhir = $explode[1];
+            $explodeDate = explode('.', $dateAkhir);
+            $tahunAkhir = end($explodeDate);
+            $nomerTerahir = $explode[0];
             $newNumber = 0;
             if ($year == $tahunAkhir) {
                 $newNumber = $nomerTerahir + 1;
@@ -59,12 +63,13 @@ trait Numbering
 
             $nomer = str_pad($newNumber, 4, '0', STR_PAD_LEFT);
 
-            $no_pembayaran = 'TRS' . '-' . $year . '-' . $nomer;
+            $no_transaksi = $nomer . '-' . $month . '.' . $year . '-' . $kodeTransaksi;
 
-            return $no_pembayaran;
+            return $no_transaksi;
         } else {
-            $no_pembayaran = 'TRS' . '-' . $year . '-' . '0001';
-            return $no_pembayaran;
+            $no_transaksi = '0001' . '-' . $month . '.' . $year . '-' . $kodeTransaksi;
+            return $no_transaksi;
         }
     }
+
 }

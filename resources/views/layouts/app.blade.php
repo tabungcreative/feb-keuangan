@@ -47,17 +47,12 @@
 
             <!-- Sidebar - Brand -->
             <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
-                <div class="sidebar-brand-icon">
-                    <i class="fas fa-coins"></i>
-                </div>
-                <div class="sidebar-brand-text mx-3">
-                    E-Finance FE
-                </div>
+                <img src="https://is3.cloudhost.id/storage-feb/logo-sistem/logo-difisy-putih.png" class="img-fluid" width="130px" alt="">
             </a>
-            
-            
+
+
             @include('layouts.component.menu')
-            
+
 
             <!-- Divider -->
             <hr class="sidebar-divider d-none d-md-block">
@@ -80,7 +75,7 @@
                 <!-- Topbar -->
                 <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
 
-                    
+
 
                     <!-- Sidebar Toggle (Topbar) -->
                     <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">

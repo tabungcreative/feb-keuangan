@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Exceptions\KodeTransaksiCanotSame;
 use App\Exceptions\SameAkunException;
 use App\Http\Requests\TransaksiAddRequest;
+use App\Http\Requests\TransaksiUpdateRequest;
 use App\Repositories\AkunRepository;
 use App\Repositories\TransaksiRepository;
 use App\Services\TransaksiService;
@@ -45,9 +47,42 @@ class TransaksiController extends Controller
             $this->transaksiService->add($request);
             return redirect()->route('transaksi.index')->with('success', 'Berhasil menambah transaksi');
         } catch (SameAkunException $e) {
-            return redirect()->route('transaksi.create')->with('error', $e->getMessage());
+            return redirect()->route('transaksi.create')->with('error', $e->getMessage())->withInput($request->all());
+        }catch (KodeTransaksiCanotSame $e) {
+                return redirect()->route('transaksi.create')->with('error', $e->getMessage())->withInput($request->all());
         } catch (Exception $e) {
             return response()->view('errors.500', ['message' => 'Terjadi kesalahan pada server .'], 500);
         }
     }
+
+    public function edit($kode)
+    {
+        $transaksi = $this->transaksiRepository->findByCode($kode);
+        $akun = $this->akunRepository->getAll();
+        return view('transaksi.edit', compact('akun', 'transaksi'));
+    }
+
+    public function update(TransaksiUpdateRequest $request, $kode)
+    {
+        try {
+            $this->transaksiService->update($kode, $request);
+            return redirect()->route('transaksi.index')->with('success', 'Berhasil megubah transaksi');
+        } catch (SameAkunException $e) {
+            return redirect()->back()->with('error', $e->getMessage())->withInput($request->all());
+        } catch (Exception $e) {
+            return response()->view('errors.500', ['message' => 'Terjadi kesalahan pada server .'], 500);
+        }
+    }
+
+    public function delete($kode) {
+        try {
+            $this->transaksiRepository->deleteByKode($kode);
+            return redirect()->route('transaksi.index')->with('success', 'Berhasil menghapus transaksi');
+        } catch (Exception $e) {
+            dd($e->getMessage());
+            return response()->view('errors.500', ['message' => 'Terjadi kesalahan pada server .'], 500);
+        }
+    }
+
+
 }

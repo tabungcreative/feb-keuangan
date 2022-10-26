@@ -64,7 +64,6 @@ class JenisPembayaranServiceImpl implements JenisPembayaranService
 
             DB::commit();
         } catch (\Exception $e) {
-            dd($e);
             DB::rollBack();
             throw new InvariantExceotion('terjadi kesalahan pada server kami :' . $e->getMessage());
         }

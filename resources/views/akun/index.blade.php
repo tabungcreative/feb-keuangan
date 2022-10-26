@@ -30,13 +30,13 @@
                                 <button type="button" class="btn btn-sm btn-info mr-1" data-toggle="modal" data-target="#modalUpdate-{{ $item->id }}">
                                     <i class="fas fa-edit"></i>
                                 </button>
-                                {{-- @include('akun.edit-modal')
-                                @if ($item->akun_kas == 'kas_jalan')
-                                    <button type="button" class="btn btn-sm btn-primary" data-toggle="modal" data-target="#modalUpdateSaldo-{{ $item->id }}">
-                                        update saldo
-                                    </button>
-                                    @include('akun.update-saldo-modal')
-                                @endif --}}
+                                @include('akun.edit-modal')
+{{--                                @if ($item->akun_kas == 'kas_jalan')--}}
+{{--                                    <button type="button" class="btn btn-sm btn-primary" data-toggle="modal" data-target="#modalUpdateSaldo-{{ $item->id }}">--}}
+{{--                                        update saldo--}}
+{{--                                    </button>--}}
+{{--                                    @include('akun.update-saldo-modal')--}}
+{{--                                @endif--}}
                             </td>
                         </tr>
                     @php($no++)

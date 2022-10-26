@@ -59,7 +59,7 @@ class AkunServiceImpl implements AkunService
     function update(int $id, AkunUpdateRequest $request): Akun
     {
         $detailAkun = $request->only([
-            'nama', 'jenis_akun', 'kode'
+            'nama', 'akun_kas', 'kode'
         ]);
 
         $akun = $this->akunRepository->update($id, $detailAkun);

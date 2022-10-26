@@ -17,6 +17,10 @@
 <div class="row d-flex justify-content-left my-4">
     <div class="col-md-12" id="detail-mhs">
         <div class="row container my-3">
+            <a href="{{ route('transaksi.create') }}" class="btn btn-primary mr-2">
+                <i class="fas fa-plus-circle"></i>
+                Tambah Transaksi
+            </a>
             <a href="" class="btn btn-success">
                 <i class="fas fa-download"></i>
                 Cetak Jurnal Transaksi
@@ -25,7 +29,7 @@
         <div class="card shadow">
             <div class="card-header py-3">
                 <h6 class="m-0 font-weight-bold text-primary">
-                    Jurnal Transaksi 
+                    Jurnal Transaksi
                     @if (isset($_GET['bulan']))
                         {{ Carbon\Carbon::createFromFormat('Y-m', $_GET['bulan'])->format('F Y') }}
                     @else
@@ -47,7 +51,7 @@
                     </tr>
                     @php($i = 1)
                     @php($no = 1)
-                    @foreach ($data as $item)    
+                    @foreach ($data as $item)
                         <tr>
                             @if ($i % 2 == 0)
                             <td></td>
@@ -84,11 +88,18 @@
                             @if ($i % 2 == 0)
                             -
                             @else
-                            <a href="{{ route('jenis-pembayaran.edit', $item->id) }}" class="btn btn-info btn-sm"><i class="fas fa-edit"></i></a>
-                            @endif
+                                <a href="{{ route('transaksi.edit', $item->kode_transaksi) }}" class="btn btn-info btn-sm mx-1"><i class="fas fa-edit"></i></a>
+                                <form method="POST" class="float-left" action="{{ route('transaksi.delete', $item->kode_transaksi) }}" onSubmit="if(!confirm('Yakin ingin menghapus transaksi ?')){return false;}">
+                                    @csrf
+                                    @method('DELETE')
+                                    <div class="form-group">
+                                        <button href="{" class="btn btn-danger btn-sm"><i class="fas fa-trash"></i></button>
+                                    </div>
+                                </form>
+                                @endif
                             </td>
                         </tr>
-                        
+
                         @php($i++)
                     @endforeach
                 </table>

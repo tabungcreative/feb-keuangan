@@ -81,7 +81,7 @@ class BukuBesarController extends Controller
         // inisialisasi kebutuha view
         list($listTotalDebit, $listTotalKredit, $listSaldoAwalKas, $listTransaksi) = $this->inisialisasiKebutuhaView($akunKasJalan, $month, $year, $dateStart, $dateEnd);
 
-        return view('buku-besar.biaya', compact('akunKasJalan', 'listTotalDebit', 'listTotalKredit', 'listSaldoAwalKas', 'listTransaksi', 'listAkun'));
+        return view('buku-besar.modal', compact('akunKasJalan', 'listTotalDebit', 'listTotalKredit', 'listSaldoAwalKas', 'listTransaksi', 'listAkun'));
     }
     public function hutang(Request $request) {
         // mendapatkan bulan dan tahun dari request
@@ -99,9 +99,49 @@ class BukuBesarController extends Controller
         }
 
         // inisialisasi kebutuha view
-        list($listTotalDebit, $listTotalKredit, $listSaldoAwalKas, $listTransaksi) = $this->inisialisasiKebutuhaView($akunKasJalan, $month, $year, $dateStart, $dateEnd);
+        // inisialisasi kebutuha view
+        $listTotalDebit = [];
+        $listTotalKredit = [];
+        $listSaldoAwalKas = [];
+        $listTransaksi = [];
 
-        return view('buku-besar.biaya', compact('akunKasJalan', 'listTotalDebit', 'listTotalKredit', 'listSaldoAwalKas', 'listTransaksi', 'listAkun'));
+        // iterasi akun kas jalan
+        foreach ($akunKasJalan as $akun) {
+            // query mendapatkan transaksi berdasarkan akun
+            $queryTransaksi = Transaksi::where('akun_id', $akun->id)
+                ->whereMonth('tanggal', $month)
+                ->whereYear('tanggal', $year)
+                ->orderBy('tanggal', 'ASC')->get();
+
+            // memsukan transaksi kedalam arrat
+            $listTransaksi[] = $queryTransaksi;
+            // inisialisasi total debit dan kredit
+            $totalDebit = 0;
+            $totalKredit = 0;
+
+            // iterasi menambah debit dan kredit
+            foreach ($queryTransaksi as $transaksi) {
+                $totalDebit += $transaksi->debit;
+                $totalKredit += $transaksi->kredit;
+            }
+
+            $listTotalDebit[] = $totalDebit;
+            $listTotalKredit[] = $totalKredit;
+
+            // mengisi array saldo kas awal dari transaksi pertama sampai transaksi bulan lalu
+
+            $saldoAwalKas = 0;
+
+            $transaksiOld = Transaksi::select('id', 'debit', 'tanggal', 'kredit', 'akun_id')
+                ->whereBetween('tanggal', [$dateStart, $dateEnd])->where('akun_id', $akun->id)->get();
+
+            foreach ($transaksiOld as $value) {
+                $saldoAwalKas += $akun->saldo_awal + ($value->kredit - $value->debit);
+            }
+
+            $listSaldoAwalKas[] = $saldoAwalKas;
+        }
+        return view('buku-besar.hutang', compact('akunKasJalan', 'listTotalDebit', 'listTotalKredit', 'listSaldoAwalKas', 'listTransaksi', 'listAkun'));
     }
     public function piutang(Request $request) {
         // mendapatkan bulan dan tahun dari request
@@ -121,7 +161,7 @@ class BukuBesarController extends Controller
         // inisialisasi kebutuha view
         list($listTotalDebit, $listTotalKredit, $listSaldoAwalKas, $listTransaksi) = $this->inisialisasiKebutuhaView($akunKasJalan, $month, $year, $dateStart, $dateEnd);
 
-        return view('buku-besar.biaya', compact('akunKasJalan', 'listTotalDebit', 'listTotalKredit', 'listSaldoAwalKas', 'listTransaksi', 'listAkun'));
+        return view('buku-besar.piutang', compact('akunKasJalan', 'listTotalDebit', 'listTotalKredit', 'listSaldoAwalKas', 'listTransaksi', 'listAkun'));
     }
 
 

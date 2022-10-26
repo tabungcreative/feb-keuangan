@@ -88,6 +88,9 @@ Route::middleware('custom-auth')->group(function () {
             Route::get('/', 'index')->name('index');
             Route::post('/', 'store')->name('store');
             Route::get('/create', 'create')->name('create');
+            Route::get('/{kode}/edit', 'edit')->name('edit');
+            Route::put('/{kode}/update', 'update')->name('update');
+            Route::delete('/{kode}/delete', 'delete')->name('delete');
         });
 
 

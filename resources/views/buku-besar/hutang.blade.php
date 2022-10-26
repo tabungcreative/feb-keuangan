@@ -51,16 +51,16 @@
 
                             @php($no = 1)
                             @php($transaksi = $listTransaksi[$i])
-                            @php($saldo = $listSaldoAwalKas[$i])
+                            @php($saldo = 0)
                             @foreach ($transaksi as $item)
                                 @php($saldo += $item->debit)
-                                @php($saldo += $item->kredit)
+                                @php($saldo -= $item->kredit)
                                 <tr>
                                     <td>{{ $no }}</td>
                                     <td>{{ $item->tanggal }}</td>
                                     <td>{{ $item->nama_transaksi }}</td>
-                                    <td>Rp. {{ number_format($item->debit) }},-</td>
                                     <td>Rp. {{ number_format($item->kredit) }},-</td>
+                                    <td>Rp. {{ number_format($item->debit) }},-</td>
                                     <td>Rp. {{ number_format($saldo) }},-</td>
                                 </tr>
                                 @php($no++)

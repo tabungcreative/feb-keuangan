@@ -15,11 +15,24 @@
                 @method('PUT')
                 <div class="mb-3">
                     <label class="form-label">Kode Akun</label>
-                    <input type="text" name="kode" class="form-control">
+                    <input type="text" name="kode" class="form-control" value="{{ old('kode', $item->kode) }}">
                 </div>
                 <div class="mb-3">
                     <label class="form-label">Nama</label>
-                    <input type="text" name="nama" class="form-control" value="{{ $item->nama }}">
+                    <input type="text" name="nama" class="form-control" value="{{ old('nama',$item->nama) }}">
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Akun Kas</label>
+                    <select class="form-control" name="akun_kas" aria-label="Default select example">
+                        <option selected value=""> --- Pilih Akun Kas -- </option>
+                        <option value="kas_masuk" {{$item->akun_kas == 'kas_masuk' ? 'selected' : '' }}>Kas Masuk</option>
+                        <option value="kas_keluar" {{$item->akun_kas == 'kas_keluar' ? 'selected' : '' }}>Kas Keluar</option>
+                        <option value="kas_jalan" {{$item->akun_kas == 'kas_jalan' ? 'selected' : '' }}>Kas Jalan</option>
+                        <option value="kas_bank" {{$item->akun_kas == 'kas_bank' ? 'selected' : '' }}>Kas Bank</option>
+                        <option value="piutang" {{$item->akun_kas == 'piutang' ? 'selected' : '' }}>Piutang</option>
+                        <option value="modal" {{$item->akun_kas == 'modal' ? 'selected' : '' }}>Modal</option>
+                        <option value="hutang" {{$item->akun_kas == 'hutang' ? 'selected' : '' }}>Hutang</option>
+                    </select>
                 </div>
             </div>
             <div class="modal-footer">

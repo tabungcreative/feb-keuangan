@@ -12,22 +12,20 @@
                     @csrf
                     <div class="mb-3">
                         <label class="form-label">Tanggal Transaksi</label>
-                        <input type="date" name="tanggal_transaksi" class="form-control">
-                    </div>
-                    <div class="mb-3">
-                        <label class="form-label">No Bukti Transaksi</label>
-                        <input type="text" name="kode_transaksi" class="form-control">
+                        <input type="date" name="tanggal_transaksi" class="form-control" value="{{ old('tanggal_transaksi') }}">
                     </div>
                     <div class="mb-3">
                         <label class="form-label">Keterangan</label>
-                        <textarea class="form-control" name="nama_transaksi" rows="3"></textarea>
+                        <textarea class="form-control" name="nama_transaksi" rows="3">
+                            {{ old('nama_transaksi') }}
+                        </textarea>
                     </div>
                     <div class="mb-3">
                         <label class="form-label">Akun Debit</label>
                         <select name="akun_debit_id" class="form-control select2" style="width: 100%">
                             <option value="" class="font-weight-bold">Pilih Akun Debit</option>
-                            @foreach ($akun as $value)  
-                                <option value="{{ $value->id }}"> {{$value->nama}}</option>
+                            @foreach ($akun as $value)
+                                <option value="{{ $value->id }}" {{$value->id == old('akun_debit_id') ? 'selected' : '' }}> {{$value->nama}}</option>
                             @endforeach
                         </select>
                     </div>
@@ -36,8 +34,8 @@
                         <label class="form-label">Akun Kredit</label>
                         <select name="akun_kredit_id" class="form-control select2" style="width: 100%;">
                             <option value="" class="font-weight-bold">Pilih Akun Kredit</option>
-                            @foreach ($akun as $value)  
-                                <option value="{{ $value->id }}"> {{$value->nama}}</option>
+                            @foreach ($akun as $value)
+                                <option value="{{ $value->id }}" {{$value->id == old('akun_kredit_id') ? 'selected' : '' }}> {{$value->nama}}</option>
                             @endforeach
                         </select>
                     </div>

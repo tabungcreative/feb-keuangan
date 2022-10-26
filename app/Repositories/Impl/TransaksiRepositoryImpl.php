@@ -45,6 +45,15 @@ class TransaksiRepositoryImpl implements TransaksiRepository
         throw new \Exception("Method not implemented");
     }
 
+    function updateByKodeAndAkun($kodeTransaksi, $akunId,  array $detailTransaksi): Transaksi
+    {
+        $transaksi = Transaksi::where('kode_transaksi', $kodeTransaksi)
+                    ->where('akun_id', $akunId)->first();
+        $transaksi->update($detailTransaksi);
+        $transaksi->save();
+        return $transaksi;
+    }
+
     function delete(int $id)
     {
         throw new \Exception("Method not implemented");
@@ -95,5 +104,16 @@ class TransaksiRepositoryImpl implements TransaksiRepository
             ->whereMonth('tanggal', $month)
             ->whereYear('tanggal', $year)
             ->get();
+    }
+
+    function findByCode($kode): ?Transaksi
+    {
+        return Transaksi::where('kode_transaksi', $kode)->first();
+    }
+
+    function deleteByKode($kode)
+    {
+        $transaksi = Transaksi::where('kode_transaksi', $kode)->get();
+        $transaksi->each->delete();
     }
 }
