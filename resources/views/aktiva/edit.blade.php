@@ -14,11 +14,11 @@
                     <div class="mb-3">
                         <label class="form-label">Kode Aktiva</label>
                         <input type="text" name="kode_aktiva" class="form-control" value="{{ old('tahun_terbit',$data->kode_aktiva) }}">
-                    </div>  
+                    </div>
                     <div class="mb-3">
                         <label class="form-label">Nama Aktiva</label>
                         <input type="text" name="nama_aktiva" class="form-control" value="{{ old('tahun_terbit',$data->nama_aktiva) }}">
-                    </div>  
+
                     <div class="mb-3">
                         <label class="form-label">Tanggal Perolehan</label>
                         <input type="date" name="tanggal_perolehan" max="<?= date('Y-m-d'); ?>" class="form-control" value="{{ old('tahun_terbit',$data->tanggal_perolehan) }}">
@@ -33,6 +33,25 @@
                         </div>
                     </div>
 
+                    <div class="mb-3">
+                        <label class="form-label">Kategori</label>
+                        <select class="form-control" name="kategori">
+                            <option value="">-- Pilih Kategori --</option>
+                            <option value="peralatan" {{$data->kategori == 'peralatan' ? 'selected' : '' }}>Peralatan</option>
+                            <option value="perlengkapan" {{$data->kategori == 'perlengkapan' ? 'selected' : '' }}>Perlengkapan</option>
+                            <option value="gedung" {{$data->kategori == 'gedung' ? 'selected' : '' }}>Gedung</option>
+                        </select>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Umur Ekonomis</label>
+                        <div class="input-group mb-2 mr-sm-2">
+                            <input type="number" name="umur_ekonomis" class="form-control" min="0" value="{{ old('umur_ekonomis',$data->umur_ekonomis)  }}">
+                            <div class="input-group-prepend">
+                                <div class="input-group-text">Tahun</div>
+                            </div>
+                        </div>
+                    </div>
                     <button type="submit" class="btn btn-primary">Ubah</button>
                 </form>
             </div>

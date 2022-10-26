@@ -41,6 +41,15 @@
                         </select>
                     </div>
 
+                    <div class="mb-3">
+                        <label class="form-label">Umur Ekonomis</label>
+                        <div class="input-group mb-2 mr-sm-2">
+                            <input type="number" name="umur_ekonomis" class="form-control" min="0" value="{{ old('umur_ekonomis') ?? 0}}">
+                            <div class="input-group-prepend">
+                                <div class="input-group-text">Tahun</div>
+                            </div>
+                        </div>
+                    </div>
                     <button type="submit" class="btn btn-primary">Tambah</button>
                 </form>
             </div>

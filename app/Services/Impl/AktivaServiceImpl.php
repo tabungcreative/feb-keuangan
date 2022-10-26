@@ -27,7 +27,9 @@ class AktivaServiceImpl implements AktivaService
         $tanggalPerolehan = $request->input('tanggal_perolehan');
         $hargaPerolehan = $request->input('harga_perolehan');
         $kategori = $request->input('kategori');
-        $penyusutanPerhari = ($hargaPerolehan * 20 / 100) / Carbon::now()->daysInYear;
+        $umurEkonimis = $request->input('umur_ekonomis');
+
+        $penyusutanPerhari = $hargaPerolehan / $umurEkonimis  /  Carbon::now()->daysInYear;
 
         $detailAktiva = [
             'kode_aktiva' => $kodeAktiva,
@@ -36,12 +38,12 @@ class AktivaServiceImpl implements AktivaService
             'harga_perolehan' => $hargaPerolehan,
             'penyusutan_perhari' => $penyusutanPerhari,
             'kategori' => $kategori,
+            'umur_ekonomis' => $umurEkonimis,
         ];
 
         $aktiva = $this->aktivaRepository->create($detailAktiva);
 
         return $aktiva;
-
     }
 
     function update(AktivaUpdateRequest $request, int $id): Aktiva
@@ -50,21 +52,33 @@ class AktivaServiceImpl implements AktivaService
         $namaAktiva = $request->input('nama_aktiva');
         $tanggalPerolehan = $request->input('tanggal_perolehan');
         $hargaPerolehan = $request->input('harga_perolehan');
-        $penyusutanPerhari = ($hargaPerolehan * 20 / 100) / 360;
+        $umurEkonimis = $request->input('umur_ekonomis');
+        $kategori = $request->input('kategori');
+        $penyusutanPerhari = $hargaPerolehan / $umurEkonimis  /  Carbon::now()->daysInYear;
 
-        $aktiva = Aktiva::find($id);
 
-        try {
-            $aktiva->kode_aktiva = $kodeAktiva;
-            $aktiva->nama_aktiva = $namaAktiva;
-            $aktiva->tanggal_perolehan = $tanggalPerolehan;
-            $aktiva->harga_perolehan = $hargaPerolehan;
-            $aktiva->penyusutan_perhari = $penyusutanPerhari;
-            $aktiva->save();
-        } catch (\Exception $exception) {
-            throw new InvariantExceotion($exception);
-        }
+        $detailAktiva = [
+            'kode_aktiva' => $kodeAktiva,
+            'nama_aktiva' => $namaAktiva,
+            'tanggal_perolehan' => $tanggalPerolehan,
+            'harga_perolehan' => $hargaPerolehan,
+            'penyusutan_perhari' => $penyusutanPerhari,
+            'kategori' => $kategori,
+            'umur_ekonomis' => $umurEkonimis,
+        ];
+
+        $aktiva = $this->aktivaRepository->update($id, $detailAktiva);
 
         return $aktiva;
+    }
+
+    function deletion(int $id): void
+    {
+        $this->aktivaRepository->update($id, ['is_active' => 0]);
+    }
+
+    function delete(int $id): void
+    {
+        $this->aktivaRepository->delete($id);
     }
 }

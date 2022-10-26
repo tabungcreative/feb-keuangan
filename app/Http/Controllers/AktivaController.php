@@ -23,7 +23,6 @@ class AktivaController extends Controller
         $this->aktivaRepository = $aktivaRepository;
     }
 
-
     public function index(Request $request)
     {
         $aktiva = $this->aktivaRepository->getAll();
@@ -32,7 +31,7 @@ class AktivaController extends Controller
 
         foreach ($aktiva as $value) {
             $penyusutanSdHariIni = Carbon::now()->diffInDays(Carbon::createFromFormat('Y-m-d', $value->tanggal_perolehan));
-            $nilaiBuku = $value->harga_perolehan - $penyusutanSdHariIni;
+            $nilaiBuku = $value->harga_perolehan - ($penyusutanSdHariIni * $value->penyusutan_perhari);
             if (!$nilaiBuku <= 0) {
                 $totalAkhirAktiva += $nilaiBuku;
             }

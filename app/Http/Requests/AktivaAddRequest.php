@@ -30,6 +30,7 @@ class AktivaAddRequest extends FormRequest
             'tanggal_perolehan' => 'required',
             'harga_perolehan' => 'required|min:0',
             'kategori' => 'required',
+            'umur_ekonomis' => 'required',
         ];
     }
 }

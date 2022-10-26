@@ -5,6 +5,7 @@ namespace App\Repositories\Impl;
 use App\Models\Aktiva;
 use App\Repositories\AktivaRepository;
 use Carbon\Carbon;
+use Illuminate\Notifications\Action;
 
 class AktivaRepositoryImpl implements AktivaRepository
 {
@@ -33,9 +34,23 @@ class AktivaRepositoryImpl implements AktivaRepository
         $aktiva->save();
         return $aktiva;
     }
-    
+
     function findById(int $id)
     {
         return Aktiva::findOrFail($id);
+    }
+
+    function update(int $id, $detailActiva)
+    {
+        $activa = Aktiva::find($id);
+        $activa->update($detailActiva);
+        $activa->save();
+        return $activa;
+    }
+
+    function delete(int $id)
+    {
+        $aktiva = Aktiva::find($id);
+        $aktiva->delete();
     }
 }

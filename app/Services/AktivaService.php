@@ -10,4 +10,6 @@ interface AktivaService
 {
     function add(AktivaAddRequest $request): Aktiva;
     function update(AktivaUpdateRequest $request, int $id): Aktiva;
+    function deletion(int $id): void;
+    function delete(int $id): void;
 }
