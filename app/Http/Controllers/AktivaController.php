@@ -70,4 +70,13 @@ class AktivaController extends Controller
             return response()->view('errors.500', ['message' => $e->getMessage()], 500);
         }
     }
+
+    public function delete($id) {
+        try {
+            $this->aktivaService->delete($id);
+            return redirect()->route('aktiva.index')->with('success', 'aktiva berhasi dihapus');
+        } catch (\Exception $e) {
+            return response()->view('errors.500', ['message' => $e->getMessage()], 500);
+        }
+    }
 }

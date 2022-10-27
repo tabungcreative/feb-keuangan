@@ -114,7 +114,7 @@
                 <div class="container-fluid">
 
                     <!-- Page Heading -->
-                    <h1 class="h3 mb-4 text-gray-800">{{ $title ?? 'E-Finance' }}</h1>
+                    <h1 class="h3 mb-4 text-gray-800">{{ $title ?? '' }}</h1>
                     @if (count($errors) > 0)
                         <div class="alert alert-danger">
                             <strong>Whoops!</strong>Something went wrong.<br><br>

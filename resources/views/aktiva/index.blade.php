@@ -75,7 +75,21 @@
                                     @endif
                                 </th>
                                 <td>
-                                    <a href="{{ route('aktiva.edit', $data->id) }}" class="btn btn-info btn-sm"><i class="fas fa-edit"></i></a>
+                                    <a href="{{ route('aktiva.edit', $data->id) }}" class="btn btn-info btn-sm mx-1"><i class="fas fa-edit"></i></a>
+                                    <form method="POST" class="float-left" action="{{ route('aktiva.delete', $data->id) }}" onSubmit="if(!confirm('Yakin ingin menghapus inventaris ? (Aksi ini akan menghapus permanene Inventaris)')){return false;}">
+                                        @csrf
+                                        @method('DELETE')
+                                        <div class="form-group">
+                                            <button href="{" class="btn btn-danger btn-sm"><i class="fas fa-trash"></i></button>
+                                        </div>
+                                    </form>
+                                    <form method="POST" class="" action="{{ route('aktiva.delete', $data->id) }}" onSubmit="if(!confirm('Yakin ingin melakukan penghapusan inventaris ?')){return false;}">
+                                        @csrf
+                                        @method('POST')
+                                        <div class="form-group">
+                                            <button href="{" class="btn btn-warning btn-sm">Penghapusan</button>
+                                        </div>
+                                    </form>
                                 </td>
                             </tr>
                         @endforeach
