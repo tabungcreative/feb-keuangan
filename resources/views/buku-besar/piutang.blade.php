@@ -51,7 +51,7 @@
 
                             @php($no = 1)
                             @php($transaksi = $listTransaksi[$i])
-                            @php($saldo = 0)
+                            @php($saldo = $listSaldoAwalKas[$i])
                             @foreach ($transaksi as $item)
                                 @php($saldo += $item->debit)
                                 @php($saldo -= $item->kredit)

@@ -45,7 +45,7 @@
                         @php($i = 1)
                         @php($no = 1)
                         @foreach ($aktiva as $data)
-                            @php($penyusutanPerTahun = ($data->harga_perolehan*20/100))
+                            @php($penyusutanPerTahun = ($data->harga_perolehan / $data->umur_ekonomis))
                             @php($penyusutanSdHariIni = Carbon\Carbon::now()->diffInDays(Carbon\Carbon::createFromFormat('Y-m-d', $data->tanggal_perolehan)))
                             @php($totalPenyusutan = $data->penyusutan_perhari * $penyusutanSdHariIni)
                             @php($nilaiBuku = $data->harga_perolehan - $totalPenyusutan)
