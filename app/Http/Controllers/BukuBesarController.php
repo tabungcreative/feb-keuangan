@@ -4,11 +4,19 @@ namespace App\Http\Controllers;
 
 use App\Models\Akun;
 use App\Models\Transaksi;
+use App\Services\PencatatanService;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class BukuBesarController extends Controller
 {
+    private PencatatanService $pencatatanService;
+
+    public function __construct(PencatatanService $pencatatanService)
+    {
+        $this->pencatatanService = $pencatatanService;
+    }
+
     public function kas(Request $request) {
         // mendapatkan bulan dan tahun dari request
         list($yearMounth, $akunId) = $this->mendapatkanBulanDanTahunDariRequest($request);
@@ -130,14 +138,7 @@ class BukuBesarController extends Controller
 
             // mengisi array saldo kas awal dari transaksi pertama sampai transaksi bulan lalu
 
-            $saldoAwalKas = 0;
-
-            $transaksiOld = Transaksi::select('id', 'debit', 'tanggal', 'kredit', 'akun_id')
-                ->whereBetween('tanggal', [$dateStart, $dateEnd])->where('akun_id', $akun->id)->get();
-
-            foreach ($transaksiOld as $value) {
-                $saldoAwalKas += $akun->saldo_awal + ($value->kredit - $value->debit);
-            }
+            $saldoAwalKas = $this->pencatatanService->saldoAwal($dateStart, $dateEnd, $akun->id);
 
             $listSaldoAwalKas[] = $saldoAwalKas;
         }

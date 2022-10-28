@@ -8,6 +8,7 @@ interface TransaksiRepository
 {
     function getAll();
     function getAllByMonthYear($date = null);
+    function getBetweenTanggalAndAkun($dateStart, $dateEnd, $akunId);
     function create(array $detailTransaksi, int $akunId): Transaksi;
     function update(int $id, array $detailTransaksi): Transaksi;
     function updateByKodeAndAkun($kodeTransaksi, $akunId, array $detailTransaksi): Transaksi;

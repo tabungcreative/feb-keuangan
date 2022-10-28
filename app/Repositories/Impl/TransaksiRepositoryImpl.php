@@ -116,4 +116,10 @@ class TransaksiRepositoryImpl implements TransaksiRepository
         $transaksi = Transaksi::where('kode_transaksi', $kode)->get();
         $transaksi->each->delete();
     }
+
+    function getBetweenTanggalAndAkun($dateStart, $dateEnd, $akunId)
+    {
+        return Transaksi::select('id', 'debit', 'tanggal', 'kredit', 'akun_id')
+            ->whereBetween('tanggal', [$dateStart, $dateEnd])->where('akun_id', $akunId)->get();
+    }
 }

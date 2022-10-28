@@ -12,6 +12,7 @@ interface AkunRepository
     function delete(int $id);
     function findById(int $id);
     function findByNama(string $name);
+    function getByAkunKas($akunKas);
     function getSaldoAwalById($id): Akun;
     function updateSaldoAwalById(int $id, int $saldoAwal): Akun;
     function getAkunByAkunKasMasuk();
