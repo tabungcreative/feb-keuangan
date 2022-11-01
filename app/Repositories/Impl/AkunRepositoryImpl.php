@@ -81,4 +81,10 @@ class AkunRepositoryImpl implements AkunRepository
     {
         return Akun::where('akun_kas', $akunKas)->get();
     }
+
+
+    function getById($id)
+    {
+        return Akun::where('id', $id)->get();
+    }
 }

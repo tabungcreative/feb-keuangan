@@ -84,6 +84,14 @@ class TransaksiRepositoryImpl implements TransaksiRepository
             ->get();
     }
 
+    public function getByAkunId($akunId, $month = null, $year = null)
+    {
+        return Transaksi::where('akun_id', $akunId)
+            ->whereMonth('tanggal', $month)
+            ->whereYear('tanggal', $year)
+            ->orderBy('tanggal', 'ASC')->get();
+    }
+
 
     function getWhereAkunKasGroupByAkun($akunKas, $date = null)
     {
@@ -121,5 +129,31 @@ class TransaksiRepositoryImpl implements TransaksiRepository
     {
         return Transaksi::select('id', 'debit', 'tanggal', 'kredit', 'akun_id')
             ->whereBetween('tanggal', [$dateStart, $dateEnd])->where('akun_id', $akunId)->get();
+    }
+
+    function sumKreditByAkun($akunId, $month, $year)
+    {
+
+        $transaksi = Transaksi::where('akun_id', $akunId)
+            ->whereMonth('tanggal', $month)
+            ->whereYear('tanggal', $year)
+            ->orderBy('tanggal', 'ASC')->get();
+
+        return $transaksi->sum('kredit');
+    }
+
+    function sumByAkun($akunId, $month, $year, $field)
+    {
+        $transaksi = Transaksi::where('akun_id', $akunId)
+            ->whereMonth('tanggal', $month)
+            ->whereYear('tanggal', $year)
+            ->orderBy('tanggal', 'ASC')->get();
+
+        return $transaksi->sum($field);
+    }
+
+    function findFirstOrderTanggal()
+    {
+        return Transaksi::orderBy('tanggal', 'ASC')->first();
     }
 }

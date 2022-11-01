@@ -8,7 +8,16 @@
             <form action="" method="GET">
                 <div class="mb-3">
                     <label class="form-label">Pilih Bulan Transaksi</label>
-                    <input type="month" name="bulan" class="form-control" value="{{ $_GET['bulan'] ?? Carbon\Carbon::now()->format('Y-m')}}">
+                    <input type="month" name="year_month" class="form-control" value="{{ $_GET['year_month'] ?? Carbon\Carbon::now()->format('Y-m')}}">
+               </div>
+                <div class="mb-3">
+                    <label class="form-label">Pilih Akun</label>
+                    <select class="form-control" name="akun_id">
+                        <option value="">-- Pilih Akun --</option>
+                        @foreach($listAkun as $akun)
+                            <option value="{{ $akun->id }}" {{$akun->id == ($_GET['akun_id'] ?? 0) ? 'selected' : '' }}>{{ $akun->nama }}</option>
+                        @endforeach
+                    </select>
                 </div>
                 <button type="submit" class="btn btn-primary">Submit</button>
             </form>

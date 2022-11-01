@@ -2,8 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\BukuBesarKasRequest;
 use App\Models\Akun;
 use App\Models\Transaksi;
+use App\Repositories\AkunRepository;
+use App\Repositories\TransaksiRepository;
 use App\Services\PencatatanService;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -11,26 +14,39 @@ use Illuminate\Http\Request;
 class BukuBesarController extends Controller
 {
     private PencatatanService $pencatatanService;
+    private AkunRepository $akunRepository;
+    private TransaksiRepository $transaksiRepository;
 
-    public function __construct(PencatatanService $pencatatanService)
+    public function __construct(PencatatanService $pencatatanService, AkunRepository $akunRepository, TransaksiRepository $transaksiRepository)
     {
         $this->pencatatanService = $pencatatanService;
+        $this->akunRepository = $akunRepository;
+        $this->transaksiRepository = $transaksiRepository;
     }
 
-    public function kas(Request $request) {
-        // mendapatkan bulan dan tahun dari request
-        list($yearMounth, $akunId) = $this->mendapatkanBulanDanTahunDariRequest($request);
-        list($dateStart, $dateEnd, $month, $year) = $this->mendapatTanggalTransaksi($yearMounth);
 
-        // get akun where akun kas jalan
-        $akunKasJalan = Akun::where('akun_kas', 'kas_jalan')->orWhere('akun_kas', 'kas_bank')
-            ->get();
-        list($listTotalDebit, $listTotalKredit, $listSaldoAwalKas, $listTransaksi) = $this->inisialisasiKebutuhaView($akunKasJalan, $month, $year, $dateStart, $dateEnd);
-
-        return view('buku-besar.kas', compact('akunKasJalan', 'listTotalDebit', 'listTotalKredit', 'listSaldoAwalKas', 'listTransaksi'));
+    public function kas(BukuBesarKasRequest $request) {
+        try {
+            $listAkun = $this->akunRepository->getByAkunKas('kas_jalan');
+            $akunKasJalan = $this->akunRepository->getByAkunKas('kas_jalan');
+            list($listTotalDebit, $listTotalKredit, $listSaldoAwalKas, $listTransaksi) = $this->pencatatanService->bukuBesar('kas_jalan', $request);
+            return view('buku-besar.kas', compact('akunKasJalan', 'listTotalDebit', 'listTotalKredit', 'listSaldoAwalKas', 'listTransaksi', 'listAkun'));
+        }catch (\Exception $exception) {
+            abort(500);
+        }
     }
 
-    public function biaya(Request $request) {
+    public function biaya(BukuBesarKasRequest $request) {
+        try {
+            $listAkun = $this->akunRepository->getByAkunKas('kas_keluar');
+            $akunKasJalan = $this->akunRepository->getByAkunKas('kas_keluar');
+            list($listTotalDebit, $listTotalKredit, $listSaldoAwalKas, $listTransaksi) = $this->pencatatanService->bukuBesar('kas_jalan', $request);
+            return view('buku-besar.biaya', compact('akunKasJalan', 'listTotalDebit', 'listTotalKredit', 'listSaldoAwalKas', 'listTransaksi', 'listAkun'));
+        }catch (\Exception $exception) {
+            abort(500);
+        }
+    }
+    public function biaya2(Request $request) {
         // mendapatkan bulan dan tahun dari request
         list($yearMounth, $akunId) = $this->mendapatkanBulanDanTahunDariRequest($request);
 
@@ -51,7 +67,17 @@ class BukuBesarController extends Controller
         return view('buku-besar.biaya', compact('akunKasJalan', 'listTotalDebit', 'listTotalKredit', 'listSaldoAwalKas', 'listTransaksi', 'listAkun'));
     }
 
-    public function pendapatan(Request $request) {
+    public function pendapatan(BukuBesarKasRequest $request) {
+        try {
+            $listAkun = $this->akunRepository->getByAkunKas('kas_masuk');
+            $akunKasJalan = $this->akunRepository->getByAkunKas('kas_masuk');
+            list($listTotalDebit, $listTotalKredit, $listSaldoAwalKas, $listTransaksi) = $this->pencatatanService->bukuBesar('kas_jalan', $request);
+            return view('buku-besar.pendapatan', compact('akunKasJalan', 'listTotalDebit', 'listTotalKredit', 'listSaldoAwalKas', 'listTransaksi', 'listAkun'));
+        }catch (\Exception $exception) {
+            abort(500);
+        }
+    }
+    public function pendapatan2(Request $request) {
         list($yearMounth, $akunId) = $this->mendapatkanBulanDanTahunDariRequest($request);
 
         // mendapat tanggal transaksi pertama
@@ -206,38 +232,21 @@ class BukuBesarController extends Controller
         // iterasi akun kas jalan
         foreach ($akunKasJalan as $akun) {
             // query mendapatkan transaksi berdasarkan akun
-            $queryTransaksi = Transaksi::where('akun_id', $akun->id)
-                ->whereMonth('tanggal', $month)
-                ->whereYear('tanggal', $year)
-                ->orderBy('tanggal', 'ASC')->get();
+            $queryTransaksi = $this->transaksiRepository->getByAkunId($akun->id, $month, $year);
 
             // memsukan transaksi kedalam arrat
             $listTransaksi[] = $queryTransaksi;
             // inisialisasi total debit dan kredit
-            $totalDebit = 0;
-            $totalKredit = 0;
-
-            // iterasi menambah debit dan kredit
-            foreach ($queryTransaksi as $transaksi) {
-                $totalDebit += $transaksi->debit;
-                $totalKredit += $transaksi->kredit;
-            }
+            $totalDebit = $this->transaksiRepository->sumByAkun($akun->id, $month, $year, 'debit');
+            $totalKredit = $this->transaksiRepository->sumByAkun($akun->id, $month, $year, 'kredit');
 
             $listTotalDebit[] = $totalDebit;
             $listTotalKredit[] = $totalKredit;
 
             // mengisi array saldo kas awal dari transaksi pertama sampai transaksi bulan lalu
+            $saldoAwal = $this->pencatatanService->saldoAwal($dateStart, $dateEnd, $akun->id);
 
-            $saldoAwalKas = 0;
-
-            $transaksiOld = Transaksi::select('id', 'debit', 'tanggal', 'kredit', 'akun_id')
-                ->whereBetween('tanggal', [$dateStart, $dateEnd])->where('akun_id', $akun->id)->get();
-
-            foreach ($transaksiOld as $value) {
-                $saldoAwalKas += $akun->saldo_awal + ($value->debit - $value->kredit);
-            }
-
-            $listSaldoAwalKas[] = $saldoAwalKas;
+            $listSaldoAwalKas[] = $saldoAwal;
         }
         return array($listTotalDebit, $listTotalKredit, $listSaldoAwalKas, $listTransaksi);
     }
