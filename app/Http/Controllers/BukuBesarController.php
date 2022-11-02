@@ -27,7 +27,14 @@ class BukuBesarController extends Controller
     {
         try {
             $listAkun = $this->akunRepository->getByAkunKas('kas_jalan');
+            $akunID = $request->get('akun_id');
+
             $akunKasJalan = $this->akunRepository->getByAkunKas('kas_jalan');
+
+            if ($akunID != null) {
+                $akunKasJalan = $this->akunRepository->getById($akunID);
+            }
+
             list($listTotalDebit, $listTotalKredit, $listSaldoAwalKas, $listTransaksi) = $this->bukuBesarService->bukuBesarKas($request);
             return view('buku-besar.kas', compact('akunKasJalan', 'listTotalDebit', 'listTotalKredit', 'listSaldoAwalKas', 'listTransaksi', 'listAkun'));
         } catch (\Exception $exception) {
@@ -39,7 +46,14 @@ class BukuBesarController extends Controller
     {
         try {
             $listAkun = $this->akunRepository->getByAkunKas('kas_keluar');
+            $akunID = $request->get('akun_id');
+
             $akunKasJalan = $this->akunRepository->getByAkunKas('kas_keluar');
+
+            if ($akunID != null) {
+                $akunKasJalan = $this->akunRepository->getById($akunID);
+            }
+
             list($listTotalDebit, $listTotalKredit, $listSaldoAwalKas, $listTransaksi) = $this->bukuBesarService->bukuBesarBiaya($request);
             return view('buku-besar.biaya', compact('akunKasJalan', 'listTotalDebit', 'listTotalKredit', 'listSaldoAwalKas', 'listTransaksi', 'listAkun'));
         } catch (\Exception $exception) {
@@ -51,7 +65,14 @@ class BukuBesarController extends Controller
     {
         try {
             $listAkun = $this->akunRepository->getByAkunKas('kas_masuk');
+            $akunID = $request->get('akun_id');
+
             $akunKasJalan = $this->akunRepository->getByAkunKas('kas_masuk');
+
+            if ($akunID != null) {
+                $akunKasJalan = $this->akunRepository->getById($akunID);
+            }
+
             list($listTotalDebit, $listTotalKredit, $listSaldoAwalKas, $listTransaksi) = $this->bukuBesarService->bukuBesarPendapatan($request);
             return view('buku-besar.pendapatan', compact('akunKasJalan', 'listTotalDebit', 'listTotalKredit', 'listSaldoAwalKas', 'listTransaksi', 'listAkun'));
         } catch (\Exception $exception) {
@@ -63,7 +84,14 @@ class BukuBesarController extends Controller
     {
         try {
             $listAkun = $this->akunRepository->getByAkunKas('modal');
+            $akunID = $request->get('akun_id');
+
             $akunKasJalan = $this->akunRepository->getByAkunKas('modal');
+
+            if ($akunID != null) {
+                $akunKasJalan = $this->akunRepository->getById($akunID);
+            }
+
             list($listTotalDebit, $listTotalKredit, $listSaldoAwalKas, $listTransaksi) = $this->bukuBesarService->bukuBesarModal($request);
             return view('buku-besar.modal', compact('akunKasJalan', 'listTotalDebit', 'listTotalKredit', 'listSaldoAwalKas', 'listTransaksi', 'listAkun'));
         } catch (\Exception $exception) {
@@ -75,7 +103,14 @@ class BukuBesarController extends Controller
     {
         try {
             $listAkun = $this->akunRepository->getByAkunKas('hutang');
+            $akunID = $request->get('akun_id');
+
             $akunKasJalan = $this->akunRepository->getByAkunKas('hutang');
+
+            if ($akunID != null) {
+                $akunKasJalan = $this->akunRepository->getById($akunID);
+            }
+
             list($listTotalDebit, $listTotalKredit, $listSaldoAwalKas, $listTransaksi) = $this->bukuBesarService->bukuBesarHutang($request);
             return view('buku-besar.hutang', compact('akunKasJalan', 'listTotalDebit', 'listTotalKredit', 'listSaldoAwalKas', 'listTransaksi', 'listAkun'));
         } catch (\Exception $exception) {
@@ -87,7 +122,14 @@ class BukuBesarController extends Controller
     {
         try {
             $listAkun = $this->akunRepository->getByAkunKas('piutang');
+            $akunID = $request->get('akun_id');
+
             $akunKasJalan = $this->akunRepository->getByAkunKas('piutang');
+
+            if ($akunID != null) {
+                $akunKasJalan = $this->akunRepository->getById($akunID);
+            }
+
             list($listTotalDebit, $listTotalKredit, $listSaldoAwalKas, $listTransaksi) = $this->bukuBesarService->bukuBesarPiutang($request);
             return view('buku-besar.piutang', compact('akunKasJalan', 'listTotalDebit', 'listTotalKredit', 'listSaldoAwalKas', 'listTransaksi', 'listAkun'));
         } catch (\Exception $exception) {
