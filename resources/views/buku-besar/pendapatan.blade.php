@@ -44,8 +44,8 @@
                             </tr>
                             <tr class="font-weight-bold">
                                 <th colspan="3">Saldo Awal</th>
-                                <td>Rp {{ number_format($listSaldoAwalKas[$i]) }}</td>
                                 <td>Rp 0 </td>
+                                <td>Rp {{ number_format($listSaldoAwalKas[$i]) }}</td>
                                 <td>Rp. {{ number_format($listSaldoAwalKas[$i]) }}</td>
                             </tr>
 
@@ -53,8 +53,7 @@
                             @php($transaksi = $listTransaksi[$i])
                             @php($saldo = $listSaldoAwalKas[$i])
                             @foreach ($transaksi as $item)
-                                @php($saldo += $item->debit)
-                                @php($saldo -= $item->kredit)
+                                @php($saldo += $item->kredit)
                                 <tr>
                                     <td>{{ $no }}</td>
                                     <td>{{ $item->tanggal }}</td>

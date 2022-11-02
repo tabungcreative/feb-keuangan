@@ -184,6 +184,7 @@ return [
         // aktiva provider
         App\Providers\AktivaProvider::class,
         App\Providers\PencatatanProvider::class,
+        App\Providers\BukuBesarProvider::class,
 
         // dompdf
         Barryvdh\DomPDF\ServiceProvider::class,

@@ -108,8 +108,8 @@ class TransaksiServiceImpl implements TransaksiService
                 'tanggal' => $tanggalTransaksi,
                 'kode_transaksi' => $kodeTransaksi,
                 'nama_transaksi' => $namaTransaksi,
-                'debit' => $jumlahTransaksi,
-                'kredit' => null,
+                'debit' => null,
+                'kredit' => $jumlahTransaksi,
             ];
             $this->transaksiRepository->updateByKodeAndAkun($kodeTransaksi, $akunKredit->id, $detailTransaksiDebit);
 
@@ -121,8 +121,8 @@ class TransaksiServiceImpl implements TransaksiService
                 'tanggal' => $tanggalTransaksi,
                 'kode_transaksi' => $kodeTransaksi,
                 'nama_transaksi' => $namaTransaksi,
-                'debit' => null,
-                'kredit' => $jumlahTransaksi,
+                'debit' => $jumlahTransaksi,
+                'kredit' => null,
             ];
             $this->transaksiRepository->updateByKodeAndAkun($kodeTransaksi, $akunDebit->id, $detailTransaksiKredit);
             DB::commit();

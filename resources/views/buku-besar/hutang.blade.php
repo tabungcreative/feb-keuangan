@@ -8,7 +8,7 @@
             <form action="" method="GET">
                 <div class="mb-3">
                     <label class="form-label">Pilih Bulan Transaksi</label>
-                    <input type="month" name="bulan" class="form-control" value="{{ $_GET['bulan'] ?? Carbon\Carbon::now()->format('Y-m')}}">
+                    <input type="month" name="year_month" class="form-control" value="{{ $_GET['year_month'] ?? Carbon\Carbon::now()->format('Y-m')}}">
                 </div>
                 <div class="mb-3">
                     <label class="form-label">Pilih Akun</label>
@@ -44,8 +44,8 @@
                             </tr>
                             <tr class="font-weight-bold">
                                 <th colspan="3">Saldo Awal</th>
-                                <td>Rp {{ number_format($listSaldoAwalKas[$i]) }}</td>
                                 <td>Rp 0 </td>
+                                <td>Rp {{ number_format($listSaldoAwalKas[$i]) }}</td>
                                 <td>Rp. {{ number_format($listSaldoAwalKas[$i]) }}</td>
                             </tr>
 
@@ -59,8 +59,8 @@
                                     <td>{{ $no }}</td>
                                     <td>{{ $item->tanggal }}</td>
                                     <td>{{ $item->nama_transaksi }}</td>
-                                    <td>Rp. {{ number_format($item->kredit) }},-</td>
                                     <td>Rp. {{ number_format($item->debit) }},-</td>
+                                    <td>Rp. {{ number_format($item->kredit) }},-</td>
                                     <td>Rp. {{ number_format($saldo) }},-</td>
                                 </tr>
                                 @php($no++)

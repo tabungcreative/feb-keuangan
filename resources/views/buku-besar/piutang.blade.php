@@ -8,7 +8,7 @@
             <form action="" method="GET">
                 <div class="mb-3">
                     <label class="form-label">Pilih Bulan Transaksi</label>
-                    <input type="month" name="bulan" class="form-control" value="{{ $_GET['bulan'] ?? Carbon\Carbon::now()->format('Y-m')}}">
+                    <input type="month" name="year_month" class="form-control" value="{{ $_GET['year_month'] ?? Carbon\Carbon::now()->format('Y-m')}}">
                 </div>
                 <div class="mb-3">
                     <label class="form-label">Pilih Akun</label>

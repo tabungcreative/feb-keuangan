@@ -13,7 +13,7 @@ class TransaksiRepositoryImpl implements TransaksiRepository
 
     function getAll()
     {
-        return Transaksi::orderBy('created_at', 'DESC')->get();
+        return Transaksi::orderBy('tanggal', 'DESC')->get();
     }
 
 
@@ -28,7 +28,7 @@ class TransaksiRepositoryImpl implements TransaksiRepository
             $year = Carbon::createFromFormat('Y-m', $date)->year;
         }
 
-        return Transaksi::whereMonth('tanggal', $month)->whereYear('tanggal', $year)->get();
+        return Transaksi::whereMonth('tanggal', $month)->whereYear('tanggal', $year)->orderBy('tanggal', 'ASC')->get();
     }
 
 
@@ -155,5 +155,10 @@ class TransaksiRepositoryImpl implements TransaksiRepository
     function findFirstOrderTanggal()
     {
         return Transaksi::orderBy('tanggal', 'ASC')->first();
+    }
+
+    function findFirstOrderTanggalByAkunId($akunId)
+    {
+        return Transaksi::where('akun_id', $akunId)->orderBy('tanggal', 'ASC')->first();
     }
 }

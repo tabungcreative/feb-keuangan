@@ -34,6 +34,18 @@ class PencatatanServiceImpl implements PencatatanService
         return $saldoAwal;
     }
 
+    function saldoAwalHutang($dateStart, $dateEnd, $akunId)
+    {
+        $saldoAwal = 0;
+        $transaksi = $this->transaksiRepository->getBetweenTanggalAndAkun($dateStart, $dateEnd, $akunId);
+
+        foreach ($transaksi as $value) {
+            $saldoAwal += $value->kredit - $value->debit;
+        }
+
+        return $saldoAwal;
+    }
+
     function bukuBesar($akunKas, BukuBesarKasRequest $request): array
     {
         $yearMonth = $request->get('year_month') ?? Carbon::now()->format('Y-m');

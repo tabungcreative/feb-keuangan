@@ -21,4 +21,5 @@ interface TransaksiRepository
     function findByCode($kode): ?Transaksi;
     function sumByAkun($akunId, $month, $year, $field);
     function findFirstOrderTanggal();
+    function findFirstOrderTanggalByAkunId($akunId);
 }
