@@ -67,7 +67,7 @@
                             @endforeach
                             <tr class="font-weight-bold">
                                 <td colspan="3">Total</td>
-                                <td>Rp. {{ number_format($listTotalDebit[$i]) }},-</td>
+                                <td>Rp. {{ number_format($listTotalDebit[$i] + $listSaldoAwalKas[$i]) }},-</td>
                                 <td>Rp. {{ number_format($listTotalKredit[$i]) }},-</td>
                                 <td>Rp. {{ number_format($saldo) }},-</td>
                             </tr>

@@ -15,9 +15,9 @@ interface TransaksiRepository
     function delete(int $id);
     function deleteByKode($kode);
     function getById(int $id);
-    function getWhereAkunKas($akunKas, $date = null);
+    function getByAkunKas($akunKas, $date = null);
     function getByAkunId($akunId, $month = null, $year = null);
-    function getWhereAkunKasGroupByAkun($akunKas, $date = null);
+    function getByAkunKasGroupByAkun($akunKas, $date = null);
     function findByCode($kode): ?Transaksi;
     function sumByAkun($akunId, $month, $year, $field);
     function findFirstOrderTanggal();

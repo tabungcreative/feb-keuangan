@@ -64,23 +64,15 @@ class TransaksiRepositoryImpl implements TransaksiRepository
         throw new \Exception("Method not implemented");
     }
 
-    public function getWhereAkunKas($akunKas, $date = null)
+    public function getByAkunKas($akunKas, $date = null)
     {
-
-        $month = Carbon::now()->month;
-        $year = Carbon::now()->year;
-
-        if ($date != null) {
-            $month = Carbon::createFromFormat('Y-m', $date)->month;
-            $year = Carbon::createFromFormat('Y-m', $date)->year;
-        }
-
+        $date = $date ?? Carbon::now();
 
         return Transaksi::whereHas('akun', function ($query) use ($akunKas) {
             $query->where('akun_kas', $akunKas);
         })
-            ->whereMonth('tanggal', $month)
-            ->whereYear('tanggal', $year)
+            ->whereMonth('tanggal', $date->month)
+            ->whereYear('tanggal', $date->year)
             ->get();
     }
 
@@ -93,24 +85,18 @@ class TransaksiRepositoryImpl implements TransaksiRepository
     }
 
 
-    function getWhereAkunKasGroupByAkun($akunKas, $date = null)
+    function getByAkunKasGroupByAkun($akunKas, $date = null)
     {
 
-        $month = Carbon::now()->month;
-        $year = Carbon::now()->year;
+        $date = $date ?? Carbon::now();
 
-        if ($date != null) {
-            $month = Carbon::createFromFormat('Y-m', $date)->month;
-            $year = Carbon::createFromFormat('Y-m', $date)->year;
-        }
-
-        return Transaksi::selectRaw('id, akun_id, sum(kredit) as total_kredit,sum(debit) as total_debit, count(id) as count_id')
+        return Transaksi::selectRaw('id, akun_id, sum(kredit) as kredit,sum(debit) as debit, count(id) as count_id')
             ->groupBy('akun_id')
             ->whereHas('akun', function ($query) use ($akunKas) {
                 $query->where('akun_kas', $akunKas);
             })
-            ->whereMonth('tanggal', $month)
-            ->whereYear('tanggal', $year)
+            ->whereMonth('tanggal', $date->month)
+            ->whereYear('tanggal', $date->year)
             ->get();
     }
 

@@ -43,7 +43,7 @@ class TransaksiRepositoryTest extends TestCase
 
         Transaksi::factory(50)->create(['akun_id' => $akun1->id]);
         Transaksi::factory(100)->create(['akun_id' => $akun2->id]);
-        $transaksi = $this->repository->getWhereAkunKas('kas_masuk');
+        $transaksi = $this->repository->getByAkunKas('kas_masuk');
 
         $this->assertSame(1, $transaksi->count());
     }
