@@ -136,4 +136,5 @@ class BukuBesarController extends Controller
             abort(500);
         }
     }
+
 }

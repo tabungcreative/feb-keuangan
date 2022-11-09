@@ -9,12 +9,16 @@ use App\Http\Requests\TransaksiUpdateRequest;
 use App\Repositories\AkunRepository;
 use App\Repositories\TransaksiRepository;
 use App\Services\TransaksiService;
+use App\Traits\ConvertBase64;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Carbon\Carbon;
 use Exception;
 use Illuminate\Http\Request;
 
 class TransaksiController extends Controller
 {
+
+    use ConvertBase64;
 
     private TransaksiRepository $transaksiRepository;
     private TransaksiService $transaksiService;
@@ -79,9 +83,20 @@ class TransaksiController extends Controller
             $this->transaksiRepository->deleteByKode($kode);
             return redirect()->route('transaksi.index')->with('success', 'Berhasil menghapus transaksi');
         } catch (Exception $e) {
-            dd($e->getMessage());
             return response()->view('errors.500', ['message' => 'Terjadi kesalahan pada server .'], 500);
         }
+    }
+
+    public function print(Request $request) {
+        $title = 'Laporan Jurnal Transaksi - ' . Carbon::createFromFormat('Y-m', $request->year_month)->monthName ?? Carbon::now()->monthName;
+        $transaksi = $this->transaksiRepository->getAllByMonthYear($request->year_month);
+        $kop = $this->image('img/kop-feb.png');
+        $footerKop = $this->image('img/footer-kop.png');
+
+        $pdf = Pdf::loadView('transaksi.pdf', compact('transaksi',  'kop', 'footerKop', 'title'));
+
+        $pdf->setPaper('a4', 'portrait');
+        return $pdf->stream($title);
     }
 
 

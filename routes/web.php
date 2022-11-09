@@ -91,6 +91,7 @@ Route::middleware('custom-auth')->group(function () {
             Route::get('/{kode}/edit', 'edit')->name('edit');
             Route::put('/{kode}/update', 'update')->name('update');
             Route::delete('/{kode}/delete', 'delete')->name('delete');
+            Route::get('/print', 'print')->name('print');
         });
 
 
@@ -98,6 +99,19 @@ Route::middleware('custom-auth')->group(function () {
         ->prefix('buku-besar')
         ->middleware('can:manage-lapkeu')
         ->as('buku-besar.')
+        ->group(function () {
+            Route::get('/kas', 'kas')->name('kas');
+            Route::get('/biaya', 'biaya')->name('biaya');
+            Route::get('/pendapatan', 'pendapatan')->name('pendapatan');
+            Route::get('/modal', 'modal')->name('modal');
+            Route::get('/hutang', 'hutang')->name('hutang');
+            Route::get('/piutang', 'piutang')->name('piutang');
+        });
+
+    Route::controller(\App\Http\Controllers\PrintBukuBesarController::class)
+        ->prefix('print-buku-besar')
+        ->middleware('can:manage-lapkeu')
+        ->as('print.buku-besar.')
         ->group(function () {
             Route::get('/kas', 'kas')->name('kas');
             Route::get('/biaya', 'biaya')->name('biaya');

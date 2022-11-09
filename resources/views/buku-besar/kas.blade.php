@@ -25,6 +25,12 @@
     </div>
     <div class="row d-flex justify-content-left my-4">
         <div class="col-md-12" id="detail-mhs">
+            <div class="row container my-3">
+                <a href="{{ route('print.buku-besar.kas', ['year_month' => $_GET['year_month'] ?? Carbon\Carbon::now()->format('Y-m'), 'akun_id' =>  $_GET['akun_id'] ?? null ]) }}" class="btn btn-success" target="_blank">
+                    <i class="fas fa-download"></i>
+                    Cetak Buku Besar Kas
+                </a>
+            </div>
             @php($i = 0)
             @foreach ($akunKasJalan as $akun)
                 <hr>

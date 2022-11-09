@@ -5,10 +5,8 @@ namespace App\Http\Controllers;
 use App\Exceptions\InvariantExceotion;
 use App\Http\Requests\JenisPembayaranAddRequest;
 use App\Http\Requests\JenisPembayaranUpdateRequest;
-use App\Models\JenisPembayaran;
 use App\Repositories\JenisPembayaranRepository;
 use App\Services\JenisPembayaranService;
-use Illuminate\Http\Request;
 
 class JenisPembayaranController extends Controller
 {

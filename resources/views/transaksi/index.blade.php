@@ -21,7 +21,7 @@
                 <i class="fas fa-plus-circle"></i>
                 Tambah Transaksi
             </a>
-            <a href="" class="btn btn-success">
+            <a href="{{ route('transaksi.print', ['year_month' => $_GET['bulan'] ?? Carbon\Carbon::now()->format('Y-m')]) }}" class="btn btn-success" target="_blank">
                 <i class="fas fa-download"></i>
                 Cetak Jurnal Transaksi
             </a>
