@@ -43,7 +43,7 @@ class PembayaranController extends Controller
                 'data' => [
                     'id' => $pembayaran->id,
                     'no_pembayaran' => $pembayaran->no_pembayaran,
-                    "nim" => "2019150080",
+                    "nim" => $pembayaran->nim,
                     'kode_pembayaran' => $pembayaran->jenisPembayaran->kode,
                     "tanggal_bayar" => $pembayaran->tanggal_bayar,
                     "created_at" => $pembayaran->created_at,
