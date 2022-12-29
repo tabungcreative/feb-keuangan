@@ -46,7 +46,7 @@
             font-size: 11px;
         }
         table, th, td {
-            border: 0px;
+            border: 1px;
             border-collapse: collapse;
         }
 
