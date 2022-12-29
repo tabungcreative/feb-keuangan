@@ -80,20 +80,20 @@
                                         @csrf
                                         @method('DELETE')
                                         <div class="form-group">
-                                            <button href="{" class="btn btn-danger btn-sm"><i class="fas fa-trash"></i></button>
+                                            <button class="btn btn-danger btn-sm"><i class="fas fa-trash"></i></button>
                                         </div>
                                     </form>
-                                    <form method="POST" class="" action="{{ route('aktiva.delete', $data->id) }}" onSubmit="if(!confirm('Yakin ingin melakukan penghapusan inventaris ?')){return false;}">
+                                    <form method="POST" class="" action="{{ route('aktiva.penghapusan', $data->id) }}" onSubmit="if(!confirm('Yakin ingin melakukan penghapusan inventaris ?')){return false;}">
                                         @csrf
-                                        @method('POST')
+                                        @method('PUT')
                                         <div class="form-group">
-                                            <button href="{" class="btn btn-warning btn-sm">Penghapusan</button>
+                                            <button class="btn btn-warning btn-sm">Penghapusan</button>
                                         </div>
                                     </form>
                                 </td>
                             </tr>
                         @endforeach
-                    </table>
+                    </table> 
                 </div>
                 <div class="container-fluid my-5">
                     <h5 class="m-0 font-weight-bold text-primary float-right">

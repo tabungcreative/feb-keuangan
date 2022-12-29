@@ -12,4 +12,5 @@ interface AktivaService
     function update(AktivaUpdateRequest $request, int $id): Aktiva;
     function deletion(int $id): void;
     function delete(int $id): void;
+    function penghapusan(int $id);
 }

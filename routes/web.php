@@ -144,6 +144,8 @@ Route::middleware('custom-auth')->group(function () {
             Route::get('/{id}/edit', 'edit')->name('edit');
             Route::put('/{id}', 'update')->name('update');
             Route::delete('/{id}/delete', 'delete')->name('delete');
+            Route::put('/{id}/penghapusan', 'penghapusan')->name('penghapusan');
+
         });
 });
 

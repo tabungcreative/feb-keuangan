@@ -5,10 +5,10 @@
             Set the margins of the page to 0, so the footer and the header
             can be of the full height and width !
          **/
-        @font-face {
+        /* @font-face {
             font-family: 'Garamond';
-            src: url({{ storage_path('fonts/garamond.ttf') }}) format('truetype');
-        }
+            src: url({{ asset('fonts/garamond.ttf') }}) format('truetype');
+        } */
 
         @page {
             margin: 0cm 0cm;
@@ -46,7 +46,7 @@
             font-size: 11px;
         }
         table, th, td {
-            border: 1px solid black;
+            border: 0px;
             border-collapse: collapse;
         }
 
@@ -54,7 +54,7 @@
             padding: 5px;
         }
 
-        h3 {
+        h4 {
             text-align: center;
             margin-bottom: 40px;
         }
@@ -76,5 +76,6 @@
 <main>
     @yield('content')
 </main>
+    @yield('script')
 </body>
 </html>

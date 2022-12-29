@@ -6,11 +6,17 @@ use App\Http\Requests\AktivaAddRequest;
 use App\Http\Requests\AktivaUpdateRequest;
 use App\Repositories\AktivaRepository;
 use App\Services\AktivaService;
+use App\Traits\ConvertBase64;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Carbon\Carbon;
+use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Session;
 
 class AktivaController extends Controller
 {
+    use ConvertBase64;
+
     //
     private AktivaRepository $aktivaRepository;
     private AktivaService $aktivaService;
@@ -76,6 +82,30 @@ class AktivaController extends Controller
             $this->aktivaService->delete($id);
             return redirect()->route('aktiva.index')->with('success', 'aktiva berhasi dihapus');
         } catch (\Exception $e) {
+            return response()->view('errors.500', ['message' => $e->getMessage()], 500);
+        }
+    }
+
+    public function penghapusan($id) {
+        try{
+            $this->aktivaService->penghapusan($id);
+            Session::flash('success', 'Penghapusan asset berhasil');
+
+            $aktiva = $this->aktivaRepository->findById($id);
+            $tanggal = Carbon::parse(now())->translatedFormat('d F Y');
+
+
+            $kop = $this->image('img/kop-feb.png');
+            $footerKop = $this->image('img/footer-kop.png');
+            $title = 'Penghapusan Asset';
+
+
+            $pdf = Pdf::loadView('aktiva.print-penghapusan', compact('kop', 'footerKop', 'title', 'aktiva', 'tanggal'));
+
+
+            $pdf->setPaper('a4', 'portrait');
+            return $pdf->stream($title);
+        }catch (Exception $e){
             return response()->view('errors.500', ['message' => $e->getMessage()], 500);
         }
     }

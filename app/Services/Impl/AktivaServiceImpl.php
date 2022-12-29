@@ -81,4 +81,13 @@ class AktivaServiceImpl implements AktivaService
     {
         $this->aktivaRepository->delete($id);
     }
+
+    function penghapusan(int $id)
+    {
+        $detailAktiva = [
+            'is_active' => 0,
+        ];
+
+        $aktiva = $this->aktivaRepository->update($id, $detailAktiva);
+    }
 }
