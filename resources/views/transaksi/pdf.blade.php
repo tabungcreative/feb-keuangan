@@ -6,8 +6,8 @@
     </style>
 @endsection
 @section('content')
-    <h3>Jurnal Transaksi Bulan Sekarang</h3>
-    <table>
+    <h4>Jurnal Transaksi Bulan Sekarang</h4>
+    <table style="border: 1px solid black !important">
         <tr>
             <th>No</th>
             <th>Tanggal</th>
