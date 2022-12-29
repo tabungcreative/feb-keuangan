@@ -78,12 +78,12 @@
     <div id="buku_besar" class="collapse {{ Route::is('buku-besar.*') ? 'show' : '' }}" aria-labelledby="headingTwo"
         data-parent="#accordionSidebar">
         <div class="bg-white py-2 collapse-inner rounded">
+            <a class="collapse-item {{ Route::is('buku-besar.hutang') ? 'active' : '' }}" href="{{ route('buku-besar.hutang') }}">Buku Besar Hutang</a>
+            <a class="collapse-item {{ Route::is('buku-besar.piutang') ? 'active' : '' }}" href="{{ route('buku-besar.piutang') }}">Buku Besar Piutang</a>
             <a class="collapse-item {{ Route::is('buku-besar.kas') ? 'active' : '' }}" href="{{ route('buku-besar.kas') }}">Buku Besar Kas</a>
             <a class="collapse-item {{ Route::is('buku-besar.biaya') ? 'active' : '' }}" href="{{ route('buku-besar.biaya') }}">Buku Besar Biaya</a>
             <a class="collapse-item {{ Route::is('buku-besar.pendapatan') ? 'active' : '' }}" href="{{ route('buku-besar.pendapatan') }}">Buku Besar Pendapatan</a>
             <a class="collapse-item {{ Route::is('buku-besar.modal') ? 'active' : '' }}" href="{{ route('buku-besar.modal') }}">Buku Besar Modal</a>
-            <a class="collapse-item {{ Route::is('buku-besar.hutang') ? 'active' : '' }}" href="{{ route('buku-besar.hutang') }}">Buku Besar Hutang</a>
-            <a class="collapse-item {{ Route::is('buku-besar.piutang') ? 'active' : '' }}" href="{{ route('buku-besar.piutang') }}">Buku Besar Piutang</a>
         </div>
     </div>
 </li>
