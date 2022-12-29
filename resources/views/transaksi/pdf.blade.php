@@ -2,7 +2,22 @@
 
 @section('style')
     <style>
+         table {
+        border: 1px solid black;
+    }
 
+    
+    table tr {
+        border: 1px solid black;
+    }
+
+    table th {
+        border: 1px solid black;
+    }
+    
+    table tr td{
+        border: 1px solid black;
+    }
     </style>
 @endsection
 @section('content')
